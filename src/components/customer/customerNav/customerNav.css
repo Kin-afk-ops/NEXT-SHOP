@@ -1,0 +1,40 @@
+.customer__nav {
+  height: 400px;
+}
+
+.customer__title {
+  font-size: 30px;
+  padding: 10px;
+  color: var(--primary-color);
+}
+
+.customer__nav--content ul {
+  list-style: none;
+}
+
+.customer__nav--router {
+  display: block;
+  cursor: pointer;
+  padding: 20px 0 20px 10px;
+  transition: 0.3s linear;
+}
+
+.customer__nav--router {
+  text-decoration: none;
+  color: black;
+}
+
+.customer__nav--router:hover {
+  color: white;
+}
+
+.customer__nav--router:hover {
+  background-color: var(--primary-color);
+  transform: translateX(20px) translateY(-10px);
+}
+
+.customer__nav--router.active {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateX(-20px) translateY(-10px);
+}

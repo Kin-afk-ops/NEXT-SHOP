@@ -1,0 +1,19 @@
+.customer__info {
+  display: flex;
+  align-items: center;
+  border-left: 1px solid #ccc;
+  justify-content: space-around;
+}
+
+.customer__info--info {
+  margin-left: 20px;
+  font-size: 18px;
+}
+
+.customer__info--info p {
+  padding: 10px 0;
+}
+
+.customer__info--info i {
+  margin-right: 20px;
+}
