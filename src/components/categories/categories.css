@@ -1,0 +1,37 @@
+.category__title img {
+  margin-right: 10px;
+}
+
+.categories ul {
+  margin-top: 20px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.categories ul li {
+  display: flex;
+  flex-direction: column;
+  width: 140px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.categories__img {
+  width: 100px;
+  height: 100px;
+}
+
+.categories ul li p {
+  margin-top: 10px;
+  transition: 0.2s linear;
+  cursor: pointer;
+  color: #333;
+}
+
+.categories ul li:hover p {
+  color: var(--primary-color);
+}

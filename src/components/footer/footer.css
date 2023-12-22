@@ -1,0 +1,96 @@
+.footer__container {
+  padding: 50px 20px;
+  font-size: 12px;
+}
+
+.footer__container--left {
+  position: relative;
+}
+
+.footer__container--left::after {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  background-color: #ccc;
+  top: 0;
+  right: 0;
+}
+
+.footer__container--icon {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  font-size: 25px;
+}
+
+.footer__container--icon i {
+  cursor: pointer;
+  margin: 20px 20px 0 0;
+}
+
+.footer__container--right {
+  padding-left: 50px;
+}
+
+.footer__container--right-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.footer__container--right-item ul {
+  margin: 20px 0;
+  list-style: none;
+}
+
+.footer__container--right-item ul li {
+  padding: 10px 0;
+  cursor: pointer;
+  transition: 0.5s linear;
+  position: relative;
+}
+
+.footer__container--right-item ul li::after {
+  content: "";
+  position: absolute;
+  background-color: var(--primary-color);
+  width: 0;
+  height: 1px;
+  top: 100%;
+  left: 0;
+  transition: 0.5s linear;
+}
+
+.footer__container--right-item ul li:hover {
+  color: var(--primary-color);
+}
+
+.footer__container--right-item ul li:hover::after {
+  width: 100%;
+}
+
+.footer__container--contact ul {
+  display: flex;
+  list-style: none;
+  margin-top: 20px;
+}
+
+.footer__container--contact i {
+  margin-right: 10px;
+}
+
+.footer__copyright {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.copyright {
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.copyright:hover {
+  color: var(--primary-color);
+}

@@ -1,0 +1,255 @@
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+}
+.header__content {
+  background-color: white;
+  width: 1200px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header__left {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header__logo--img {
+  width: 220px;
+  height: 39px;
+}
+.header__categories {
+  margin-right: 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.header__center {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #7a7e7f;
+  height: 40px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.header__center--input {
+  width: 80%;
+  padding-left: 20px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.header__center--icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  height: 30px;
+  width: 72px;
+  margin-right: 5px;
+  border-radius: 10px;
+  background-color: var(--primary-color);
+  cursor: pointer;
+}
+.header__right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.header__icon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.header__icon--total {
+  width: 15px;
+  height: 15px;
+  font-size: 14px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: white;
+  position: absolute;
+  top: -25%;
+  right: 25px;
+}
+
+.header__icon--total-cart {
+  right: 15px;
+}
+
+.header__icon--notify-list {
+  position: absolute;
+  top: 100%;
+  right: -20px;
+  width: 350px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: white;
+  list-style: none;
+  display: none;
+  z-index: 999;
+}
+
+.header__icon:hover .header__icon--notify-list {
+  display: block;
+}
+
+.header__icon--notify-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.header__icon--notify-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.header__icon--notify-all {
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.header__icon--notify-all:hover {
+  color: var(--primary-color);
+}
+
+.header__icon--notify-li {
+  padding: 10px 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__icon--notify-li:hover {
+  background-color: #eeeeee;
+}
+
+.header__icon--notify-li-icon {
+  font-size: 30px;
+  color: #ff9933;
+}
+
+.header__icon--notify-li-wrap {
+  margin-left: 15px;
+}
+
+.header__icon--notify-li-title {
+  font-size: 13px;
+  font-weight: 700;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* số dòng hiển thị */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header__icon--notify-li-content {
+  font-size: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* số dòng hiển thị */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Icon user */
+
+.header__icon--user-list {
+  position: absolute;
+  top: 100%;
+  right: -20px;
+  width: 300px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: white;
+  list-style: none;
+  display: none;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.header__icon:hover .header__icon--user-list {
+  display: block;
+}
+
+.header__icon--user-header {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  justify-content: space-around;
+  transition: 0.3s linear;
+  position: relative;
+}
+
+.header__icon--user-header::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 30%;
+  height: 100%;
+  z-index: 700;
+  transition: ease-in-out 0.3s;
+  top: 0;
+  left: 0;
+  transform: skew(30deg);
+  background-color: transparent;
+}
+
+.header__icon--user-header:hover::before {
+  transform: translateX(400px);
+  background-color: #fff;
+}
+
+.header__icon--user-header div {
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__icon--user-header i {
+  font-size: 20px;
+}
+
+.header__icon--user-header:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.header__icon--user-li {
+  font-size: 20px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.header__icon--user-li:hover {
+  background-color: #eeeeee;
+}
+
+.header__icon--user-li-title {
+  margin-left: 10px;
+}

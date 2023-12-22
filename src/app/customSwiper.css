@@ -1,0 +1,36 @@
+.swiper-button-prev,
+.swiper-button-next {
+  color: #ccc !important;
+  background-color: white !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  transition: 0.1s linear !important;
+  border: 1px solid #ccc !important;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 25px !important;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  width: 50px !important;
+  height: 50px !important;
+  color: var(--primary-color) !important;
+  border: 1px solid #ccc !important;
+}
+
+.swiper-pagination-bullet {
+  background-color: white !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--primary-color) !important;
+  width: 20px !important;
+  height: 10px !important;
+}
