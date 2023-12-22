@@ -1,0 +1,19 @@
+.cart__top {
+  padding-bottom: 0 !important;
+}
+
+.cart__top--title {
+  font-size: 25px;
+  display: flex;
+}
+
+.cart__top--title i {
+  color: var(--primary-color);
+  margin-right: 10px;
+}
+
+.cart__top--title p {
+  margin-left: 10px;
+  font-size: 18px;
+  font-weight: 500;
+}

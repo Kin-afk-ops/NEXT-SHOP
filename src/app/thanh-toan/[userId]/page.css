@@ -1,0 +1,67 @@
+.pay__title {
+  font-size: 18px;
+}
+
+.pay__form--wrap {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.pay__form--label {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 20px 0 5px;
+}
+
+.pay__input {
+  height: 40px;
+  outline: none;
+  padding-left: 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.pay__total--money {
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 20px;
+}
+
+.pay__total--money span {
+  margin-left: 30px;
+  font-size: 25px;
+  color: var(--primary-color);
+}
+
+.pay__btn {
+  width: 25%;
+}
+
+.pay__btn.pay__momo {
+  color: #af1a71;
+  border: 1px solid #af1a71;
+  background-color: white;
+}
+
+.pay__btn.pay__vnpay {
+  color: #005baa;
+  border: 1px solid #005baa;
+  background-color: white;
+}
+
+.pay__btn.pay__default {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  background-color: white;
+}
+
+.pay__method {
+  background-color: white;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

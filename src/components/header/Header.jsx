@@ -35,7 +35,7 @@ const Header = () => {
             <ul className="header__icon--notify-list">
               <div className="header__icon--notify-header">
                 <span className="header__icon--notify-title"> Thông báo </span>
-                <Link className="link" href="/customer/notification">
+                <Link className="link" href="/khach-hang/thong-bao">
                   <span className="header__icon--notify-all">Xem tất cả</span>
                 </Link>
               </div>
@@ -52,7 +52,7 @@ const Header = () => {
             </ul>
           </div>
 
-          <Link href="/" className="link">
+          <Link href="/gio-hang/abc" className="link">
             <div className="header__icon">
               <i className="fa-solid fa-cart-shopping"></i>
               <span> Giỏ hàng</span>
@@ -67,7 +67,7 @@ const Header = () => {
             <span>Tài khoản</span>
 
             <ul className="header__icon--user-list">
-              <Link href="/customer/info" className="link">
+              <Link href="/khach-hang/thong-tin" className="link">
                 <div className="header__icon--user-header">
                   <Image
                     src={avatar}
@@ -87,7 +87,7 @@ const Header = () => {
                 </div>
               </Link>
               <hr v-if="user" />
-              <Link href="/customer/order" className="link">
+              <Link href="/khach-hang/don-hang" className="link">
                 <li className="header__icon--user-li">
                   <i className="fa-solid fa-clipboard"></i>
                   <span className="header__icon--user-li-title">

@@ -1,0 +1,63 @@
+.content__order {
+  border-left: 1px solid #ccc;
+}
+
+.content__order--empty {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: #ccc;
+}
+
+.content__order--list {
+  list-style: none;
+}
+
+.content__order--list-item {
+  padding: 20px 0;
+}
+
+.content__order--desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.content__order--title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.content__order--price {
+  color: var(--primary-color);
+  display: flex;
+  justify-self: center;
+  align-items: center;
+}
+
+.content__order--btn {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content__order--btn-delete {
+  height: 40px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  border: 1px solid var(--primary-color);
+  background-color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s linear;
+}
+
+.content__order--btn-delete:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
