@@ -1,5 +1,6 @@
 .list__item {
-  padding: 10px 0;
+  margin-top: 20px;
+  padding: 10px 5px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -30,18 +31,26 @@
 }
 .list__item--title {
   font-size: 15px;
+  height: 40px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* số dòng hiển thị */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .list__item--price {
   font-weight: 600;
   color: var(--primary-color);
   letter-spacing: 1px;
+  margin-top: 10px;
 }
 
 .list__item--discount {
   font-size: 12px;
   text-decoration: line-through;
   letter-spacing: 1px;
+  color: #aaa;
 }
 
 .list__item--percent {

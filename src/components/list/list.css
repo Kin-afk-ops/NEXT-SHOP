@@ -1,6 +1,22 @@
 .list {
   width: 100%;
 }
+.list__title {
+  display: flex;
+  align-items: center;
+}
+
+.list__title p {
+  margin-right: 10px;
+}
+
+.list__title select {
+  height: 40px;
+  font-size: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
 .list__title i {
   color: var(--primary-color);
   margin-right: 10px;
@@ -11,19 +27,18 @@
   padding-bottom: 10px;
 }
 
-.list__btn--wrap {
+.list__btn {
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 40px;
-  width: 100%;
+  align-items: center;
+  padding: 20px;
 }
 
-.list__btn {
+.list__btn button {
+  width: 170px;
+  height: 40px;
   color: var(--primary-color);
   border: none;
-  height: 100%;
-
   background-color: white;
   font-weight: 600;
   cursor: pointer;
@@ -31,7 +46,7 @@
   position: relative;
 }
 
-.list__btn::after {
+.list__btn button::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -43,7 +58,7 @@
   transition: 0.1s linear;
 }
 
-.list__btn:hover::after {
+.list__btn button:hover::after {
   width: 110%;
   height: 110%;
   top: -5%;

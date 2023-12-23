@@ -16,9 +16,9 @@ const HomeList = ({ books }) => {
         ))}
       </div>
 
-      <div className="list__btn">
-        <Link href="/" className="link">
-          <button>Xem thêm</button>
+      <div className="list__btn--wrap">
+        <Link href="/danh-sach/abc" className="link  main__btn list__btn">
+          Xem thêm
         </Link>
       </div>
     </div>

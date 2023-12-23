@@ -11,12 +11,12 @@ const ListItem = ({ book }) => {
   const currentPrice = book?.price - (book?.price * book?.discount) / 100;
 
   return (
-    <Link href="/" class="link">
+    <Link href="/sach/abc" class="link">
       <div class="list__item">
         <div class="list__item--img">
           <Image
             fill={true}
-            src={book?.image.path}
+            src={book?.image?.path}
             alt={book?.name}
             style={{
               objectFit: "contain",

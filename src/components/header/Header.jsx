@@ -19,7 +19,6 @@ const Header = () => {
             type="text"
             className="header__center--input"
             placeholder="Tìm kiếm sản phẩm mong muốn..."
-            v-model="search"
           />
           <div className="header__center--icon">
             <i className="fa-solid fa-magnifying-glass"></i>
@@ -97,7 +96,7 @@ const Header = () => {
               </Link>
               <hr />
 
-              <Link href="/auth/login" className="link">
+              <Link href="/tai-khoan/dang-nhap" className="link">
                 <li className="header__icon--user-li">
                   <i className="fa-solid fa-arrow-right-to-bracket"></i>
                   <span className="header__icon--user-li-title">Đăng nhập</span>

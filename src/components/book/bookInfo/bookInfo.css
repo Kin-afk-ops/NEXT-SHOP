@@ -1,0 +1,13 @@
+.product__info--content {
+  padding: 20px;
+}
+
+.product__info--top p {
+  font-size: 15px;
+
+  padding-bottom: 10px;
+  color: #333;
+}
+
+.product__info--top-left {
+}
