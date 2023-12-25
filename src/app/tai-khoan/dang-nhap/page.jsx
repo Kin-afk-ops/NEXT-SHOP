@@ -2,15 +2,15 @@ import Link from "next/link";
 
 const LoginPage = () => {
   return (
-    <div>
+    <>
       <div className="main__container register__container">
         <h1 className="register__title main__title">Đăng nhập</h1>
         <hr />
 
         <div className="register__content">
           <form className="register__form">
-            <label for="">Email</label>
-            <input placeholder="Nhập Email" type="text" />
+            <label for="">Số điện thoại</label>
+            <input placeholder="Nhập số điện thoại" type="text" />
             <p className="error__message"></p>
 
             <label for="">Mật khẩu</label>
@@ -21,7 +21,7 @@ const LoginPage = () => {
             <p className="error__message"></p>
 
             <Link
-              href="/auth/forget-password"
+              href="/tai-khoan/quen-mat-khau"
               className="link forget__password"
             >
               Quên mật khẩu
@@ -36,7 +36,7 @@ const LoginPage = () => {
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

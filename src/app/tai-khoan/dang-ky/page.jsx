@@ -4,33 +4,35 @@ import React from "react";
 const RegisterPage = () => {
   return (
     <div>
-      <div class="main__container register__container">
-        <h1 class="register__title main__title">Đăng ký</h1>
+      <div className="main__container register__container">
+        <h1 className="register__title main__title">Đăng ký</h1>
         <hr />
 
-        <div class="register__content">
-          <form class="register__form">
+        <div className="register__content">
+          <form className="register__form">
             <label for="">Email</label>
             <input placeholder="Nhập Email" type="text" />
-            <p class="error__message" v-if="!isSubmit"></p>
+            <p className="error__message"></p>
 
             <label for="">Mật khẩu</label>
-            <div class="password__block">
+            <div className="password__block">
               <input placeholder="Nhập mật khẩu" />
-              <i class="fa-solid fa-eye"></i>
+              <i className="fa-solid fa-eye"></i>
             </div>
-            <p class="error__message" v-if="!isSubmit"></p>
+            <p className="error__message"></p>
 
             <label for="">Nhập lại mật khẩu</label>
-            <div class="password__block">
+            <div className="password__block">
               <input placeholder="Nhập lại mật khẩu" />
-              <i class="fa-solid fa-eye"></i>
+              <i className="fa-solid fa-eye"></i>
             </div>
-            <p class="error__message" v-if="!isSubmit"></p>
+            <p className="error__message"></p>
 
-            <button class="main__btn register__btn--main">Đăng ký</button>
-            <Link href="/tai-khoan/dang-nhap" class="link">
-              <button class="main__btn register__btn--extra">Đăng nhập</button>
+            <button className="main__btn register__btn--main">Đăng ký</button>
+            <Link href="/tai-khoan/dang-nhap" className="link">
+              <button className="main__btn register__btn--extra">
+                Đăng nhập
+              </button>
             </Link>
           </form>
         </div>

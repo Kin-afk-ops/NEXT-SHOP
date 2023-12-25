@@ -87,6 +87,8 @@
   border-radius: 10px;
   overflow: hidden;
   align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .password__block input {
@@ -98,6 +100,26 @@
   border: none;
 }
 
+.password__block.otp__block input {
+  width: 70%;
+}
+
+.password__block.otp__block button {
+  width: 30%;
+  height: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  border: none;
+}
+
+.password__block.otp__block button:hover {
+  opacity: 0.7;
+}
+
 .password__block i {
   font-size: 20px;
   cursor: pointer;
@@ -105,6 +127,15 @@
 
 .password__block i:hover {
   color: var(--primary-color);
+}
+
+.password__block div {
+  /* width: 1px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red; */
 }
 
 .error__message {
@@ -115,4 +146,7 @@
 
 .error__block {
   border: 1px solid red !important;
+}
+
+.forget__password--modal {
 }
