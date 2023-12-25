@@ -26,6 +26,16 @@ const Header = () => {
         </div>
 
         <div className="header__right">
+          <Link href="/bai-viet" className="link">
+            <div className="header__icon">
+              <i className="fa-solid fa-square-pen"></i>
+              <span>Bài viết</span>
+              <div className="header__icon--total header__icon--total-cart">
+                3
+              </div>
+            </div>
+          </Link>
+
           <div className="header__icon">
             <i className="fa-solid fa-bell"></i>
             <span>Thông báo</span>
@@ -110,7 +120,7 @@ const Header = () => {
               </li>
               <hr />
 
-              <Link href="/auth/register" className="link" v-if="!user">
+              <Link href="/tai-khoan/dang-ky" className="link" v-if="!user">
                 <li className="header__icon--user-li">
                   <i className="fa-regular fa-address-card"></i>
                   <span className="header__icon--user-li-title">Đăng kí</span>

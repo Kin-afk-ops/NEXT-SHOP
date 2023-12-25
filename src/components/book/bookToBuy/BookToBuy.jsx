@@ -70,15 +70,15 @@ const BookToBuy = () => {
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="col c-6 product__buy--content-right">
-              <p>
-                Tác giả: <b>Haha</b>
-              </p>
-              <p>
-                Hình thức bìa: <b>Haha</b>
-              </p>
-            </div>
+          <div className="col c-6 product__buy--content-right">
+            <p>
+              Tác giả: <b>Haha</b>
+            </p>
+            <p>
+              Hình thức bìa: <b>Haha</b>
+            </p>
           </div>
         </div>
       </div>

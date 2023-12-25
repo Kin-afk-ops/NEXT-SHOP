@@ -1,0 +1,254 @@
+.product__evaluate {
+}
+
+.product__evaluate--content {
+  padding: 20px;
+}
+
+.product__evaluate--left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.product__evaluate--number {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.product__evaluate--big {
+  font-size: 60px;
+}
+
+.product__evaluate--star {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.product__evaluate--star i {
+  color: #ccc;
+}
+
+.product__evaluate--star span {
+  color: coral;
+}
+
+.product__evaluate--right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product__evaluate--right button {
+  width: 360px;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: white;
+}
+
+.product__evaluate--right i {
+  margin-right: 10px;
+}
+
+.product__modal {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  border: 1px solid #ccc;
+  animation: faceIn linear 0.3s;
+}
+
+.product__modal--title {
+  font-size: 18px;
+}
+
+.product__modal--container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rating__input {
+  display: none;
+}
+
+.rating {
+  border: none;
+  float: left;
+}
+
+.rating > label {
+  color: #90a0a3;
+  float: right;
+}
+
+.rating > label:before {
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 5px;
+  font-family: FontAwesome;
+  content: "\f005";
+  display: inline-block;
+}
+
+.rating > input {
+  display: none;
+}
+
+.rating > input:checked ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+  color: #f79426;
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label,
+.rating > input:checked ~ label:hover ~ label {
+  color: #fece31;
+}
+
+.product__modal--form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.product__modal--name {
+  margin-top: 20px;
+  width: 90%;
+  height: 40px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.product__modal--name-wrap {
+  width: 70%;
+}
+
+.product__modal--name input {
+  border: none;
+  outline: none;
+  font-size: 16px;
+  width: 100%;
+  padding-left: 20px;
+  transition: 0.3s linear;
+}
+
+.product__modal--no-name {
+  display: flex;
+  width: 30%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.product__modal--no-name-btn {
+  width: 40px;
+  height: 15px;
+  border-radius: 10px;
+  background-color: #ccc;
+  position: relative;
+  cursor: pointer;
+}
+
+.product__modal--no-name-btn div {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  transition: 0.3s linear;
+}
+
+.no__name--active {
+  left: 20px !important;
+  background-color: var(--primary-color) !important;
+}
+
+.product__modal--comment {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.product__modal--comment textarea {
+  resize: none;
+  border: 1px solid #ccc;
+  outline: none;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+}
+
+.product__modal--btn {
+  margin-top: 20px;
+  width: 90%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.product__modal--btn button {
+  margin-left: 20px;
+  font-weight: 600;
+  border: none;
+}
+
+.product__modal--send {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.product__modal--cancel-top {
+  padding: 5px;
+  font-size: 25px;
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  right: 5px;
+  transition: 0.3s linear;
+}
+
+.product__modal--cancel-top:hover {
+  color: var(--primary-color);
+}
+
+.no__name--input {
+  font-size: 16px;
+  width: 100%;
+  padding-left: 20px;
+  transition: 0.3s linear;
+  color: #ccc;
+}
+
+/* animation */
+@keyframes faceIn {
+  from {
+    top: 0;
+  }
+  to {
+    top: 20%;
+  }
+}
