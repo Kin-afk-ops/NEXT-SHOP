@@ -42,10 +42,30 @@ const BookToBuy = () => {
               Nhà xuất bản: <b>Haha</b>
             </p>
 
+            <div className="product__buy--star">
+              <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-star"></i>
+              <span> (0 đánh giá)</span>
+            </div>
+
             <div className="product__buy--price">
               <span className="product__buy--price-buy">Haha đ</span>
               <span className="product__buy--price-cost">Haha </span>
               <span className="product__buy--price-percent">-Haha </span>
+            </div>
+
+            <div className="product__buy--policy row">
+              <div className="c-6">
+                <p>Thời gian giao hàng:</p>
+                <p>Chính sách đổi trả:</p>
+              </div>
+              <div className="product__buy--policy-left c-6">
+                <p>Xem chính sách vận chuyển</p>
+                <p>Xem chính sách đổi trả</p>
+              </div>
             </div>
 
             <div className="product__buy--quality row">

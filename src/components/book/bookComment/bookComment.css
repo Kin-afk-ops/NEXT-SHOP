@@ -55,8 +55,13 @@
 
 .product__comment--name {
   font-weight: 600;
-  color: var(--primary-color);
-  padding-bottom: 20px;
+
+  margin-bottom: 10px;
+}
+
+.product__comment--date {
+  font-size: 14px;
+  color: #7a7e7f;
 }
 
 .product__comment--content {
@@ -64,4 +69,27 @@
   font-size: 14px;
   display: flex;
   justify-content: space-between;
+}
+
+.product__comment--star {
+  margin-bottom: 10px;
+}
+
+.product__comment--star i {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.product__comment--icon {
+  margin-top: 20px;
+  color: #7a7e7f;
+  font-size: 14px;
+}
+
+.product__comment--icon i {
+  margin-right: 5px;
+}
+
+.product__comment--icon span {
+  margin-right: 20px;
 }

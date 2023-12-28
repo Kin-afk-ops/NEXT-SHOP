@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import Link from "next/link";
 import Image from "next/image";
 import "./header.css";
@@ -5,6 +9,10 @@ import logo from "../../assets/images/toi_doc_sach_logo.png";
 import avatar from "../../assets/images/default_avatar.png";
 
 const Header = () => {
+  const [language, setLanguage] = useState("VI");
+
+  const languages = ["VI", "ENG"];
+
   return (
     <div className="header">
       <div className="header__content">
@@ -12,6 +20,11 @@ const Header = () => {
           <Link className="link header__logo--img" href="/">
             <Image src={logo} alt="" width={220} height={39} />
           </Link>
+
+          <div className="header__icon--left">
+            <i className="fa-solid fa-newspaper"></i>
+            <span>Bài viết</span>
+          </div>
         </div>
 
         <div className="header__center">
@@ -26,16 +39,6 @@ const Header = () => {
         </div>
 
         <div className="header__right">
-          <Link href="/bai-viet" className="link">
-            <div className="header__icon">
-              <i className="fa-solid fa-square-pen"></i>
-              <span>Bài viết</span>
-              <div className="header__icon--total header__icon--total-cart">
-                3
-              </div>
-            </div>
-          </Link>
-
           <div className="header__icon">
             <i className="fa-solid fa-bell"></i>
             <span>Thông báo</span>
@@ -127,6 +130,22 @@ const Header = () => {
                 </li>
               </Link>
             </ul>
+          </div>
+
+          <div className="header__icon header__icon--language">
+            <div>
+              <p>{language}</p>
+            </div>
+
+            <div className="header__icon--language-choice">
+              {languages.map((lang, index) => (
+                <p key={index} onClick={() => setLanguage(lang)}>
+                  {lang}
+                </p>
+              ))}
+            </div>
+
+            <span>Ngôn ngữ</span>
           </div>
         </div>
       </div>

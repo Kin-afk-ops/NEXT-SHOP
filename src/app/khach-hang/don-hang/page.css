@@ -33,14 +33,19 @@
 .content__order--price {
   color: var(--primary-color);
   display: flex;
-  justify-self: center;
+  justify-content: center;
   align-items: center;
 }
 
-.content__order--btn {
-  margin-top: 20px;
+.order__action {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+.content__order--btn {
+  margin-right: 20px;
 }
 
 .content__order--btn-delete {

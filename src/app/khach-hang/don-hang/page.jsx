@@ -8,11 +8,14 @@ const CustomerContentOrder = () => {
       <div>
         <ul class="content__order--list">
           <li class="content__order--list-item row">
-            {/* <img
-          class="img__main"
-          src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935278607311.jpg"
-          alt=""
-        /> */}
+            <img
+              class="img__main"
+              src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935278607311.jpg"
+              alt=""
+              style={{
+                marginLeft: "20px",
+              }}
+            />
             <div class="content__order--desc c-8">
               <p class="content__order--title">
                 Không Diệt Không Sinh Đừng Sợ Hãi (Tái Bản 2022)
@@ -23,19 +26,15 @@ const CustomerContentOrder = () => {
 
             <div class="content__order--price c-2">66.000đ</div>
           </li>
-          <hr />
+          <div className="order__action">
+            <p class="main__title">Trạng thái đơn hàng</p>
+
+            <div class="content__order--btn">
+              <button class="content__order--btn-delete">Huỷ đơn hàng</button>
+            </div>
+          </div>
         </ul>
-        <h2>
-          Xin lỗi! Chúng tôi chưa phát triển tính năng xem thông tin đơn hàng
-          <br />
-          Tính năng sẽ có trong phiên bản kế tiếp
-        </h2>
-
-        <p class="main__title">Trạng thái đơn hàng</p>
-
-        <div class="content__order--btn">
-          <button class="content__order--btn-delete">Huỷ đơn hàng</button>
-        </div>
+        <hr />
       </div>
       <div class="customer__modal hidden">
         <div class="customer__modal--title">Bạn muốn huỷ đơn hàng này?</div>
