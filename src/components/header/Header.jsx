@@ -21,10 +21,10 @@ const Header = () => {
             <Image src={logo} alt="" width={220} height={39} />
           </Link>
 
-          <div className="header__icon--left">
+          <Link className="link header__icon--left" href="/bai-viet">
             <i className="fa-solid fa-newspaper"></i>
             <span>Bài viết</span>
-          </div>
+          </Link>
         </div>
 
         <div className="header__center">

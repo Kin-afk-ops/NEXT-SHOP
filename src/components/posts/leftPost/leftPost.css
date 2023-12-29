@@ -1,0 +1,35 @@
+.left__post {
+  margin-left: 60px;
+}
+
+.left__post--title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.left__post--top {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.left__post--top p {
+  padding-top: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.left__post--top p:hover {
+  color: var(--primary-color);
+}
+
+.left__post--item {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.left__post--item-title {
+  font-size: 14px;
+  font-weight: 700;
+}

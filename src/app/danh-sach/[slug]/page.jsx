@@ -15,7 +15,6 @@ const ListPage = async () => {
         <Filter />
       </div>
       <div className="col c-9">
-        {" "}
         <List books={books} />
       </div>
     </div>

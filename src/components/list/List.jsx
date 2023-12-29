@@ -1,5 +1,5 @@
 import ListItem from "../listItem/ListItem";
-import Pagination from "../pagination/Pagination";
+import BookPagination from "../../components/pagination/bookPagination/BookPagination";
 import "./list.css";
 
 const List = ({ books }) => {
@@ -25,7 +25,7 @@ const List = ({ books }) => {
         ))}
       </div>
 
-      <Pagination />
+      <BookPagination />
     </div>
   );
 };

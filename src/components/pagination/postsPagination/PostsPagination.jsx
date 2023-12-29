@@ -1,10 +1,10 @@
 "use client";
 
-import "./pagination.css";
+import "../pagination.css";
 import ReactPaginate from "react-paginate";
 import { useRouter } from "next/navigation";
 
-const Pagination = () => {
+const PostsPagination = () => {
   const router = useRouter();
   //   {
   //     totalPage,
@@ -53,4 +53,4 @@ const Pagination = () => {
   );
 };
 
-export default Pagination;
+export default PostsPagination;

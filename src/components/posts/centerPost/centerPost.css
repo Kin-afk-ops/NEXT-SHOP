@@ -1,0 +1,23 @@
+.center__post {
+  padding-left: 5px;
+  margin-top: 30px;
+}
+
+.center__post--item {
+  margin-top: 20px;
+}
+
+.center__post--title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.center__post--title:hover {
+  color: var(--primary-color);
+}
+
+.center__post--desc {
+  padding-top: 20px;
+  font-size: 14px;
+  color: #7f7f7f;
+}
