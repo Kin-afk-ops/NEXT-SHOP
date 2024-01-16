@@ -57,7 +57,7 @@ const BookEvaluate = () => {
               name="rate"
               id="rate-5"
             />
-            <label for="rate-5"> </label>
+            <label htmlFor="rate-5"> </label>
             <input
               className="rating__input"
               type="radio"

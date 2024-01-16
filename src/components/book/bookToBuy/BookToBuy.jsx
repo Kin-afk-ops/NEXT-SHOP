@@ -94,6 +94,7 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
                   className="product__buy--quality-value"
                   type="text"
                   value={count}
+                  onChange={() => console.log(count)}
                 />
                 <div
                   className="product__buy--quality-increase"
@@ -107,10 +108,10 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
 
           <div className="col c-6 product__buy--content-right">
             <p>
-              Tác giả: <b>Haha</b>
+              Tác giả: <b>{auth}</b>
             </p>
             <p>
-              Hình thức bìa: <b>Haha</b>
+              Hình thức bìa: <b>{form}</b>
             </p>
           </div>
         </div>

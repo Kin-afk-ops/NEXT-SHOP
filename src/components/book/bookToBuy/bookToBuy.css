@@ -189,3 +189,7 @@
   cursor: default;
   text-align: center;
 }
+
+.product__buy--content-right p {
+  padding-bottom: 10px;
+}

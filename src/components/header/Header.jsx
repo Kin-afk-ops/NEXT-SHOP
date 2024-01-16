@@ -10,6 +10,9 @@ import avatar from "../../assets/images/default_avatar.png";
 
 const Header = () => {
   const [language, setLanguage] = useState("VI");
+  const [headerModal, setHeaderModal] = useState(false);
+  const [mode, setMode] = useState("login");
+  const [titleContent, setTitleContent] = useState("Đăng ký");
 
   const languages = ["VI", "ENG"];
 
@@ -98,7 +101,6 @@ const Header = () => {
                   <i className="fa-solid fa-chevron-right"></i>
                 </div>
               </Link>
-              <hr v-if="user" />
               <Link href="/khach-hang/don-hang" className="link">
                 <li className="header__icon--user-li">
                   <i className="fa-solid fa-clipboard"></i>
@@ -109,12 +111,13 @@ const Header = () => {
               </Link>
               <hr />
 
-              <Link href="/tai-khoan/dang-nhap" className="link">
-                <li className="header__icon--user-li">
-                  <i className="fa-solid fa-arrow-right-to-bracket"></i>
-                  <span className="header__icon--user-li-title">Đăng nhập</span>
-                </li>
-              </Link>
+              <li
+                className="header__icon--user-li"
+                onClick={() => setHeaderModal(true)}
+              >
+                <i className="fa-solid fa-arrow-right-to-bracket"></i>
+                <span className="header__icon--user-li-title">Đăng nhập</span>
+              </li>
               <hr />
 
               <li className="header__icon--user-li">
@@ -149,6 +152,93 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      {headerModal && (
+        <div className="header__modal" onClick={() => setHeaderModal(false)}>
+          {mode === "login" ? (
+            <div
+              className="main__container register__container"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="register__title">
+                <h1 className="main__title">Đăng nhập</h1>
+                <button>{titleContent}</button>
+              </div>
+              <hr />
+
+              <div className="register__content">
+                <form className="register__form">
+                  <label for="">Số điện thoại</label>
+                  <input placeholder="Nhập số điện thoại" type="text" />
+                  <p className="error__message"></p>
+
+                  <label for="">Mật khẩu</label>
+                  <div className="password__block">
+                    <input placeholder="Nhập mật khẩu" />
+                    <i className="fa-solid fa-eye"></i>
+                  </div>
+                  <p className="error__message"></p>
+
+                  <Link
+                    href="/tai-khoan/quen-mat-khau"
+                    className="link forget__password"
+                  >
+                    Quên mật khẩu
+                  </Link>
+
+                  <button className="main__btn register__btn--main">
+                    Đăng nhập
+                  </button>
+                  <Link href="/tai-khoan/dang-ky" className="link">
+                    <button className="main__btn register__btn--extra">
+                      Đăng ký
+                    </button>
+                  </Link>
+                </form>
+              </div>
+            </div>
+          ) : (
+            <div
+              className="main__container register__container"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h1 className="register__title main__title">Đăng ký</h1>
+              <hr />
+
+              <div className="register__content">
+                <form className="register__form">
+                  <label for="">Email</label>
+                  <input placeholder="Nhập Email" type="text" />
+                  <p className="error__message"></p>
+
+                  <label for="">Mật khẩu</label>
+                  <div className="password__block">
+                    <input placeholder="Nhập mật khẩu" />
+                    <i className="fa-solid fa-eye"></i>
+                  </div>
+                  <p className="error__message"></p>
+
+                  <label for="">Nhập lại mật khẩu</label>
+                  <div className="password__block">
+                    <input placeholder="Nhập lại mật khẩu" />
+                    <i className="fa-solid fa-eye"></i>
+                  </div>
+                  <p className="error__message"></p>
+
+                  <button className="main__btn register__btn--main">
+                    Đăng ký
+                  </button>
+                  <Link href="/tai-khoan/dang-nhap" className="link">
+                    <button className="main__btn register__btn--extra">
+                      Đăng nhập
+                    </button>
+                  </Link>
+                </form>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

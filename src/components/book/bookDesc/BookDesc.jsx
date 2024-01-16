@@ -5,6 +5,7 @@ import "./bookDesc.css";
 
 const BookDesc = ({ bookDesc }) => {
   const [btnContent, setBtnContent] = useState("Xem thêm");
+
   const [active, setActive] = useState(false);
 
   const handleClick = () => {
