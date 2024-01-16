@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 import "./bookToBuy.css";
+import VND from "../../../vnd";
 
-const BookToBuy = () => {
+const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
   const [count, setCount] = useState(1);
 
   const handleIncrease = () => {
@@ -20,7 +22,12 @@ const BookToBuy = () => {
     <div className="product__buy main__container row">
       <div className="col c-5 product__buy--left">
         <div className="product__buy--img">
-          {/* <img :src="bookData.image.path" alt="" /> */}
+          <Image
+            src={book?.image.path}
+            alt={book?.name}
+            width={388}
+            height={388}
+          />
         </div>
 
         <div className="product__buy--btn">
@@ -32,14 +39,14 @@ const BookToBuy = () => {
         </div>
       </div>
       <div className="col c-7 product__buy--right">
-        <h1 className="product__buy--title">Haha</h1>
+        <h1 className="product__buy--title">{book?.name}</h1>
         <div className="row no-gutters product__buy--content">
           <div className="col c-6 product__buy--content-left">
             <p>
-              Nhà cung cấp: <b>Haha</b>
+              Nhà cung cấp: <b>{supplier}</b>
             </p>
             <p>
-              Nhà xuất bản: <b>Haha</b>
+              Nhà xuất bản: <b>{publisher}</b>
             </p>
 
             <div className="product__buy--star">
@@ -52,9 +59,15 @@ const BookToBuy = () => {
             </div>
 
             <div className="product__buy--price">
-              <span className="product__buy--price-buy">Haha đ</span>
-              <span className="product__buy--price-cost">Haha </span>
-              <span className="product__buy--price-percent">-Haha </span>
+              <span className="product__buy--price-buy">
+                {VND.format(book?.price - (book?.price * book?.discount) / 100)}
+              </span>
+              <span className="product__buy--price-cost">
+                {VND.format(book?.price)}
+              </span>
+              <span className="product__buy--price-percent">
+                -{book.discount}&nbsp;%
+              </span>
             </div>
 
             <div className="product__buy--policy row">

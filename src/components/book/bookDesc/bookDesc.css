@@ -1,19 +1,26 @@
 .product__desc--content {
   padding: 20px;
-  font-size: 16px;
+  font-size: 15px;
   max-height: 150px;
   overflow: hidden;
   transition: 0.3s linear;
 }
 
+.product__desc--content-active {
+  padding: 20px;
+  font-size: 15px;
+  transition: 0.3s linear;
+}
+
 .product__desc--content p {
-  text-align: justify;
+  /* text-align: justify; */
   margin-bottom: 20px;
   word-spacing: 2px;
   color: #333;
 }
 
 .product__desc--btn {
+  padding-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;

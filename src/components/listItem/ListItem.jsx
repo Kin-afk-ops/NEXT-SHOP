@@ -11,7 +11,7 @@ const ListItem = ({ book }) => {
   const currentPrice = book?.price - (book?.price * book?.discount) / 100;
 
   return (
-    <Link href="/sach/abc" class="link">
+    <Link href={`/sach/${book?.slug}.html`} class="link">
       <div class="list__item">
         <div class="list__item--img">
           <Image

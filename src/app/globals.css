@@ -50,6 +50,7 @@ body {
 
 .hidden {
   display: none !important;
+  transition: 0.3s linear;
 }
 
 .display__flex {
