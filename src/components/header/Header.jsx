@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import Link from "next/link";
@@ -9,12 +9,19 @@ import logo from "../../assets/images/toi_doc_sach_logo.png";
 import avatar from "../../assets/images/default_avatar.png";
 
 const Header = () => {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("VI");
   const [headerModal, setHeaderModal] = useState(false);
   const [mode, setMode] = useState("login");
   const [titleContent, setTitleContent] = useState("Đăng ký");
 
   const languages = ["VI", "ENG"];
+
+  const handleForgetPassword = () => {
+    setHeaderModal(false);
+    router.push("/tai-khoan/quen-mat-khau");
+  };
 
   return (
     <div className="header">
@@ -162,8 +169,8 @@ const Header = () => {
             >
               <div className="register__title">
                 <h1 className="main__title">Đăng nhập</h1>
-                <button>{titleContent}</button>
               </div>
+
               <hr />
 
               <div className="register__content">
@@ -179,21 +186,22 @@ const Header = () => {
                   </div>
                   <p className="error__message"></p>
 
-                  <Link
-                    href="/tai-khoan/quen-mat-khau"
-                    className="link forget__password"
+                  <div
+                    className="forget__password"
+                    onClick={handleForgetPassword}
                   >
                     Quên mật khẩu
-                  </Link>
+                  </div>
 
                   <button className="main__btn register__btn--main">
                     Đăng nhập
                   </button>
-                  <Link href="/tai-khoan/dang-ky" className="link">
-                    <button className="main__btn register__btn--extra">
-                      Đăng ký
-                    </button>
-                  </Link>
+                  <button
+                    className="main__btn register__btn--extra"
+                    onClick={() => setMode("register")}
+                  >
+                    Đăng ký
+                  </button>
                 </form>
               </div>
             </div>
@@ -228,11 +236,12 @@ const Header = () => {
                   <button className="main__btn register__btn--main">
                     Đăng ký
                   </button>
-                  <Link href="/tai-khoan/dang-nhap" className="link">
-                    <button className="main__btn register__btn--extra">
-                      Đăng nhập
-                    </button>
-                  </Link>
+                  <button
+                    className="main__btn register__btn--extra"
+                    onClick={() => setMode("login")}
+                  >
+                    Đăng nhập
+                  </button>
                 </form>
               </div>
             </div>

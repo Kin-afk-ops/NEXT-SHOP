@@ -342,24 +342,11 @@
   justify-content: center;
 }
 
-.register__title h1 {
+.register__title {
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--primary-color);
-}
-
-.register__title button {
-  margin-left: 20px;
-  margin-bottom: 10px;
-  background-color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.register__title button:hover {
-  color: var(--primary-color);
-  text-decoration: underline;
 }
 
 .register__content {
@@ -394,6 +381,9 @@
   margin-top: 20px;
   font-size: 16px;
   font-weight: 600;
+  border: none;
+  background-color: white;
+  cursor: pointer;
 }
 
 .forget__password:hover {
