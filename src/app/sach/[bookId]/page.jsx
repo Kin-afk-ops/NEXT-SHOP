@@ -11,7 +11,7 @@ const bookPage = async ({ params }) => {
   const resInfo = await axiosInstance.get(`/infoBook/${res.data._id}`);
 
   return (
-    <div class="product grid wide">
+    <div className="product grid wide">
       <BookToBuy
         book={res.data}
         publisher={resInfo.data.infoBook.publisher}

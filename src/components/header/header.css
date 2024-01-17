@@ -303,7 +303,7 @@
   display: block;
 }
 
-.header__modal {
+.header__modal--overlay {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -334,6 +334,10 @@
   border: 1px solid #ccc;
   width: 450px;
   margin-top: 0 !important;
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .register__title {

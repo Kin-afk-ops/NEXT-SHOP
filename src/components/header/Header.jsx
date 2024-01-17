@@ -1,20 +1,39 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../lib/apiCall";
+import { logout } from "../../lib/features/user/userSlice";
 
 import Link from "next/link";
 import Image from "next/image";
 import "./header.css";
 import logo from "../../assets/images/toi_doc_sach_logo.png";
 import avatar from "../../assets/images/default_avatar.png";
+import axiosInstance from "../../config";
 
 const Header = () => {
   const router = useRouter();
-
   const [language, setLanguage] = useState("VI");
   const [headerModal, setHeaderModal] = useState(false);
   const [mode, setMode] = useState("login");
-  const [titleContent, setTitleContent] = useState("Đăng ký");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordType, setPasswordType] = useState(true);
+  const [confirmPasswordType, setConfirmPasswordType] = useState(true);
+  const [phoneLoginError, setPhoneLoginError] = useState(false);
+  const [passwordLoginError, setPasswordLoginError] = useState(false);
+
+  const [phoneRegisterError, setPhoneRegisterError] = useState(false);
+  const [passwordRegisterError, setPasswordRegisterError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [passwordConfirm, setPasswordConfirm] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user.currentUser);
+  console.log(user);
 
   const languages = ["VI", "ENG"];
 
@@ -23,9 +42,83 @@ const Header = () => {
     router.push("/tai-khoan/quen-mat-khau");
   };
 
+  const validate = () => {
+    if (mode === "login") {
+      return phone === "" || password === "" ? false : true;
+    } else {
+      return phone === "" || password === "" || confirmPassword === ""
+        ? false
+        : true;
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const newLogin = {
+      phone,
+      password,
+    };
+
+    if (validate()) {
+      login(dispatch, newLogin);
+      try {
+        setHeaderModal(false);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      if (phone === "") {
+        setPhoneLoginError(true);
+      }
+      if (password === "") {
+        setPasswordLoginError(true);
+      }
+    }
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    if (validate()) {
+      if (password === confirmPassword) {
+        const newRegister = {
+          phone,
+          password,
+        };
+
+        const resRegister = await axiosInstance.post(
+          "/auth/register",
+          newRegister
+        );
+        try {
+          console.log(resRegister.data);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        setPasswordConfirm(true);
+      }
+    } else {
+      if (phone === "") {
+        setPhoneRegisterError(true);
+      }
+      if (password === "") {
+        setPasswordRegisterError(true);
+      }
+      if (confirmPassword === "") {
+        setConfirmPasswordError(true);
+      }
+    }
+  };
+
   return (
     <div className="header">
-      <div className="header__content">
+      <div div className="header__content">
         <div className="header__left">
           <Link className="link header__logo--img" href="/">
             <Image src={logo} alt="" width={220} height={39} />
@@ -118,27 +211,30 @@ const Header = () => {
               </Link>
               <hr />
 
-              <li
-                className="header__icon--user-li"
-                onClick={() => setHeaderModal(true)}
-              >
-                <i className="fa-solid fa-arrow-right-to-bracket"></i>
-                <span className="header__icon--user-li-title">Đăng nhập</span>
-              </li>
-              <hr />
+              {user ? (
+                <li className="header__icon--user-li" onClick={handleLogout}>
+                  <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                  <span className="header__icon--user-li-title">Đăng xuất</span>
+                </li>
+              ) : (
+                <li
+                  className="header__icon--user-li"
+                  onClick={() => setHeaderModal(true)}
+                >
+                  <i className="fa-solid fa-arrow-right-to-bracket"></i>
+                  <span className="header__icon--user-li-title">Đăng nhập</span>
+                </li>
+              )}
 
-              <li className="header__icon--user-li">
-                <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                <span className="header__icon--user-li-title">Đăng xuất</span>
-              </li>
               <hr />
-
-              <Link href="/tai-khoan/dang-ky" className="link" v-if="!user">
+              {/* {user ? (
                 <li className="header__icon--user-li">
                   <i className="fa-regular fa-address-card"></i>
                   <span className="header__icon--user-li-title">Đăng kí</span>
                 </li>
-              </Link>
+              ) : (
+                <li></li>
+              )} */}
             </ul>
           </div>
 
@@ -161,7 +257,11 @@ const Header = () => {
       </div>
 
       {headerModal && (
-        <div className="header__modal" onClick={() => setHeaderModal(false)}>
+        <div className="header__modal">
+          <div
+            className="header__modal--overlay"
+            onClick={() => setHeaderModal(false)}
+          ></div>
           {mode === "login" ? (
             <div
               className="main__container register__container"
@@ -174,17 +274,46 @@ const Header = () => {
               <hr />
 
               <div className="register__content">
-                <form className="register__form">
-                  <label for="">Số điện thoại</label>
-                  <input placeholder="Nhập số điện thoại" type="text" />
-                  <p className="error__message"></p>
+                <form className="register__form" onSubmit={handleLogin}>
+                  <label>Số điện thoại</label>
+                  <input
+                    placeholder="Nhập số điện thoại"
+                    type="text"
+                    value={phone}
+                    onChange={(e) => {
+                      setPhoneLoginError(false);
+                      setPhone(e.target.value);
+                    }}
+                  />
 
-                  <label for="">Mật khẩu</label>
+                  {phoneLoginError && (
+                    <p className="error__message">
+                      Số điện thoại không được bỏ trống
+                    </p>
+                  )}
+
+                  <label>Mật khẩu</label>
                   <div className="password__block">
-                    <input placeholder="Nhập mật khẩu" />
-                    <i className="fa-solid fa-eye"></i>
+                    <input
+                      placeholder="Nhập mật khẩu"
+                      type={passwordType ? "password" : "text"}
+                      value={password}
+                      onChange={(e) => {
+                        setPasswordLoginError(false);
+                        setPassword(e.target.value);
+                      }}
+                    />
+                    <i
+                      className="fa-solid fa-eye"
+                      onClick={() => setPasswordType(!passwordType)}
+                    ></i>
                   </div>
-                  <p className="error__message"></p>
+
+                  {passwordLoginError && (
+                    <p className="error__message">
+                      Mật khẩu không được bỏ trống
+                    </p>
+                  )}
 
                   <div
                     className="forget__password"
@@ -193,7 +322,10 @@ const Header = () => {
                     Quên mật khẩu
                   </div>
 
-                  <button className="main__btn register__btn--main">
+                  <button
+                    className="main__btn register__btn--main"
+                    type="submit"
+                  >
                     Đăng nhập
                   </button>
                   <button
@@ -214,26 +346,87 @@ const Header = () => {
               <hr />
 
               <div className="register__content">
-                <form className="register__form">
-                  <label for="">Email</label>
-                  <input placeholder="Nhập Email" type="text" />
-                  <p className="error__message"></p>
+                <form className="register__form" onSubmit={handleRegister}>
+                  <label>Số điện thoại</label>
+                  <input
+                    placeholder="Nhập số điện thoại"
+                    type="text"
+                    id="email"
+                    value={phone}
+                    onChange={(e) => {
+                      setPhoneRegisterError(false);
+                      setPhone(e.target.value);
+                    }}
+                  />
 
-                  <label for="">Mật khẩu</label>
+                  {phoneRegisterError && (
+                    <p className="error__message">
+                      Số điện thoại không được bỏ trống
+                    </p>
+                  )}
+
+                  <label>Mật khẩu</label>
                   <div className="password__block">
-                    <input placeholder="Nhập mật khẩu" />
-                    <i className="fa-solid fa-eye"></i>
+                    <input
+                      placeholder="Nhập mật khẩu"
+                      type={passwordType ? "password" : "text"}
+                      value={password}
+                      onChange={(e) => {
+                        setPasswordRegisterError(false);
+                        setPasswordConfirm(false);
+                        setPassword(e.target.value);
+                      }}
+                    />
+                    <i
+                      className="fa-solid fa-eye"
+                      onClick={() => setPasswordType(!passwordType)}
+                    ></i>
                   </div>
-                  <p className="error__message"></p>
 
-                  <label for="">Nhập lại mật khẩu</label>
+                  {passwordRegisterError && (
+                    <p className="error__message">
+                      Mật khẩu không được bỏ trống
+                    </p>
+                  )}
+
+                  {passwordConfirm && (
+                    <p className="error__message">Mật khẩu không trùng khớp</p>
+                  )}
+
+                  <label>Nhập lại mật khẩu</label>
                   <div className="password__block">
-                    <input placeholder="Nhập lại mật khẩu" />
-                    <i className="fa-solid fa-eye"></i>
+                    <input
+                      placeholder="Nhập lại mật khẩu"
+                      type={confirmPasswordType ? "password" : "text"}
+                      value={confirmPassword}
+                      onChange={(e) => {
+                        setConfirmPasswordError(false);
+                        setPasswordConfirm(false);
+                        setConfirmPassword(e.target.value);
+                      }}
+                    />
+                    <i
+                      className="fa-solid fa-eye"
+                      onClick={() =>
+                        setConfirmPasswordType(!confirmPasswordType)
+                      }
+                    ></i>
                   </div>
-                  <p className="error__message"></p>
 
-                  <button className="main__btn register__btn--main">
+                  {confirmPasswordError && (
+                    <p className="error__message">
+                      Mật khẩu không được bỏ trống
+                    </p>
+                  )}
+
+                  {passwordConfirm && (
+                    <p className="error__message">Mật khẩu không trùng khớp</p>
+                  )}
+
+                  <button
+                    className="main__btn register__btn--main"
+                    type="submit"
+                  >
                     Đăng ký
                   </button>
                   <button

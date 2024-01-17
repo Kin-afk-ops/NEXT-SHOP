@@ -24,14 +24,14 @@ const Categories = async () => {
       <ul>
         {categories?.map((category, index) => (
           <li key={index}>
-            {/* <Image class="categories__img" :src="cate.image.path" :alt="cate.path" /> */}
+            {/* <Image className="categories__img" :src="cate.image.path" :alt="cate.path" /> */}
             <Image
               src={category.image.path}
               width={100}
               height={100}
               alt="categories"
             />
-            <Link href="/" class="link">
+            <Link href="/" className="link">
               <p> {category.name}</p>
             </Link>
           </li>

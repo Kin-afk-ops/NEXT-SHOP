@@ -42,9 +42,9 @@ const Filter = async () => {
   const form = ["Bìa cứng", "Bìa mềm"];
 
   return (
-    <div class="filer main__container">
-      <div class="filer__list">
-        <div class="filer__list--item">
+    <div className="filer main__container">
+      <div className="filer__list">
+        <div className="filer__list--item">
           <h2>Danh mục sách</h2>
           <ul>
             <li className="active">Sách mới</li>
@@ -55,7 +55,7 @@ const Filter = async () => {
           </ul>
         </div>
 
-        <div class="filer__list--item">
+        <div className="filer__list--item">
           <h2>Giá</h2>
           <ul>
             {price.map((priceItem, index) => (
@@ -72,7 +72,7 @@ const Filter = async () => {
           </ul>
         </div>
 
-        <div class="filer__list--item">
+        <div className="filer__list--item">
           <h2>Hình thức</h2>
           <ul>
             {form.map((formItem, index) => (

@@ -10,12 +10,12 @@ const forgetPasswordPage = () => {
   };
 
   return (
-    <div class="main__container register__container">
-      <h1 class="register__title main__title">Quên mật khẩu</h1>
+    <div className="main__container register__container">
+      <h1 className="register__title main__title">Quên mật khẩu</h1>
       <hr />
 
-      <div class="register__content">
-        <form class="register__form">
+      <div className="register__content">
+        <form className="register__form">
           <label for="">Email</label>
           <input placeholder="Nhập Email" type="text" />
 
@@ -28,7 +28,7 @@ const forgetPasswordPage = () => {
             <button>Gửi OPT</button>
           </div>
           <button
-            class="main__btn register__btn--main"
+            className="main__btn register__btn--main"
             onClick={(e) => handleSubmit(e)}
           >
             Nhập mật khẩu mới
@@ -41,27 +41,29 @@ const forgetPasswordPage = () => {
         onClick={() => setOverlay(false)}
       >
         <div className="main__container register__container forget__password--modal">
-          <h1 class="register__title main__title">Nhập mật khẩu mới</h1>
+          <h1 className="register__title main__title">Nhập mật khẩu mới</h1>
           <hr />
 
-          <div class=" register__content">
-            <form class="register__form">
+          <div className=" register__content">
+            <form className="register__form">
               <label for="">Mật khẩu</label>
-              <div class="password__block">
+              <div className="password__block">
                 <input placeholder="Nhập mật khẩu" />
-                <i class="fa-solid fa-eye"></i>
+                <i className="fa-solid fa-eye"></i>
                 <div></div>
               </div>
-              <p class="error__message"></p>
+              <p className="error__message"></p>
 
               <label for="">Nhập lại mật khẩu</label>
-              <div class="password__block">
+              <div className="password__block">
                 <input placeholder="Nhập lại mật khẩu" />
-                <i class="fa-solid fa-eye"></i>
+                <i className="fa-solid fa-eye"></i>
                 <div></div>
               </div>
-              <p class="error__message"></p>
-              <button class="main__btn register__btn--main">Xác nhận</button>
+              <p className="error__message"></p>
+              <button className="main__btn register__btn--main">
+                Xác nhận
+              </button>
             </form>
           </div>
         </div>

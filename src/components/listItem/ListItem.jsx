@@ -11,9 +11,9 @@ const ListItem = ({ book }) => {
   const currentPrice = book?.price - (book?.price * book?.discount) / 100;
 
   return (
-    <Link href={`/sach/${book?.slug}.html`} class="link">
-      <div class="list__item">
-        <div class="list__item--img">
+    <Link href={`/sach/${book?.slug}.html`} className="link">
+      <div className="list__item">
+        <div className="list__item--img">
           <Image
             fill={true}
             src={book?.image?.path}
@@ -24,14 +24,14 @@ const ListItem = ({ book }) => {
           />
         </div>
 
-        <div class="list__item--text">
-          <p class="list__item--title">{book?.name}</p>
+        <div className="list__item--text">
+          <p className="list__item--title">{book?.name}</p>
 
-          <p class="list__item--price">{VND.format(currentPrice)}</p>
-          <p class="list__item--discount">{VND.format(book?.price)}</p>
+          <p className="list__item--price">{VND.format(currentPrice)}</p>
+          <p className="list__item--discount">{VND.format(book?.price)}</p>
         </div>
 
-        <div class="list__item--percent">{book?.discount}%</div>
+        <div className="list__item--percent">{book?.discount}%</div>
       </div>
     </Link>
   );
