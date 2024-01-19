@@ -119,6 +119,8 @@
   list-style: none;
   display: none;
   z-index: 999;
+
+  overflow: hidden;
 }
 
 .header__icon:hover .header__icon--notify-list {
@@ -151,6 +153,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .header__icon--notify-li:hover {
@@ -197,7 +200,6 @@
   background-color: white;
   list-style: none;
   display: none;
-  overflow: hidden;
   z-index: 999;
 }
 
@@ -229,7 +231,7 @@
 }
 
 .header__icon--user-header:hover::before {
-  transform: translateX(400px);
+  transform: translateX(500px);
   background-color: #fff;
 }
 

@@ -4,16 +4,35 @@ import Slide from "@/components/slide/Slide";
 import axiosInstance from "../config";
 
 export default async function Home() {
-  const res = await axiosInstance.get("/home/book");
-  const books = {
-    title: "Tất cả sách",
-    data: await res.data,
+  const resNewBook = await axiosInstance.get(`/home/book`);
+  const resBook1 = await axiosInstance.get(`/home/book?qSale=${true}`);
+  const resBook2 = await axiosInstance.get(
+    `/home/book/cate?qCategories=${"Phật giáo"}`
+  );
+
+  console.log(resBook2.data);
+
+  const newBooks = {
+    title: "Sách mới của cửa hàng",
+    data: await resNewBook.data,
+  };
+
+  const cateBook1 = {
+    title: "Giá siêu ưu đãi",
+    data: await resBook1.data,
+  };
+
+  const cateBook2 = {
+    title: "Phật giáo chữa lành",
+    data: await resBook1.data,
   };
   return (
     <div>
       <Slide />
       <Categories />
-      <HomeList books={books} />
+      <HomeList books={newBooks} />
+      <HomeList books={cateBook1} />
+      <HomeList books={cateBook2} />
     </div>
   );
 }

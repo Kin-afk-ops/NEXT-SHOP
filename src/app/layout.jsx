@@ -8,6 +8,7 @@ import Footer from "../components/footer/Footer";
 import { Providers } from "@/lib/Providers";
 
 import { Inter } from "next/font/google";
+import ToastProvider from "@/toast/ToastProvider";
 
 export const metadata = {
   title: "Xem phim HD",
@@ -21,9 +22,11 @@ export default async function RootLayout({ children }) {
     <Providers>
       <html lang="en">
         <body className={inter.className}>
-          <Header />
-          <div className="home grid wide">{children}</div>
-          <Footer />
+          <ToastProvider>
+            <Header />
+            <div className="home grid wide">{children}</div>
+            <Footer />
+          </ToastProvider>
         </body>
       </html>
     </Providers>

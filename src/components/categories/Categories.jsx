@@ -5,7 +5,7 @@ import axiosInstance from "../../config";
 import "./categories.css";
 
 const Categories = async () => {
-  const res = await axiosInstance.get("/category");
+  const res = await axiosInstance.get("/home/categories");
 
   const categories = await res.data;
 
@@ -37,6 +37,12 @@ const Categories = async () => {
           </li>
         ))}
       </ul>
+
+      <div className="list__btn--wrap">
+        <Link href="/danh-sach/abc" className="link  main__btn list__btn">
+          Xem thêm
+        </Link>
+      </div>
     </div>
   );
 };

@@ -20,8 +20,6 @@ const Slide = () => {
           modules={[Navigation, A11y, Pagination, Autoplay]}
           spaceBetween={0}
           slidesPerView={1}
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
           loop={true}
           navigation={true}
           pagination={{
