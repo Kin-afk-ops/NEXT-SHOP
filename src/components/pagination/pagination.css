@@ -17,7 +17,7 @@
 }
 .pagination .paginationPage li {
   cursor: pointer;
-  background-color: var(--element-color);
+  background-color: white;
 
   border-radius: 5px;
   margin: 0 5px;

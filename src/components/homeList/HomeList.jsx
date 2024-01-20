@@ -1,6 +1,7 @@
 import Link from "next/link";
 import "./homeList.css";
 import ListItem from "../listItem/ListItem";
+import configSlug from "@/slug";
 
 const HomeList = ({ books }) => {
   return (
@@ -17,7 +18,10 @@ const HomeList = ({ books }) => {
       </div>
 
       <div className="list__btn--wrap">
-        <Link href="/danh-sach/abc" className="link  main__btn list__btn">
+        <Link
+          href={`/danh-sach/${configSlug(books.title)}.html?trang=1`}
+          className="link  main__btn list__btn"
+        >
           Xem thêm
         </Link>
       </div>

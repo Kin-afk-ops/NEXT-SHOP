@@ -4,18 +4,15 @@ import "../pagination.css";
 import ReactPaginate from "react-paginate";
 import { useRouter } from "next/navigation";
 
-const BookPagination = () => {
+const BookPagination = ({
+  totalPage,
+  path,
+  currentPage,
+  // category,
+  // country,
+  // search,
+}) => {
   const router = useRouter();
-  //   {
-  //     totalPage,
-  //     path,
-  //     currentPage,
-  //     category,
-  //     country,
-  //     search,
-  //   }
-
-  const currentPage = 2;
 
   const handlePageClick = (data) => {
     window.scrollTo({
@@ -23,13 +20,16 @@ const BookPagination = () => {
       // behavior: "smooth",
     });
 
-    if (category || country || search) {
-      router.push(
-        `/danh-sach/${path}?${type}=${query}&page=${data.selected + 1}`
-      );
-    } else {
-      router.push(`/danh-sach/${path}?page=${data.selected + 1}`);
-    }
+    //   if (category || country || search) {
+    //     router.push(
+    //       `/danh-sach/${path}?${type}=${query}&page=${data.selected + 1}`
+    //     );
+    //   } else {
+    //     router.push(`/danh-sach/${path}?page=${data.selected + 1}`);
+    //   }
+    // };
+
+    router.push(`/danh-sach/${path}.html?page=${data.selected + 1}`);
   };
 
   return (
@@ -41,7 +41,7 @@ const BookPagination = () => {
           previousLabel="<"
           nextLabel=">"
           breakLabel={"..."}
-          pageCount={10}
+          pageCount={totalPage}
           marginPagesDisplayed={2}
           forcePage={parseInt(currentPage) - 1}
           previousClassName="prev"

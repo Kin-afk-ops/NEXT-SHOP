@@ -21,7 +21,10 @@ const bookPage = async ({ params }) => {
       />
       <BookInfo infoBook={resInfo.data} />
       <BookDesc bookDesc={resInfo.data.infoBook.desc} />
-      <BookEvaluate />
+      <BookEvaluate
+        bookId={res.data._id}
+        bookComments={resInfo.data.infoBook.comments}
+      />
     </div>
   );
 };

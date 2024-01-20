@@ -10,8 +10,6 @@ export default async function Home() {
     `/home/book/cate?qCategories=${"Phật giáo"}`
   );
 
-  console.log(resBook2.data);
-
   const newBooks = {
     title: "Sách mới của cửa hàng",
     data: await resNewBook.data,

@@ -1,18 +1,47 @@
 "use client";
 
+import axiosInstance from "@/config";
 import BookComment from "../bookComment/BookComment";
 import "./bookEvaluate.css";
 
 import { useState } from "react";
 
-const BookEvaluate = () => {
+const BookEvaluate = ({ bookId, bookComments }) => {
   const [display, setDisplay] = useState(false);
   const [noName, setNoName] = useState(false);
+  const [radioValue, setRadioValue] = useState(0);
+  const [commentName, setCommentName] = useState("");
+  const [commentValue, setCommentValue] = useState("");
 
   const cancelForm = (e) => {
     e.preventDefault();
     setDisplay(false);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (noName) {
+      setCommentName("Bình luận ẩn danh");
+    }
+    const newComment = {
+      name: commentName,
+      star: radioValue,
+      content: commentValue,
+    };
+
+    const res = await axiosInstance.put(
+      `/infoBook/comment/${bookId}`,
+      newComment
+    );
+
+    try {
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="product__evaluate main__container">
       <h2 className="main__title">Đánh giá sách</h2>
@@ -56,6 +85,8 @@ const BookEvaluate = () => {
               type="radio"
               name="rate"
               id="rate-5"
+              value={5}
+              onChange={(e) => setRadioValue(e.target.value)}
             />
             <label htmlFor="rate-5"> </label>
             <input
@@ -63,6 +94,8 @@ const BookEvaluate = () => {
               type="radio"
               name="rate"
               id="rate-4"
+              value={4}
+              onChange={(e) => setRadioValue(e.target.value)}
             />
             <label for="rate-4"> </label>
             <input
@@ -70,6 +103,8 @@ const BookEvaluate = () => {
               type="radio"
               name="rate"
               id="rate-3"
+              value={3}
+              onChange={(e) => setRadioValue(e.target.value)}
             />
             <label for="rate-3"> </label>
             <input
@@ -77,6 +112,8 @@ const BookEvaluate = () => {
               type="radio"
               name="rate"
               id="rate-2"
+              value={2}
+              onChange={(e) => setRadioValue(e.target.value)}
             />
             <label for="rate-2"> </label>
             <input
@@ -84,16 +121,20 @@ const BookEvaluate = () => {
               type="radio"
               name="rate"
               id="rate-1"
+              value={1}
+              onChange={(e) => setRadioValue(e.target.value)}
             />
             <label for="rate-1"> </label>
           </div>
-          <form action="#" className="product__modal--form">
+          <form onSubmit={handleSubmit} className="product__modal--form">
             <div className="product__modal--name">
               <div className="product__modal--name-wrap">
                 <input
                   type="text"
                   placeholder="Nhập tên sẽ hiển thị khi đánh giá"
                   className={noName ? "hidden" : ""}
+                  value={commentName}
+                  onChange={(e) => setCommentName(e.target.value)}
                 />
                 <div className={noName ? "no__name--input" : "hidden"}>
                   Đang ở chế độ ẩn danh
@@ -118,7 +159,9 @@ const BookEvaluate = () => {
                 id=""
                 cols="70"
                 rows="10"
-              ></textarea>
+                value={commentValue}
+                onChange={(e) => setCommentValue(e.target.value)}
+              />
             </div>
 
             <div className="product__modal--btn">
@@ -128,7 +171,7 @@ const BookEvaluate = () => {
               >
                 Huỷ
               </button>
-              <button className="product__modal--send main__btn">
+              <button className="product__modal--send main__btn" type="submit">
                 Gửi nhận xét
               </button>
             </div>

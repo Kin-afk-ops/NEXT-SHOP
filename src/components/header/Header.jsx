@@ -179,10 +179,10 @@ const Header = () => {
             <Image src={logo} alt="" width={220} height={39} />
           </Link>
 
-          <Link className="link header__icon--left" href="/bai-viet">
+          {/* <Link className="link header__icon--left" href="/bai-viet">
             <i className="fa-solid fa-newspaper"></i>
             <span>Bài viết</span>
-          </Link>
+          </Link> */}
         </div>
 
         <div className="header__center">

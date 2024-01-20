@@ -10,6 +10,7 @@ const BookDesc = ({ bookDesc }) => {
 
   const handleClick = () => {
     setActive(!active);
+    !active ? setBtnContent("Thu gọn") : setBtnContent("Xem thêm");
   };
 
   return (

@@ -18,7 +18,7 @@ const Categories = async () => {
           src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu_red.svg"
           alt="categories"
         />
-        Danh mục sách
+        Những chủ đề mới
       </h2>
       <hr />
       <ul>
