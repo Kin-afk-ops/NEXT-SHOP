@@ -3,6 +3,8 @@ import BookInfo from "../../../components/book/bookInfo/BookInfo";
 import BookDesc from "../../../components/book/bookDesc/BookDesc";
 import BookEvaluate from "../../../components/book/bookEvaluate/BookEvaluate";
 import axiosInstance from "../../../config";
+import BookComment from "@/components/book/bookComment/BookComment";
+import ToastProvider from "@/toast/ToastProvider";
 
 const bookPage = async ({ params }) => {
   const bookSlug = params.bookId.split(".")[0];
@@ -21,10 +23,10 @@ const bookPage = async ({ params }) => {
       />
       <BookInfo infoBook={resInfo.data} />
       <BookDesc bookDesc={resInfo.data.infoBook.desc} />
-      <BookEvaluate
-        bookId={res.data._id}
-        bookComments={resInfo.data.infoBook.comments}
-      />
+      <ToastProvider>
+        <BookEvaluate bookId={res.data._id} />
+      </ToastProvider>
+      <BookComment bookComments={resInfo.data.comments} />
     </div>
   );
 };

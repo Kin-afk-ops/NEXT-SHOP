@@ -1,12 +1,15 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 import axiosInstance from "@/config";
-import BookComment from "../bookComment/BookComment";
 import "./bookEvaluate.css";
 
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-const BookEvaluate = ({ bookId, bookComments }) => {
+const BookEvaluate = ({ bookId }) => {
+  const router = useRouter();
+
   const [display, setDisplay] = useState(false);
   const [noName, setNoName] = useState(false);
   const [radioValue, setRadioValue] = useState(0);
@@ -24,11 +27,29 @@ const BookEvaluate = ({ bookId, bookComments }) => {
     if (noName) {
       setCommentName("Bình luận ẩn danh");
     }
-    const newComment = {
-      name: commentName,
-      star: radioValue,
-      content: commentValue,
+
+    const initLike = {
+      value: 0,
+      userId: [],
     };
+
+    let newComment = {};
+
+    if (noName) {
+      newComment = {
+        name: "Bình luận ẩn danh",
+        star: radioValue,
+        content: commentValue,
+        like: initLike,
+      };
+    } else {
+      newComment = {
+        name: commentName,
+        star: radioValue,
+        content: commentValue,
+        like: initLike,
+      };
+    }
 
     const res = await axiosInstance.put(
       `/infoBook/comment/${bookId}`,
@@ -36,9 +57,15 @@ const BookEvaluate = ({ bookId, bookComments }) => {
     );
 
     try {
-      console.log(res.data);
+      // console.log(res.data);
+      // toast.success("Thêm đánh giá thành công!");
+      setTimeout(() => {
+        router.refresh();
+        setDisplay(false);
+      }, 1000);
     } catch (error) {
       console.log(error);
+      toast.error("Thêm đánh giá thất bại!");
     }
   };
 
@@ -70,8 +97,6 @@ const BookEvaluate = ({ bookId, bookComments }) => {
             <i className="fa-solid fa-pen"></i>Viết đánh giá
           </button>
         </div>
-
-        <BookComment />
       </div>
 
       <div className={display ? "product__modal main__container" : "hidden"}>

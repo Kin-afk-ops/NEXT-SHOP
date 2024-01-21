@@ -1,7 +1,7 @@
 import BookCommentItem from "./BookCommentItem";
 import "./bookComment.css";
 
-const BookComment = () => {
+const BookComment = ({ bookComments }) => {
   return (
     <div className="product__comment main__container">
       <div className="product__comment--wrap">
@@ -13,7 +13,15 @@ const BookComment = () => {
               <div>Yêu thích nhất</div>
             </div>
           </div>
-          <BookCommentItem />
+
+          {bookComments &&
+            bookComments?.map((bookComment, index) => (
+              <BookCommentItem
+                key={bookComment._id}
+                bookComment={bookComment}
+              />
+            ))}
+
           <hr />
         </ul>
       </div>
