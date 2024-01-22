@@ -50,7 +50,6 @@
 .product__comment--item {
   padding: 20px;
   background-color: white;
-  cursor: pointer;
 }
 
 .product__comment--name {
@@ -80,16 +79,32 @@
   color: #ccc;
 }
 
-.product__comment--icon {
+.product__comment--icons {
   margin-top: 20px;
   color: #7a7e7f;
   font-size: 14px;
 }
 
-.product__comment--icon i {
+.product__comment--icon {
   margin-right: 5px;
+  cursor: pointer;
 }
 
-.product__comment--icon span {
+.product__comment--icon-active {
+  margin-right: 5px;
+  color: #f6a500;
+}
+
+.product__comment--icon-span {
   margin-right: 20px;
+  cursor: pointer;
+}
+
+.product__comment--icon-span-active {
+  margin-right: 20px;
+  color: #f6a500;
+}
+
+.product__comment--icon-report {
+  cursor: pointer;
 }

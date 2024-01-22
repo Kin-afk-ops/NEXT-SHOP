@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import axiosInstance from "@/config";
 import "./bookEvaluate.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const BookEvaluate = ({ bookId }) => {
@@ -15,6 +15,39 @@ const BookEvaluate = ({ bookId }) => {
   const [radioValue, setRadioValue] = useState(0);
   const [commentName, setCommentName] = useState("");
   const [commentValue, setCommentValue] = useState("");
+  const [comment, setComment] = useState([]);
+
+  const avg = (comment) => {
+    let sum = 0;
+
+    comment?.forEach((c, i) => {
+      sum += c.star;
+    });
+
+    return (sum / comment?.length).toFixed(1);
+  };
+
+  useEffect(() => {
+    const getComment = async () => {
+      const res = await axiosInstance.get(`/commentBook/find/${bookId}`);
+
+      setComment(res.data);
+    };
+
+    getComment();
+  }, []);
+
+  let starGrayArray = [];
+
+  let starGoldArray = [];
+
+  for (let i = 1; i <= Math.round(avg(comment)); i++) {
+    starGoldArray.push(i);
+  }
+
+  for (let i = 1; i <= Math.round(5 - avg(comment)); i++) {
+    starGrayArray.push(i);
+  }
 
   const cancelForm = (e) => {
     e.preventDefault();
@@ -23,10 +56,6 @@ const BookEvaluate = ({ bookId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (noName) {
-      setCommentName("Bình luận ẩn danh");
-    }
 
     const initLike = {
       value: 0,
@@ -51,16 +80,13 @@ const BookEvaluate = ({ bookId }) => {
       };
     }
 
-    const res = await axiosInstance.put(
-      `/infoBook/comment/${bookId}`,
-      newComment
-    );
+    const res = await axiosInstance.post(`/commentBook/${bookId}`, newComment);
 
     try {
       // console.log(res.data);
       // toast.success("Thêm đánh giá thành công!");
       setTimeout(() => {
-        router.refresh();
+        window.location.reload();
         setDisplay(false);
       }, 1000);
     } catch (error) {
@@ -76,20 +102,34 @@ const BookEvaluate = ({ bookId }) => {
         <div className="col c-6 product__evaluate--left">
           <div>
             <span className="product__evaluate--big product__evaluate--number">
-              0
+              {avg(comment)}
             </span>
             <span className="product__evaluate--number">/5</span>
           </div>
 
           <div className="product__evaluate--star">
             <div>
+              {starGoldArray.map((star, i) => (
+                <i
+                  className="fa-solid fa-star"
+                  style={{
+                    color: "#f6a500",
+                  }}
+                  key={i}
+                ></i>
+              ))}
+
+              {starGrayArray.map((star, i) => (
+                <i className="fa-solid fa-star" key={i}></i>
+              ))}
+
+              {/* <i className="fa-solid fa-star"></i>
               <i className="fa-solid fa-star"></i>
               <i className="fa-solid fa-star"></i>
               <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-star"></i> */}
             </div>
-            <span>(0 đánh giá)</span>
+            <span>({comment.length} đánh giá)</span>
           </div>
         </div>
         <div className="col c-6 product__evaluate--right">

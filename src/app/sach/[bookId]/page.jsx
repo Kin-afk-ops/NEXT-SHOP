@@ -26,7 +26,7 @@ const bookPage = async ({ params }) => {
       <ToastProvider>
         <BookEvaluate bookId={res.data._id} />
       </ToastProvider>
-      <BookComment bookComments={resInfo.data.comments} />
+      <BookComment bookId={res.data._id} />
     </div>
   );
 };
