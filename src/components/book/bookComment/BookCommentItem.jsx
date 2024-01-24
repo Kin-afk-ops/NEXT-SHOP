@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import axiosInstance from "@/config";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const BookCommentItem = ({ bookId, comment }) => {
   const router = useRouter();
@@ -59,14 +60,72 @@ const BookCommentItem = ({ bookId, comment }) => {
       },
     };
 
-    const res = await axiosInstance.put(
-      `/commentBook/${comment._id}`,
-      newBookComments
-    );
+    try {
+      const res = await axiosInstance.put(
+        `/commentBook/${comment._id}`,
+        newBookComments
+      );
+      console.log(res.data);
+
+      toast.success("Đã thích bình luận!");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDislike = async () => {
+    setLikeCheck(false);
+    setLikeTotal((likeCount) => likeCount - 1);
+
+    let userIdArray = [];
+
+    if (comment.userId) {
+      const new_arr = comment.userId.filter((c) => c !== user._id);
+
+      userIdArray = new_arr;
+    }
+
+    let likeValue;
+
+    if (comment.like.value - 1 < 0) {
+      likeValue = 0;
+    } else {
+      likeValue = comment.like.value - 1;
+    }
+
+    const newBookComments = {
+      name: comment.name,
+      star: comment.star,
+      content: comment.content,
+      like: {
+        value: likeValue,
+        userId: userIdArray,
+      },
+    };
 
     try {
-      console.log(res.data);
+      const res = await axiosInstance.put(
+        `/commentBook/${comment._id}`,
+        newBookComments
+      );
+
+      toast.error("Đã bỏ thích bình luận này");
     } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleReport = async () => {
+    const newReport = {
+      type: "Comment",
+      content: "Bình luận có vấn đề!",
+    };
+
+    try {
+      const res = await axiosInstance.post(`/request/${user._id}`, newReport);
+      toast.success("Đã gửi báo cáo bình luận này!");
+    } catch (error) {
+      toast.error("Không gửi được báo cáo bình luận này!");
       console.log(error);
     }
   };
@@ -101,7 +160,10 @@ const BookCommentItem = ({ bookId, comment }) => {
           {likeCheck ? (
             <>
               <i className="fa-regular fa-thumbs-up product__comment--icon-active"></i>
-              <span className="product__comment--icon-span-active">
+              <span
+                className="product__comment--icon-span-active"
+                onClick={handleDislike}
+              >
                 thích({likeTotal})
               </span>
             </>
@@ -116,8 +178,13 @@ const BookCommentItem = ({ bookId, comment }) => {
               </span>
             </>
           )}
-          <i className="fa-solid fa-circle-exclamation"></i>
-          <span className="product__comment--icon-report">Báo cáo</span>
+          <i className="fa-solid fa-circle-exclamation product__comment--icon"></i>
+          <span
+            className="product__comment--icon-report"
+            onClick={handleReport}
+          >
+            Báo cáo
+          </span>
         </div>
       </div>
     </li>

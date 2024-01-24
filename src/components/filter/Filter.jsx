@@ -1,3 +1,4 @@
+import Link from "next/link";
 import axiosInstance from "../../config";
 
 import "./filter.css";
@@ -11,6 +12,10 @@ const Filter = async () => {
     style: "currency",
     currency: "VND",
   });
+
+  const createQuery = (query) => {
+    if (query !== "") return query.split(" ").join("+");
+  };
 
   const price = [
     {
@@ -47,10 +52,23 @@ const Filter = async () => {
         <div className="filer__list--item">
           <h2>Danh mục sách</h2>
           <ul>
-            <li className="active">Sách mới</li>
+            <Link
+              href="/danh-sach/sach-moi-cua-cua-hang.html?trang=1"
+              className="link"
+            >
+              <li className="active">Sách mới</li>
+            </Link>
 
             {categories?.map((category, index) => (
-              <li key={index}>{category.name}</li>
+              <Link
+                key={index}
+                href={`/danh-sach/danh-muc.html?q=${createQuery(
+                  category.name
+                )}&trang=1`}
+                className="link"
+              >
+                <li>{category.name}</li>
+              </Link>
             ))}
           </ul>
         </div>

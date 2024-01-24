@@ -240,11 +240,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 }
 
 .header__icon--user-header i {
   font-size: 20px;
+}
+
+.header__icon--user-phone {
+  font-size: 14px;
 }
 
 .header__icon--user-header:hover {

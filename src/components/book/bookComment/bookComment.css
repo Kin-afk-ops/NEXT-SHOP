@@ -103,6 +103,7 @@
 .product__comment--icon-span-active {
   margin-right: 20px;
   color: #f6a500;
+  cursor: pointer;
 }
 
 .product__comment--icon-report {

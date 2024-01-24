@@ -20,6 +20,20 @@
   border-radius: 50%;
 }
 
+.customer__edit--file {
+  cursor: pointer;
+  position: relative;
+}
+
+.customer__edit--file i {
+  color: var(--primary-color);
+  position: absolute;
+
+  font-size: 32px;
+  top: 85%;
+  right: 30%;
+}
+
 .customer__edit--right {
   display: flex;
   flex-direction: column;

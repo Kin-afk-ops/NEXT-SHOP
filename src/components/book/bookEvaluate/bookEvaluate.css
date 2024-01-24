@@ -55,9 +55,9 @@
 
 .product__modal {
   position: fixed;
-  top: 20%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-50%);
   width: 50%;
   flex-direction: column;
   align-items: center;

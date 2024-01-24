@@ -16,7 +16,7 @@ export default async function Home() {
   };
 
   const cateBook1 = {
-    title: "Giá siêu ưu đãi",
+    title: "Giảm giá siêu ưu đãi",
     data: await resBook1.data,
   };
 

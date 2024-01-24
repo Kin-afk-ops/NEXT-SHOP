@@ -90,6 +90,7 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    router.refresh();
   };
 
   const handleRegister = async (e) => {
@@ -102,23 +103,42 @@ const Header = () => {
           password,
         };
 
-        const resRegister = await axiosInstance.post(
-          "/auth/register",
-          newRegister
-        );
-        try {
-          toast.success("Đăng kí thành công! Đăng nhập ngay");
+        const newInfoUser = {
+          avatar: {
+            path: "",
+            publicId: "",
+          },
 
+          lastName: "",
+          firstName: "",
+          email: "",
+          gender: "",
+          birthday: "",
+          address: "",
+        };
+
+        try {
+          const resRegister = await axiosInstance.post(
+            "/auth/register",
+            newRegister
+          );
+          x;
           const newNotification = {
             userId: resRegister.data._id,
           };
-          const resNotification = await axiosInstance.post(
-            "/auth/createNotification",
-            newNotification
-          );
 
           try {
-            console.log(resNotification.data);
+            const resNotification = await axiosInstance.post(
+              "/auth/createNotification",
+              newNotification
+            );
+
+            const resInfoUser = await axiosInstance.post(
+              `/infoUser/${resRegister.data._id}`,
+              newInfoUser
+            );
+
+            toast.success("Chỉnh sửa thông tin thành công");
           } catch (error) {
             console.log(error);
           }
@@ -201,7 +221,7 @@ const Header = () => {
             <i className="fa-solid fa-bell"></i>
             <span>Thông báo</span>
 
-            {notification && (
+            {notification.length !== 0 && (
               <div className="header__icon--total">{notification?.length}</div>
             )}
 
@@ -212,10 +232,7 @@ const Header = () => {
                     {" "}
                     Thông báo{" "}
                   </span>
-                  <Link
-                    className="link"
-                    href={`/khach-hang/thong-bao?id=${user?._id}`}
-                  >
+                  <Link className="link" href={`/khach-hang/thong-bao`}>
                     <span className="header__icon--notify-all">Xem tất cả</span>
                   </Link>
                 </div>
@@ -260,11 +277,8 @@ const Header = () => {
             <span>Tài khoản</span>
 
             <ul className="header__icon--user-list">
-              <Link
-                href={`/khach-hang/thong-tin?id=${user?._id}`}
-                className="link"
-              >
-                {checkInfoUser ? (
+              <Link href={`/khach-hang/thong-tin`} className="link">
+                {!checkInfoUser ? (
                   <div className="header__icon--user-header">
                     <Image
                       src={avatar}
@@ -301,13 +315,15 @@ const Header = () => {
                       }}
                     />
                     <div>
-                      <p className="header__icon--user-name">
-                        {infoUser?.lastName + " " + infoUser.firstName}
-                      </p>
+                      {infoUser.lastName && (
+                        <p className="header__icon--user-name">
+                          {infoUser?.lastName + " " + infoUser.firstName}
+                        </p>
+                      )}
 
                       {infoUser.email && (
                         <p className="header__icon--user-phone">
-                          {infoUser.email}
+                          {user?.phone}
                         </p>
                       )}
                     </div>
