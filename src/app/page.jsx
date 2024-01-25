@@ -21,7 +21,7 @@ export default async function Home() {
   };
 
   const cateBook2 = {
-    title: "Phật giáo chữa lành",
+    title: "Phật giáo",
     data: await resBook1.data,
   };
   return (

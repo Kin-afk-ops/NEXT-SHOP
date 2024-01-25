@@ -9,29 +9,46 @@ const ListPage = async ({ params, searchParams }) => {
   const currentPage = searchParams.trang;
   const query = searchParams.q;
   const from = searchParams.from;
-  const to = searchParams.tos;
+  const to = searchParams.to;
 
   let books = {};
   let totalPage = 0;
   let res;
 
-  if (type === "sach-moi-cua-cua-hang") {
+  const resCategories = await axiosInstance.get("/category");
+
+  if (query === "Sách mới của cửa hàng") {
     if (from && to) {
       res = await axiosInstance.get(
-        `/book/fromTo?qPage=${currentPage}&qFrom=${from}&qTo=${to}`
+        `/book/filter?qPage=${currentPage}&qFrom=${from}&qTo=${to}`
       );
     } else {
       res = await axiosInstance.get(`/book?qNew=${true}&qPage=${currentPage}`);
-
-      books = {
-        title: "Sách mới của cửa hàng",
-        data: res.data.books,
-      };
     }
+    books = {
+      title: "Sách mới của cửa hàng",
+      data: res.data.books,
+    };
+
+    totalPage = res.data.totalPage;
+  } else if (query === "Giảm giá siêu ưu đãi") {
+    if (from && to) {
+      res = await axiosInstance.get(
+        `/book/filter?qSale=${true}&qPage=${currentPage}&qFrom=${from}&qTo=${to}`
+      );
+    } else {
+      res = await axiosInstance.get(`/book?qSale=${true}&qPage=${currentPage}`);
+    }
+
+    books = {
+      title: "Giảm giá siêu ưu đãi",
+      data: res.data.books,
+    };
+    totalPage = res.data.totalPage;
   } else {
     if (from && to) {
       res = await axiosInstance.get(
-        `/book/fromTo?qCategory=${query}&qPage=${currentPage}&qFrom=${from}&qTo=${to}`
+        `/book/filter?qCategory=${query}&qPage=${currentPage}&qFrom=${from}&qTo=${to}`
       );
     } else {
       res = await axiosInstance.get(
@@ -43,12 +60,13 @@ const ListPage = async ({ params, searchParams }) => {
       title: query,
       data: res.data.books,
     };
+    totalPage = res.data.totalPage;
   }
 
   return (
     <div className="row">
       <div className="col c-3">
-        <Filter type={type} query={query} currentPage={currentPage} />
+        <Filter query={query} categories={resCategories.data} />
       </div>
       <div className="col c-9">
         {books.data.length !== 0 ? (
@@ -59,11 +77,13 @@ const ListPage = async ({ params, searchParams }) => {
           </div>
         )}
 
-        {/* <BookPagination
-          currentPage={currentPage}
-          totalPage={totalPage}
-          path={`danh-sach/${type}`}
-        /> */}
+        {books.data.length !== 0 && (
+          <BookPagination
+            currentPage={currentPage}
+            totalPage={totalPage}
+            path={`danh-sach/${type}`}
+          />
+        )}
       </div>
     </div>
   );

@@ -4,6 +4,10 @@ import ListItem from "../listItem/ListItem";
 import configSlug from "@/slug";
 
 const HomeList = ({ books }) => {
+  const createQuery = (query) => {
+    if (query !== "") return query.split(" ").join("+");
+  };
+
   return (
     <div className="list main__container">
       <h2 className="list__title main__title">{books.title}</h2>
@@ -19,7 +23,9 @@ const HomeList = ({ books }) => {
 
       <div className="list__btn--wrap">
         <Link
-          href={`/danh-sach/${configSlug(books.title)}.html?trang=1`}
+          href={`/danh-sach/danh-muc.html?q=${createQuery(
+            books.title
+          )}&trang=1`}
           className="link  main__btn list__btn"
         >
           Xem thêm

@@ -7,19 +7,10 @@ import axiosInstance from "../../config";
 import { useRouter } from "next/navigation";
 import "./filter.css";
 
-const Filter = ({ currentPage, query }) => {
+const Filter = ({ query, categories }) => {
   const router = useRouter();
 
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const getCategories = async () => {
-      const res = await axiosInstance.get("/category");
-      setCategories(res.data);
-    };
-
-    getCategories();
-  }, []);
+  const [selected, setSelected] = useState(null);
 
   const VND = new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -60,6 +51,7 @@ const Filter = ({ currentPage, query }) => {
   };
 
   const handleChangeCategory = (name) => {
+    setSelected(null);
     const queryItem = {
       q: createQuery(name),
       from: "",
@@ -69,21 +61,26 @@ const Filter = ({ currentPage, query }) => {
     handleChangePage(queryItem);
   };
 
-  const handleCheck = (priceItem) => {
-    let temp;
+  const handleCheck = (priceItem, index) => {
+    setSelected((prev) => (index === prev ? null : index));
 
-    if (priceItem.to === "Trở lên") {
-      temp = priceItem.to.toLowerCase().split(" ").join("+");
+    if (index === selected) {
+      router.push(`/danh-sach/danh-muc.html?q=${createQuery(query)}&trang=1`);
     } else {
-      temp = priceItem.to;
-    }
-    const queryItem = {
-      q: query,
-      from: priceItem.from,
-      to: temp,
-    };
+      let temp;
 
-    handleChangePage(queryItem);
+      if (priceItem.to === "Trở lên") {
+        temp = priceItem.to.toLowerCase().split(" ").join("+");
+      } else {
+        temp = priceItem.to;
+      }
+      const queryItem = {
+        q: query,
+        from: priceItem.from,
+        to: temp,
+      };
+      handleChangePage(queryItem);
+    }
   };
 
   const handleChangePage = (query) => {
@@ -91,14 +88,10 @@ const Filter = ({ currentPage, query }) => {
       router.push(
         `/danh-sach/danh-muc.html?q=${createQuery(query.q)}&from=${
           query.from
-        }&to=${query.to}&trang=${currentPage}`
+        }&to=${query.to}&trang=1`
       );
     } else {
-      router.push(
-        `/danh-sach/danh-muc.html?q=${createQuery(
-          query.q
-        )}&trang=${currentPage}`
-      );
+      router.push(`/danh-sach/danh-muc.html?q=${createQuery(query.q)}&trang=1`);
     }
   };
 
@@ -109,21 +102,36 @@ const Filter = ({ currentPage, query }) => {
           <h2>Danh mục sách</h2>
           <ul>
             <Link
-              href="/danh-sach/sach-moi-cua-cua-hang.html?trang=1"
+              href={`/danh-sach/danh-muc.html?q=${createQuery(
+                "Sách mới của cửa hàng"
+              )}&trang=1`}
               className="link"
             >
-              <li className="active">Sách mới</li>
+              <li className={query === "Sách mới của cửa hàng" ? "active" : ""}>
+                Sách mới của cửa hàng
+              </li>
             </Link>
 
-            {categories.length !== 0 &&
-              categories?.map((category, index) => (
-                <li
-                  key={category._id}
-                  onClick={() => handleChangeCategory(category.name)}
-                >
-                  {category.name}
-                </li>
-              ))}
+            <Link
+              href={`/danh-sach/danh-muc.html?q=${createQuery(
+                "Giảm giá siêu ưu đãi"
+              )}&trang=1`}
+              className="link"
+            >
+              <li className={query === "Giảm giá siêu ưu đãi" ? "active" : ""}>
+                Giảm giá siêu ưu đãi
+              </li>
+            </Link>
+
+            {categories?.map((category, index) => (
+              <li
+                key={category._id}
+                onClick={() => handleChangeCategory(category.name)}
+                className={query === category.name ? "active" : ""}
+              >
+                {category.name}
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -133,10 +141,11 @@ const Filter = ({ currentPage, query }) => {
             {price.map((priceItem, index) => (
               <li key={index}>
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="priceCheck"
                   id={index}
-                  onChange={() => handleCheck(priceItem)}
+                  checked={index === selected}
+                  onChange={() => handleCheck(priceItem, index)}
                 />
                 <label htmlFor={index} className="filer__list--item-li">
                   {VND.format(priceItem.from)}&nbsp;-&nbsp;
