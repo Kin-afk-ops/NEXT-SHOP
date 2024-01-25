@@ -1,0 +1,11 @@
+.no__books {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no__books p {
+  font-size: 20px;
+}
