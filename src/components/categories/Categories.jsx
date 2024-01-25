@@ -9,6 +9,10 @@ const Categories = async () => {
 
   const categories = await res.data;
 
+  const createQuery = (query) => {
+    if (query !== "") return query.split(" ").join("+");
+  };
+
   return (
     <div className="categories main__container">
       <h2 className="category__title main__title">
@@ -23,23 +27,34 @@ const Categories = async () => {
       <hr />
       <ul>
         {categories?.map((category, index) => (
-          <li key={index}>
-            {/* <Image className="categories__img" :src="cate.image.path" :alt="cate.path" /> */}
-            <Image
-              src={category.image.path}
-              width={100}
-              height={100}
-              alt="categories"
-            />
-            <Link href="/" className="link">
+          <Link
+            href={`/danh-sach/danh-muc.html?q=${createQuery(
+              category.name
+            )}&trang=1`}
+            key={category._id}
+            className="link"
+          >
+            <li>
+              <Image
+                src={category.image.path}
+                width={100}
+                height={100}
+                alt="categories"
+              />
+
               <p> {category.name}</p>
-            </Link>
-          </li>
+            </li>
+          </Link>
         ))}
       </ul>
 
       <div className="list__btn--wrap">
-        <Link href="/danh-sach/abc" className="link  main__btn list__btn">
+        <Link
+          href={`/danh-sach/danh-muc.html?q=${createQuery(
+            "Sách mới của cửa hàng"
+          )}&trang=1`}
+          className="link  main__btn list__btn"
+        >
           Xem thêm
         </Link>
       </div>

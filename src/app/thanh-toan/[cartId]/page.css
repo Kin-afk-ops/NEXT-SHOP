@@ -37,21 +37,22 @@
 
 .pay__btn {
   width: 25%;
+  transition: 0.3s linear;
 }
 
-.pay__btn.pay__momo {
+.pay__momo {
   color: #af1a71;
   border: 1px solid #af1a71;
   background-color: white;
 }
 
-.pay__btn.pay__vnpay {
+.pay__vnpay {
   color: #005baa;
   border: 1px solid #005baa;
   background-color: white;
 }
 
-.pay__btn.pay__default {
+.pay__default {
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
   background-color: white;
@@ -64,4 +65,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.pay__chose--method {
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.pay__select {
+  margin-left: 20px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
 }

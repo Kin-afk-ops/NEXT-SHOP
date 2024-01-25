@@ -1,11 +1,18 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import "./bookToBuy.css";
 import VND from "../../../vnd";
+import { useSelector } from "react-redux";
+import axiosInstance from "@/config";
 
 const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
+  const user = useSelector((state) => state.user.currentUser);
+
+  const router = useRouter();
+
   const [count, setCount] = useState(1);
 
   const handleIncrease = () => {
@@ -15,6 +22,30 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
   const handleReduce = () => {
     if (count > 1) {
       setCount(count - 1);
+    }
+  };
+
+  const handleBuy = async () => {
+    const currentPrice = book?.price - (book?.price * book?.discount) / 100;
+
+    const newCart = {
+      userId: user._id,
+      books: [
+        {
+          bookId: book?._id,
+          name: book?.name,
+          image: book?.image.path,
+          price: currentPrice,
+          quantity: count,
+        },
+      ],
+    };
+
+    try {
+      const res = await axiosInstance.post(`cart`, newCart);
+      router.push(`/thanh-toan/${res.data._id}`);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -35,7 +66,9 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
             <i className="fa-solid fa-cart-plus"></i>Thêm vào giỏ hàng
           </button>
 
-          <button className="product__buy--btn-buy ">Mua ngay</button>
+          <button className="product__buy--btn-buy " onClick={handleBuy}>
+            Mua ngay
+          </button>
         </div>
       </div>
       <div className="col c-7 product__buy--right">

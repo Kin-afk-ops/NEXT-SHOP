@@ -122,7 +122,7 @@ const Header = () => {
             "/auth/register",
             newRegister
           );
-          x;
+
           const newNotification = {
             userId: resRegister.data._id,
           };
@@ -303,7 +303,7 @@ const Header = () => {
                       alt={
                         infoUser?.lastName +
                         " " +
-                        infoUser.firstName +
+                        infoUser?.firstName +
                         " " +
                         "avatar"
                       }
@@ -315,13 +315,13 @@ const Header = () => {
                       }}
                     />
                     <div>
-                      {infoUser.lastName && (
+                      {infoUser?.lastName && (
                         <p className="header__icon--user-name">
                           {infoUser?.lastName + " " + infoUser.firstName}
                         </p>
                       )}
 
-                      {infoUser.email && (
+                      {infoUser?.email && (
                         <p className="header__icon--user-phone">
                           {user?.phone}
                         </p>

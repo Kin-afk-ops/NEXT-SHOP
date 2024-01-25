@@ -32,6 +32,8 @@ const BookEvaluate = ({ bookId }) => {
       const res = await axiosInstance.get(`/commentBook/find/${bookId}`);
 
       setComment(res.data);
+
+      console.log(res.data);
     };
 
     getComment();
@@ -84,7 +86,7 @@ const BookEvaluate = ({ bookId }) => {
 
     try {
       // console.log(res.data);
-      // toast.success("Thêm đánh giá thành công!");
+      toast.success("Thêm đánh giá thành công!");
       setTimeout(() => {
         window.location.reload();
         setDisplay(false);
