@@ -22,10 +22,29 @@
   padding: 20px 0;
 }
 
-.cart__content--container-item input {
+.cart__item--no-check {
   width: 20px;
   height: 20px;
   cursor: pointer;
+  transition: 0.3s linear;
+  display: none;
+}
+
+.cart__item--check {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  transition: 0.3s linear;
+}
+
+.cart__content--container-item:hover .cart__item--no-check {
+  display: block !important;
+}
+
+.cart__item--no-check:hover {
+  width: 25px;
+  height: 25px;
+  transition: 0.1s linear;
 }
 
 .cart__content--container-item-info {

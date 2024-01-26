@@ -32,8 +32,6 @@ const BookEvaluate = ({ bookId }) => {
       const res = await axiosInstance.get(`/commentBook/find/${bookId}`);
 
       setComment(res.data);
-
-      console.log(res.data);
     };
 
     getComment();
@@ -104,7 +102,7 @@ const BookEvaluate = ({ bookId }) => {
         <div className="col c-6 product__evaluate--left">
           <div>
             <span className="product__evaluate--big product__evaluate--number">
-              {avg(comment)}
+              {comment.length !== 0 ? avg(comment) : "0"}
             </span>
             <span className="product__evaluate--number">/5</span>
           </div>

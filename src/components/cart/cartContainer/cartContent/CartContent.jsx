@@ -2,7 +2,9 @@ import CartDelete from "./CartDelete";
 import CartItem from "./CartItem";
 import "./cartContent.css";
 
-const CartContent = () => {
+const CartContent = ({ cart }) => {
+  console.log(cart);
+
   return (
     <div className="cart__content main__container">
       <div className="cart__content--title main__title row no-gutters">
@@ -18,7 +20,14 @@ const CartContent = () => {
 
       <div className="cart__content--container">
         <ul className="cart__content--container-list">
-          <CartItem />
+          {cart?.map((c, index) => (
+            <li
+              className="cart__content--container-item row no-gutters"
+              key={c.id}
+            >
+              <CartItem cartItem={c} />
+            </li>
+          ))}
         </ul>
       </div>
       <CartDelete />

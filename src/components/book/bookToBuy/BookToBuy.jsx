@@ -30,20 +30,42 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
 
     const newCart = {
       userId: user._id,
-      books: [
-        {
-          bookId: book?._id,
-          name: book?.name,
-          image: book?.image.path,
-          price: currentPrice,
-          quantity: count,
-        },
-      ],
+      books: {
+        bookId: book?._id,
+        name: book?.name,
+        image: book?.image.path,
+        price: currentPrice,
+        quantity: count,
+      },
+      check: true,
     };
 
     try {
       const res = await axiosInstance.post(`cart`, newCart);
       router.push(`/thanh-toan/${res.data._id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleAddCart = async () => {
+    const currentPrice = book?.price - (book?.price * book?.discount) / 100;
+
+    const newCart = {
+      userId: user._id,
+      books: {
+        bookId: book?._id,
+        name: book?.name,
+        image: book?.image.path,
+        price: currentPrice,
+        quantity: count,
+      },
+      check: false,
+    };
+
+    try {
+      const res = await axiosInstance.post(`/cart`, newCart);
+      router.refresh();
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +84,7 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
         </div>
 
         <div className="product__buy--btn">
-          <button className="product__buy--btn-add">
+          <button className="product__buy--btn-add" onClick={handleAddCart}>
             <i className="fa-solid fa-cart-plus"></i>Thêm vào giỏ hàng
           </button>
 

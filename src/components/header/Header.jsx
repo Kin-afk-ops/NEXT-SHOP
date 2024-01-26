@@ -259,10 +259,10 @@ const Header = () => {
             )}
           </div>
 
-          <Link href={`/gio-hang?id=${user?._id}`} className="link">
+          <Link href={`/gio-hang/${user?._id}`} className="link">
             <div className="header__icon">
               <i className="fa-solid fa-cart-shopping"></i>
-              <span> Giỏ hàng</span>
+              <span>Giỏ hàng</span>
 
               {cart.length !== 0 && (
                 <div className="header__icon--total header__icon--total-cart">
