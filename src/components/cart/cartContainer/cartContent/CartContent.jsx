@@ -1,14 +1,27 @@
+"use client";
+
+import { useState } from "react";
 import CartDelete from "./CartDelete";
 import CartItem from "./CartItem";
 import "./cartContent.css";
 
 const CartContent = ({ cart }) => {
-  console.log(cart);
+  const [checkAll, setCheckAll] = useState(false);
+
+  const handleChange = () => {};
 
   return (
     <div className="cart__content main__container">
       <div className="cart__content--title main__title row no-gutters">
-        <input type="checkbox" className="c-1" />
+        <input
+          type="checkbox"
+          className="c-1"
+          onChange={() => {
+            setCheckAll(!checkAll);
+
+            handleChange();
+          }}
+        />
         <p className="c-5">Chọn tất cả sản phẩm</p>
         <p className="c-2 display__flex--center">Số lượng</p>
         <p className="c-2 display__flex--center">Thành tiền</p>
@@ -25,7 +38,7 @@ const CartContent = ({ cart }) => {
               className="cart__content--container-item row no-gutters"
               key={c.id}
             >
-              <CartItem cartItem={c} />
+              <CartItem cartItem={c} checkAll={checkAll} />
             </li>
           ))}
         </ul>

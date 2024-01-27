@@ -1,27 +1,79 @@
 "use client";
-
+import { useRouter } from "next/navigation";
+import axiosInstance from "@/config";
 import VND from "@/vnd";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const CartItem = ({ cartItem }) => {
-  const [checked, setChecked] = useState(false);
+const CartItem = ({ cartItem, checkAll }) => {
+  const router = useRouter();
+  const [checked, setChecked] = useState(cartItem.check);
 
-  const handleCheck = () => {
-    setChecked(!checked);
-    console.log(checked);
+  useEffect(() => {
+    const handleCheckAll = async () => {
+      if (checkAll === true) {
+        setChecked(true);
+        const newCheck = {
+          check: true,
+        };
+
+        try {
+          await axiosInstance.put(`/cart/${cartItem._id}`, newCheck);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        setChecked(false);
+        const newCheck = {
+          check: false,
+        };
+
+        try {
+          await axiosInstance.put(`/cart/${cartItem._id}`, newCheck);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    handleCheckAll();
+  }, [checkAll]);
+
+  const handleCheck = async () => {
+    if (cartItem.check === false) {
+      const newCartCheck = {
+        check: true,
+      };
+
+      try {
+        await axiosInstance.put(`/cart/${cartItem._id}`, newCartCheck);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const newCartCheck = {
+        check: false,
+      };
+
+      try {
+        await axiosInstance.put(`/cart/${cartItem._id}`, newCartCheck);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
     <>
       <div className="cart__content--container-item-input display__flex--center c-1">
         <input
-          className={
-            cartItem?.check ? "cart__item--check" : "cart__item--no-check"
-          }
+          className="cart__item--check"
           type="checkbox"
-          checked={cartItem?.check}
-          onChange={() => handleCheck()}
+          checked={checked}
+          onChange={() => {
+            setChecked(!checked);
+            handleCheck();
+          }}
         />
       </div>
 
