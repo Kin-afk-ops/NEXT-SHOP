@@ -37,10 +37,6 @@
   transition: 0.3s linear;
 }
 
-.cart__content--container-item:hover .cart__item--no-check {
-  display: block !important;
-}
-
 .cart__item--no-check:hover {
   width: 25px;
   height: 25px;
@@ -92,13 +88,22 @@
   font-weight: 600;
   color: var(--primary-color);
 }
-.cart__content--container-item-delete i {
-  font-size: 20px;
+.cart__content--container-item-delete {
+  /* font-size: 16px; */
   cursor: pointer;
   transition: 0.3s linear;
-  padding: 20px;
 }
 
-.cart__content--container-item-delete i:hover {
+.cart__content--container-item-delete:hover {
   color: var(--primary-color);
+}
+
+.cart__content--container-item-trash {
+  font-size: 20px;
+  transition: 0.3s linear;
+}
+
+.cart__content--container-item-trash:hover {
+  color: var(--primary-color);
+  cursor: pointer;
 }

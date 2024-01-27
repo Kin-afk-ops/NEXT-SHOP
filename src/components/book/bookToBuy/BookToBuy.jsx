@@ -34,7 +34,8 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
         bookId: book?._id,
         name: book?.name,
         image: book?.image.path,
-        price: currentPrice,
+        price: book?.price,
+        discountPrice: currentPrice,
         quantity: count,
       },
       check: true,
@@ -42,7 +43,8 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
 
     try {
       const res = await axiosInstance.post(`cart`, newCart);
-      router.push(`/thanh-toan/${res.data._id}`);
+      window.location.href = `/thanh-toan/${res.data._id}`;
+      // router.push(`/thanh-toan/${res.data._id}`);
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +59,8 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
         bookId: book?._id,
         name: book?.name,
         image: book?.image.path,
-        price: currentPrice,
+        price: book?.price,
+        discountPrice: currentPrice,
         quantity: count,
       },
       check: false,
@@ -65,7 +68,7 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
 
     try {
       const res = await axiosInstance.post(`/cart`, newCart);
-      router.refresh();
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }

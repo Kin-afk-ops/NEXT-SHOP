@@ -5,9 +5,11 @@ import VND from "@/vnd";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const CartItem = ({ cartItem, checkAll }) => {
+const CartItem = ({ cartItem, checkAll, setDeleteDisplay, setDeleteId }) => {
   const router = useRouter();
   const [checked, setChecked] = useState(cartItem.check);
+
+  console.log(cartItem);
 
   useEffect(() => {
     const handleCheckAll = async () => {
@@ -63,6 +65,11 @@ const CartItem = ({ cartItem, checkAll }) => {
     }
   };
 
+  const handleDelete = () => {
+    setDeleteId(cartItem._id);
+    setDeleteDisplay(true);
+  };
+
   return (
     <>
       <div className="cart__content--container-item-input display__flex--center c-1">
@@ -86,13 +93,14 @@ const CartItem = ({ cartItem, checkAll }) => {
         />
       </div>
       <div className="cart__content--container-item-info c-4">
-        <p className="info__title">{cartItem.books.name}</p>
+        <p className="info__title">{cartItem?.books.name}</p>
         <div className="info__money">
           <p className="info__money--all">
-            {" "}
-            {VND.format(cartItem?.books?.price)}
+            {VND.format(cartItem?.books?.discountPrice)}
           </p>
-          <p className="info__money--discount"> đ</p>
+          <p className="info__money--discount">
+            {VND.format(cartItem?.books.price)}
+          </p>
         </div>
       </div>
       <div className="cart__content--container-item-quality display__flex--center c-2">
@@ -101,6 +109,13 @@ const CartItem = ({ cartItem, checkAll }) => {
 
       <div className="cart__content--container-item-money display__flex--center c-2">
         {VND.format(cartItem?.books.quantity * cartItem?.books.price)}
+      </div>
+
+      <div
+        className="cart__content--container-item-trash display__flex--center c-2"
+        onClick={() => handleDelete()}
+      >
+        <i className="fa-solid fa-trash"></i>
       </div>
     </>
   );
