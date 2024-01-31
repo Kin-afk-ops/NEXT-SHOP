@@ -1,6 +1,7 @@
 import axiosInstance from "@/config";
 import "./page.css";
 import PayContent from "@/components/payContent/PayContent";
+import ToastProvider from "@/toast/ToastProvider";
 
 const PayPage = async ({ params }) => {
   // let infoUser = {};
@@ -22,7 +23,9 @@ const PayPage = async ({ params }) => {
       <h1 className="main__title pay__title">ĐỊA CHỈ GIAO HÀNG</h1>
       <hr />
 
-      <PayContent />
+      <ToastProvider>
+        <PayContent userId={params.userId} />
+      </ToastProvider>
     </div>
   );
 };

@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import "./cartTop.css";
+import axiosInstance from "@/config";
 
-const CartTop = () => {
+const CartTop = ({ userId }) => {
   const [cart, setCart] = useState({});
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const CartTop = () => {
         {cart ? (
           <p>Giỏ hàng ({cart.length} sản phẩm)</p>
         ) : (
-          <p>Giỏ hàng (0sản phẩm)</p>
+          <p>Giỏ hàng (0 sản phẩm)</p>
         )}
       </h1>
     </div>

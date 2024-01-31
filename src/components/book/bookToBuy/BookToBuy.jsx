@@ -37,13 +37,14 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
         price: book?.price,
         discountPrice: currentPrice,
         quantity: count,
+        maxQuantity: book?.quantity,
       },
       check: true,
     };
 
     try {
       const res = await axiosInstance.post(`cart`, newCart);
-      window.location.href = `/thanh-toan/${res.data._id}`;
+      window.location.href = `/thanh-toan/${user._id}`;
       // router.push(`/thanh-toan/${res.data._id}`);
     } catch (error) {
       console.log(error);
@@ -62,6 +63,7 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
         price: book?.price,
         discountPrice: currentPrice,
         quantity: count,
+        maxQuantity: book?.quantity,
       },
       check: false,
     };

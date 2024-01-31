@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../lib/apiCall";
 import { logout } from "../../lib/features/user/userSlice";
+import "react-toastify/dist/ReactToastify.css";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -35,6 +36,7 @@ const Header = () => {
   const [notification, setNotification] = useState([]);
   const [cart, setCart] = useState([]);
   const [checkInfoUser, setCheckInfoUser] = useState(false);
+  const [checkUser, setCheckUser] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -69,10 +71,9 @@ const Header = () => {
       login(dispatch, newLogin);
       try {
         toast.success("Đăng nhập thành công!");
-        setTimeout(() => {
-          router.refresh();
-          setHeaderModal(false);
-        }, 2000);
+        setHeaderModal(false);
+        setCheckUser(true);
+        window.location.reload();
       } catch (error) {
         toast.error("Đăng nhập thất bại! Hãy kiểm tra lại!");
 
@@ -90,7 +91,7 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    router.refresh();
+    window.location.reload();
   };
 
   const handleRegister = async (e) => {
@@ -189,7 +190,7 @@ const Header = () => {
     };
 
     getHomeData();
-  }, []);
+  }, [checkUser]);
 
   return (
     <div className="header">
@@ -342,7 +343,10 @@ const Header = () => {
               <hr />
 
               {user ? (
-                <li className="header__icon--user-li" onClick={handleLogout}>
+                <li
+                  className="header__icon--user-li"
+                  onClick={() => handleLogout()}
+                >
                   <i className="fa-solid fa-arrow-right-from-bracket"></i>
                   <span className="header__icon--user-li-title">Đăng xuất</span>
                 </li>

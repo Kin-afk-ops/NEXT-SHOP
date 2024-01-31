@@ -24,9 +24,9 @@ export default async function RootLayout({ children }) {
         <body className={inter.className}>
           <ToastProvider>
             <Header />
-            <div className="home grid wide">{children}</div>
-            <Footer />
           </ToastProvider>
+          <div className="home grid wide">{children}</div>
+          <Footer />
         </body>
       </html>
     </Providers>

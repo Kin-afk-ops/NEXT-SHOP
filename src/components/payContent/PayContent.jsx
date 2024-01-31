@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import momoLogo from "../../assets/images/momo__logo.png";
 
@@ -11,28 +11,30 @@ import CartContent from "../cart/cartContainer/cartContent/CartContent";
 import { useSelector } from "react-redux";
 
 import axiosInstance from "@/config";
+import VND from "@/vnd";
+import { toast } from "react-toastify";
 
-const PayContent = () => {
-  const params = useParams();
-  const cartId = params.cartId;
+const PayContent = ({ userId }) => {
+  const router = useRouter();
 
   const [payMethod, setPayMethod] = useState("nhận hàng");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [note, setNote] = useState("");
-  const [infoUser, setInfoUser] = useState({});
-  const [cart, setCart] = useState({});
+  const [clientName, setClientName] = useState("");
+  const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+
   const user = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     const getInfoUser = async () => {
       try {
-        const res = await axiosInstance.get(`/infoUser/${user._id}`);
+        const res = await axiosInstance.get(`/infoUser/${userId}`);
 
-        setInfoUser(res.data);
-
-        setName(res.data.lastName + " " + res.data.firstName);
+        setName(res?.data.lastName + " " + res?.data.firstName);
+        setClientName(res?.data.lastName + " " + res?.data.firstName);
         setPhone(user.phone);
         setAddress(res.data.address);
       } catch (error) {
@@ -42,9 +44,16 @@ const PayContent = () => {
 
     const getCart = async () => {
       try {
-        const res = await axiosInstance.get(`/cart/find/oneCart/${cartId}`);
-        console.log(res.data);
+        const res = await axiosInstance.get(`/cart/find/check/${userId}`);
+
         setCart(res.data);
+
+        let sum = 0;
+        res.data.forEach((d) => {
+          sum += d.books.discountPrice * d.books.quantity;
+        });
+
+        setTotalPrice(sum);
       } catch (error) {
         console.log(error);
       }
@@ -57,28 +66,33 @@ const PayContent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const createTotalPrice = () => {
-      let sum = 0;
-      cart.books.forEach((book) => {
-        sum += book.price;
-      });
-      return sum;
-    };
-
-    const newOrder = {
-      name: infoUser?.lastName + " " + infoUser?.firstName,
-      clientName: name,
-      books: cart?.books,
-      phone,
-      totalPrice: createTotalPrice(),
-      address,
-      note,
-    };
-
     try {
-      const res = await axiosInstance.post(`/order/${user._id}`, newOrder);
-      await axiosInstance.delete(`/cart/${cartId}`);
-      console.log(res.data);
+      for (let i = 0; i < cart.length; i++) {
+        try {
+          await axiosInstance.delete(`/cart/${cart[i]._id}`);
+          const newOrder = {
+            name: name,
+            clientName: clientName,
+            books: cart[i].books,
+            phone,
+            totalPrice,
+            address,
+            note,
+          };
+
+          const res = await axiosInstance.post(`/order/${user._id}`, newOrder);
+          // await axiosInstance.delete(`/cart/${cartId}`);
+        } catch (error) {
+          toast.error("Đặt hàng thất bại");
+
+          console.log(error);
+        }
+      }
+      toast.success("Đặt hàng thành công");
+
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
@@ -93,8 +107,8 @@ const PayContent = () => {
         <input
           className="pay__input"
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={clientName}
+          onChange={(e) => setClientName(e.target.value)}
         />
         <label className="pay__form--label" for="">
           Số điện thoại
@@ -127,13 +141,13 @@ const PayContent = () => {
         />
       </div>
 
-      <h3 className="main__title">Xem lại giỏ hàng</h3>
+      <h3 className="main__title">Xem lại giỏ hàng:</h3>
 
-      <CartContent />
+      <CartContent cart={cart} payMode={true} />
 
       <div className="pay__total--money">
         Tổng giá tiền:
-        {/* <span>{{ makeMoney }} đ</span> */}
+        <span>{VND.format(totalPrice)}</span>
       </div>
 
       <div className="pay__chose--method">
@@ -155,7 +169,7 @@ const PayContent = () => {
         {payMethod === "nhận hàng" && (
           <button className="main__btn pay__btn pay__default" type="submit">
             <i className="fa-solid fa-hand-holding-dollar"></i>
-            Mua hàng
+            Đặt hàng
           </button>
         )}
 
@@ -170,7 +184,7 @@ const PayContent = () => {
                 marginRight: "5px",
               }}
             />
-            Mua hàng
+            Đặt hàng
           </button>
         )}
 
@@ -185,7 +199,7 @@ const PayContent = () => {
                 marginRight: "5px",
               }}
             />
-            Mua hàng
+            Đặt hàng
           </button>
         )}
       </div>

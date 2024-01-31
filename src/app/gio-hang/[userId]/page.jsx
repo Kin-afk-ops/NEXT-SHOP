@@ -5,7 +5,7 @@ import axiosInstance from "@/config";
 const CartPage = ({ params }) => {
   return (
     <div>
-      <CartTop params={params} />
+      <CartTop userId={params.userId} />
       <CartContainer userId={params.userId} />
     </div>
   );
