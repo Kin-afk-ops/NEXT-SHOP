@@ -38,6 +38,7 @@ const Header = () => {
   const [cart, setCart] = useState([]);
   const [checkInfoUser, setCheckInfoUser] = useState(false);
   const [checkUser, setCheckUser] = useState(false);
+
   // const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -270,7 +271,7 @@ const Header = () => {
             )}
           </div>
 
-          <Link href={`/gio-hang/${user?._id}`} className="link">
+          <Link href={`/gio-hang/${user._id}`} className="link">
             <div className="header__icon">
               <i className="fa-solid fa-cart-shopping"></i>
               <span>Giỏ hàng</span>
