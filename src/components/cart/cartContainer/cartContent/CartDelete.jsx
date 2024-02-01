@@ -1,14 +1,25 @@
 "use client";
 import axiosInstance from "@/config";
+
+import { useDispatch } from "react-redux";
+import { reduceCart } from "@/lib/features/cart/cartLengthSlice";
 import { useRouter } from "next/navigation";
 
-const CartDelete = ({ deleteDisplay, setDeleteDisplay, deleteId }) => {
+const CartDelete = ({
+  deleteDisplay,
+  setDeleteDisplay,
+  deleteId,
+  setLoading,
+}) => {
+  const dispatch = useDispatch();
+
   const router = useRouter();
   const handleDelete = async () => {
     try {
       await axiosInstance.delete(`/cart/${deleteId}`);
+      dispatch(reduceCart());
       setDeleteDisplay(false);
-      window.location.reload();
+      setLoading(true);
     } catch (error) {
       console.log(error);
     }

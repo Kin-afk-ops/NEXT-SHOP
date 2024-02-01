@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { increaseCart } from "../../../lib/features/cart/cartLengthSlice";
 
 import "./bookToBuy.css";
 import VND from "../../../vnd";
@@ -9,6 +11,8 @@ import { useSelector } from "react-redux";
 import axiosInstance from "@/config";
 
 const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
+  const dispatch = useDispatch();
+
   const user = useSelector((state) => state.user.currentUser);
 
   const router = useRouter();
@@ -44,8 +48,8 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
 
     try {
       const res = await axiosInstance.post(`cart`, newCart);
-      window.location.href = `/thanh-toan/${user._id}`;
-      // router.push(`/thanh-toan/${res.data._id}`);
+      dispatch(increaseCart());
+      router.push(`/thanh-toan/${user._id}`);
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +74,7 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
 
     try {
       const res = await axiosInstance.post(`/cart`, newCart);
-      window.location.reload();
+      dispatch(increaseCart());
     } catch (error) {
       console.log(error);
     }

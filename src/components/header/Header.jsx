@@ -2,8 +2,9 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../lib/apiCall";
+import { login, getCart } from "../../lib/apiCall";
 import { logout } from "../../lib/features/user/userSlice";
+
 import "react-toastify/dist/ReactToastify.css";
 
 import Link from "next/link";
@@ -37,10 +38,12 @@ const Header = () => {
   const [cart, setCart] = useState([]);
   const [checkInfoUser, setCheckInfoUser] = useState(false);
   const [checkUser, setCheckUser] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.currentUser);
+  const cartLength = useSelector((state) => state.cartLength.length);
 
   const languages = ["VI", "ENG"];
 
@@ -174,12 +177,14 @@ const Header = () => {
       const resNotification = await axiosInstance.get(
         `/home/notification/${user?._id}`
       );
-      const resCart = await axiosInstance.get(`/home/cart/${user?._id}`);
+
+      if (user) {
+        getCart(dispatch, user?._id);
+      }
 
       try {
         setInfoUser(resInfoUser.data);
         setNotification(resNotification.data);
-        setCart(resCart.data);
 
         !isEmptyObject(resInfoUser.data)
           ? setCheckInfoUser(true)
@@ -238,24 +243,30 @@ const Header = () => {
                   </Link>
                 </div>
                 <hr />
-                {notification?.map((noti, index) => (
-                  <li className="header__icon--notify-li" key={noti._id}>
-                    <Link
-                      href={noti.notify.path}
-                      className="link display__flex--center"
-                    >
-                      <i className="header__icon--notify-li-icon fa-solid fa-triangle-exclamation"></i>
-                      <div className="header__icon--notify-li-wrap">
-                        <span className="header__icon--notify-li-title">
-                          {noti.notify.title}
-                        </span>
-                        <span className="header__icon--notify-li-content">
-                          {noti.notify.content}
-                        </span>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
+                {notification?.length !== 0 ? (
+                  <>
+                    {notification?.map((noti, index) => (
+                      <li className="header__icon--notify-li" key={noti._id}>
+                        <Link
+                          href={noti.notify.path}
+                          className="link display__flex--center"
+                        >
+                          <i className="header__icon--notify-li-icon fa-solid fa-triangle-exclamation"></i>
+                          <div className="header__icon--notify-li-wrap">
+                            <span className="header__icon--notify-li-title">
+                              {noti.notify.title}
+                            </span>
+                            <span className="header__icon--notify-li-content">
+                              {noti.notify.content}
+                            </span>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                  </>
+                ) : (
+                  <p className="main__title">Không có thông báo</p>
+                )}
               </ul>
             )}
           </div>
@@ -265,9 +276,9 @@ const Header = () => {
               <i className="fa-solid fa-cart-shopping"></i>
               <span>Giỏ hàng</span>
 
-              {cart.length !== 0 && (
+              {cartLength !== 0 && (
                 <div className="header__icon--total header__icon--total-cart">
-                  {cart?.length}
+                  {cartLength}
                 </div>
               )}
             </div>

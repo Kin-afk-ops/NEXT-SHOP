@@ -1,5 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { reduceCart } from "@/lib/features/cart/cartLengthSlice";
 import axiosInstance from "@/config";
 import VND from "@/vnd";
 import Image from "next/image";
@@ -12,6 +14,8 @@ const CartItem = ({
   setTotalPrice,
   payMode,
 }) => {
+  const dispatch = useDispatch();
+
   const router = useRouter();
   const [checked, setChecked] = useState(cartItem.check);
   const [quantity, setQuantity] = useState(cartItem.books.quantity);

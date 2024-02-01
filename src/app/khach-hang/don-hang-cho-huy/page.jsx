@@ -19,7 +19,7 @@ const CustomerContentOrder = () => {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const res = await axiosInstance.get(`/order/find/${user._id}`);
+        const res = await axiosInstance.get(`/order/find/delete/${user._id}`);
         setOrders(res.data);
         setLoading(false);
       } catch (error) {
@@ -40,7 +40,6 @@ const CustomerContentOrder = () => {
       const res = await axiosInstance.post(`/request/${user._id}`, newRequest);
       const newOrder = {
         requestDelete: true,
-        status: "Đang chờ huỷ",
       };
 
       try {
@@ -51,7 +50,6 @@ const CustomerContentOrder = () => {
 
         toast.success("Đơn hàng của sẽ được sử lý");
         setLoading(true);
-        setModal(false);
       } catch (error) {
         console.log(error);
       }
@@ -94,25 +92,15 @@ const CustomerContentOrder = () => {
                       {order.status}
                     </span>
                   </p>
-
-                  <div className="content__order--btn">
-                    <button
-                      className="content__order--btn-delete"
-                      onClick={() => {
-                        setOrderId(order._id);
-                        setModal(true);
-                      }}
-                    >
-                      Huỷ hàng
-                    </button>
-                  </div>
                 </div>
               </li>
             ))}
           </ul>
         </div>
       ) : (
-        <p className="content__order--empty">Không có đơn hàng.</p>
+        <div className="display__flex--center">
+          <p className="content__order--empty">Không có đơn hàng.</p>
+        </div>
       )}
 
       <div className={modal ? "customer__modal" : "hidden"}>

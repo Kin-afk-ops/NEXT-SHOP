@@ -72,6 +72,20 @@ const CustomerNav = () => {
 
           <li>
             <Link
+              href="/khach-hang/don-hang-cho-huy"
+              className={
+                slug === "don-hang-cho-huy"
+                  ? "customer__nav--router active"
+                  : "customer__nav--router"
+              }
+            >
+              Đơn hàng chờ huỷ
+            </Link>
+          </li>
+          <hr />
+
+          <li>
+            <Link
               href="/khach-hang/thong-bao"
               className={
                 slug === "thong-bao"

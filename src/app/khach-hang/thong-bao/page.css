@@ -11,15 +11,21 @@
 .customer__notification--list {
   list-style: none;
   border-radius: 10px;
+  width: 100%;
 }
 
 .customer__notification--item {
+  width: 100%;
   padding: 20px 10px;
   background-color: #ffffcc;
   cursor: pointer;
   transition: 0.3s linear;
   display: flex;
   justify-content: space-between;
+}
+
+.customer__notification--item.read {
+  background-color: white;
 }
 
 .customer__notification--item:hover {
