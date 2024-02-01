@@ -40,7 +40,7 @@ const CustomerContentOrder = () => {
       const res = await axiosInstance.post(`/request/${user._id}`, newRequest);
       const newOrder = {
         requestDelete: true,
-        status: "Đang chờ huỷ",
+        status: "Đang chờ huỷ đơn hàng.",
       };
 
       try {
@@ -88,12 +88,23 @@ const CustomerContentOrder = () => {
                 </div>
 
                 <div className="order__action">
-                  <p className="main__title">
-                    Trạng thái đơn hàng:{" "}
-                    <span className="order__action--status">
-                      {order.status}
-                    </span>
-                  </p>
+                  <div className="order__action--item">
+                    <p className="main__title">
+                      Trạng thái đơn hàng:{" "}
+                      <span className="order__action--status">
+                        {order.status}
+                      </span>
+                    </p>
+
+                    <p className="main__title">
+                      Địa chỉ giao hàng:{" "}
+                      <span className="order__action--status">
+                        {order.address.address}
+                        <br /> {order.address.ward}, {order.address.district},
+                        {order.address.province}
+                      </span>
+                    </p>
+                  </div>
 
                   <div className="content__order--btn">
                     <button

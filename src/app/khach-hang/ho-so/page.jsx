@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "@/config";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const CustomerContentEdit = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -22,6 +23,15 @@ const CustomerContentEdit = () => {
   const [address, setAddress] = useState("");
   const [checkFile, setCheckFile] = useState(false);
   const [addMode, setAddMode] = useState(false);
+  const [provinces, setProvinces] = useState([]);
+  const [province, setProvince] = useState("");
+  const [provinceId, setProvinceId] = useState("");
+  const [districts, setDistricts] = useState([]);
+  const [district, setDistrict] = useState("");
+  const [districtId, setDistrictId] = useState("");
+  const [wards, setWards] = useState([]);
+  const [ward, setWard] = useState("");
+
   let imageData = {};
 
   useEffect(() => {
@@ -34,7 +44,10 @@ const CustomerContentEdit = () => {
         setEmail(res.data.email);
         setGender(res.data.gender);
         setBirthday(res.data.birthday);
-        setAddress(res.data.address);
+        setAddress(res.data.address.address);
+        setProvince(res.data.address.province);
+        setDistrict(res.data.address.district);
+        setWard(res.data.address.ward);
 
         if (res.data.avatar.path !== "" && res.data.avatar.publicId !== "") {
           setCheckFile(true);
@@ -45,7 +58,17 @@ const CustomerContentEdit = () => {
       }
     };
 
+    const getAddress = async () => {
+      try {
+        const res = await axios.get("https://vapi.vnappmob.com/api/province/");
+        setProvinces(res.data.results);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getInfoUser();
+    getAddress();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -87,7 +110,12 @@ const CustomerContentEdit = () => {
       email,
       gender,
       birthday,
-      address,
+      address: {
+        province,
+        district,
+        ward,
+        address,
+      },
     };
 
     try {
@@ -99,10 +127,47 @@ const CustomerContentEdit = () => {
     }
   };
 
+  const handleChangeProvinces = async (value) => {
+    setProvince(value.split("_")[0]);
+    setProvinceId(value.split("_")[1]);
+
+    const id = value.split("_")[1];
+
+    try {
+      const res = await axios.get(
+        `https://vapi.vnappmob.com/api/province/district/${id}`
+      );
+
+      setDistricts(res.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChangeDistricts = async (value) => {
+    setDistrict(value.split("_")[0]);
+    setDistrictId(value.split("_")[1]);
+
+    const id = value.split("_")[1];
+    try {
+      const res = await axios.get(
+        `https://vapi.vnappmob.com/api/province/ward/${id}`
+      );
+
+      setWards(res.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChangeWards = async (value) => {
+    setWard(value.split("_")[0]);
+  };
+
   return (
     <div className="customer__edit  main__container">
-      <form onSubmit={handleSubmit}>
-        <div className="customer__edit--left">
+      <form onSubmit={handleSubmit} className="row no-gutters">
+        <div className="customer__edit--center c-12">
           <label htmlFor="infoUserFile" className="customer__edit--file">
             {checkFile ? (
               <Image
@@ -112,6 +177,8 @@ const CustomerContentEdit = () => {
                 height={225}
                 style={{
                   objectFit: "contain",
+                  borderRadius: "50%",
+                  border: "1px solid #ccc",
                 }}
               />
             ) : (
@@ -141,7 +208,8 @@ const CustomerContentEdit = () => {
             }}
           />
         </div>
-        <div className="customer__edit--right">
+
+        <div className="c-6 customer__edit--left">
           <label>Họ</label>
           <input
             className="customer__edit--input"
@@ -184,7 +252,8 @@ const CustomerContentEdit = () => {
             />
             <label>Nữ</label>
           </div>
-
+        </div>
+        <div className="c-6 customer__edit--right">
           <label>Ngày sinh</label>
           <input
             className="customer__edit--input"
@@ -194,12 +263,69 @@ const CustomerContentEdit = () => {
           />
 
           <label>Địa chỉ</label>
+
+          <select
+            className="customer__edit--select"
+            name="provinces"
+            id="provinces"
+            onChange={(e) => handleChangeProvinces(e.target.value)}
+          >
+            <option>--Thành phố/Tỉnh--</option>
+            {provinces?.map((p) => (
+              <option
+                key={p.province_id}
+                value={p.province_name + "_" + p.province_id}
+              >
+                {p.province_name}
+              </option>
+            ))}
+          </select>
+
+          <select
+            className="customer__edit--select"
+            name="district"
+            id="district"
+            onChange={(e) => handleChangeDistricts(e.target.value)}
+          >
+            <option>--Quận/Huyện--</option>
+            {districts?.map((d) => (
+              <option
+                key={d.district_id}
+                value={d.district_name + "_" + d.district_id}
+              >
+                {d.district_name}
+              </option>
+            ))}
+          </select>
+
+          <select
+            className="customer__edit--select"
+            name="ward"
+            id="ward"
+            onChange={(e) => handleChangeWards(e.target.value)}
+          >
+            <option>--Xã/Phường/Thị trấn--</option>
+            {wards?.map((w) => (
+              <option key={w.ward_id} value={w.ward_name + "_" + w.ward_id}>
+                {w.ward_name}
+              </option>
+            ))}
+          </select>
+
           <input
+            className="customer__edit--input"
+            type="text"
+            placeholder="Số nhà, tên đường"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+
+          {/* <input
             className="customer__edit--input"
             type="text"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-          />
+          /> */}
 
           <button className="customer__edit--button" type="submit">
             Lưu thay đổi

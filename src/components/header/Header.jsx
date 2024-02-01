@@ -118,7 +118,6 @@ const Header = () => {
           email: "",
           gender: "",
           birthday: "",
-          address: "",
         };
 
         try {

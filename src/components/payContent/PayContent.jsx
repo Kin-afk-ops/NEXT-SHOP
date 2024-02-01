@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import axiosInstance from "@/config";
 import VND from "@/vnd";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const PayContent = ({ userId }) => {
   const router = useRouter();
@@ -26,6 +27,15 @@ const PayContent = ({ userId }) => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const [provinces, setProvinces] = useState([]);
+  const [province, setProvince] = useState("");
+  const [provinceId, setProvinceId] = useState("");
+  const [districts, setDistricts] = useState([]);
+  const [district, setDistrict] = useState("");
+  const [districtId, setDistrictId] = useState("");
+  const [wards, setWards] = useState([]);
+  const [ward, setWard] = useState("");
+
   const user = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
@@ -36,7 +46,10 @@ const PayContent = ({ userId }) => {
         setName(res?.data.lastName + " " + res?.data.firstName);
         setClientName(res?.data.lastName + " " + res?.data.firstName);
         setPhone(user.phone);
-        setAddress(res.data.address);
+        setAddress(res.data.address.address);
+        setProvince(res.data.address.province);
+        setDistrict(res.data.address.district);
+        setWard(res.data.address.ward);
       } catch (error) {
         console.log(error);
       }
@@ -59,8 +72,18 @@ const PayContent = ({ userId }) => {
       }
     };
 
+    const getAddress = async () => {
+      try {
+        const res = await axios.get("https://vapi.vnappmob.com/api/province/");
+        setProvinces(res.data.results);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getCart();
     getInfoUser();
+    getAddress();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -76,7 +99,12 @@ const PayContent = ({ userId }) => {
             books: cart[i].books,
             phone,
             totalPrice,
-            address,
+            address: {
+              province,
+              district,
+              ward,
+              address,
+            },
             note,
           };
 
@@ -96,6 +124,43 @@ const PayContent = ({ userId }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleChangeProvinces = async (value) => {
+    setProvince(value.split("_")[0]);
+    setProvinceId(value.split("_")[1]);
+
+    const id = value.split("_")[1];
+
+    try {
+      const res = await axios.get(
+        `https://vapi.vnappmob.com/api/province/district/${id}`
+      );
+
+      setDistricts(res.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChangeDistricts = async (value) => {
+    setDistrict(value.split("_")[0]);
+    setDistrictId(value.split("_")[1]);
+
+    const id = value.split("_")[1];
+    try {
+      const res = await axios.get(
+        `https://vapi.vnappmob.com/api/province/ward/${id}`
+      );
+
+      setWards(res.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChangeWards = async (value) => {
+    setWard(value.split("_")[0]);
   };
 
   return (
@@ -123,6 +188,55 @@ const PayContent = ({ userId }) => {
         <label className="pay__form--label" for="">
           Địa chỉ giao hàng
         </label>
+
+        <select
+          className="pay__select--address"
+          name="provinces"
+          id="provinces"
+          onChange={(e) => handleChangeProvinces(e.target.value)}
+        >
+          <option>--Thành phố/Tỉnh--</option>
+          {provinces?.map((p) => (
+            <option
+              key={p.province_id}
+              value={p.province_name + "_" + p.province_id}
+            >
+              {p.province_name}
+            </option>
+          ))}
+        </select>
+
+        <select
+          className="pay__select--address"
+          name="district"
+          id="district"
+          onChange={(e) => handleChangeDistricts(e.target.value)}
+        >
+          <option>--Quận/Huyện--</option>
+          {districts?.map((d) => (
+            <option
+              key={d.district_id}
+              value={d.district_name + "_" + d.district_id}
+            >
+              {d.district_name}
+            </option>
+          ))}
+        </select>
+
+        <select
+          className="pay__select--address"
+          name="ward"
+          id="ward"
+          onChange={(e) => handleChangeWards(e.target.value)}
+        >
+          <option>--Xã/Phường/Thị trấn--</option>
+          {wards?.map((w) => (
+            <option key={w.ward_id} value={w.ward_name + "_" + w.ward_id}>
+              {w.ward_name}
+            </option>
+          ))}
+        </select>
+
         <input
           className="pay__input"
           type="text"

@@ -40,6 +40,8 @@ const CustomerContentInfo = () => {
           height={225}
           style={{
             objectFit: "contain",
+            borderRadius: "50%",
+            border: "1px solid #ccc",
           }}
           className="customer__info--avatar"
         />
@@ -83,10 +85,14 @@ const CustomerContentInfo = () => {
               <span>Ngày sinh</span>
             )}
           </p>
-          <p>
+          <p className="display__flex">
             <i className="fa-solid fa-location-dot"></i>
-            {infoUser?.address !== "" ? (
-              <span> {infoUser?.address}</span>
+            {infoUser?.address ? (
+              <span>
+                {" "}
+                {infoUser?.address.address} <br /> {infoUser?.address.ward},{" "}
+                {infoUser?.address.district}, {infoUser?.address.province}
+              </span>
             ) : (
               <span>Địa chỉ</span>
             )}

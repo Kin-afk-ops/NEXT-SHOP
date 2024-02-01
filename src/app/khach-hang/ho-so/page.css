@@ -3,21 +3,22 @@
 }
 
 .customer__edit form {
-  display: flex;
   padding: 20px;
-  flex-wrap: wrap;
 }
 
+.customer__edit--center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.customer__edit--right,
 .customer__edit--left {
-  padding: 10px 0;
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.customer__edit--left img {
-  width: 70%;
-  border-radius: 50%;
+  justify-content: start;
 }
 
 .customer__edit--file {
@@ -31,7 +32,7 @@
 
   font-size: 32px;
   top: 85%;
-  right: 30%;
+  right: 16%;
 }
 
 .customer__edit--right {
@@ -39,7 +40,7 @@
   flex-direction: column;
   flex: 1;
 }
-
+.customer__edit--left label,
 .customer__edit--right label {
   margin: 20px 0 5px;
   font-weight: 600;
@@ -47,6 +48,15 @@
 }
 
 .customer__edit--input {
+  height: 40px;
+  width: 80%;
+  outline: none;
+  padding-left: 20px;
+  font-size: 16px;
+}
+
+.customer__edit--select {
+  margin-bottom: 3px;
   height: 40px;
   width: 80%;
   outline: none;

@@ -113,15 +113,6 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
               Nhà xuất bản: <b>{publisher}</b>
             </p>
 
-            <div className="product__buy--star">
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <span> (0 đánh giá)</span>
-            </div>
-
             <div className="product__buy--price">
               <span className="product__buy--price-buy">
                 {VND.format(book?.price - (book?.price * book?.discount) / 100)}

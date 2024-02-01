@@ -15,6 +15,7 @@ const BookEvaluate = ({ bookId }) => {
   const [radioValue, setRadioValue] = useState(0);
   const [commentName, setCommentName] = useState("");
   const [commentValue, setCommentValue] = useState("");
+
   const [comment, setComment] = useState([]);
 
   const avg = (comment) => {
@@ -29,9 +30,13 @@ const BookEvaluate = ({ bookId }) => {
 
   useEffect(() => {
     const getComment = async () => {
-      const res = await axiosInstance.get(`/commentBook/find/${bookId}`);
+      try {
+        const res = await axiosInstance.get(`/commentBook/find/${bookId}`);
 
-      setComment(res.data);
+        setComment(res.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     getComment();

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import logo from "../../assets/images/toi_doc_sach_logo.png";
 import "./footer.css";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -8,15 +9,17 @@ const Footer = () => {
       <div className="grid wide">
         <div className="row footer__container">
           <div className="col l-3 footer__container--left c-3">
-            <Image
-              src={logo}
-              alt="logo"
-              width={220}
-              height={39}
-              style={{
-                marginBottom: "30px",
-              }}
-            />
+            <Link href="/">
+              <Image
+                src={logo}
+                alt="logo"
+                width={220}
+                height={39}
+                style={{
+                  marginBottom: "30px",
+                }}
+              />
+            </Link>
             <p>
               Lầu 3, số 4/9A đường Mậu Thân, phường Xuân Khánh, quận Ninh Kiều,
               thành phố Cần Thơ.
@@ -59,8 +62,12 @@ const Footer = () => {
                 TÀI KHOẢN CỦA TÔI
               </p>
               <ul>
-                <li>Thay đổi thông tin</li>
-                <li>Chi tiết tài khoản</li>
+                <Link href="/khach-hang/ho-so" className="link">
+                  <li>Thay đổi thông tin</li>
+                </Link>
+                <Link href="/khach-hang/thong-tin" className="link">
+                  <li>Chi tiết tài khoản</li>
+                </Link>
               </ul>
             </div>
 

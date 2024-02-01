@@ -46,6 +46,16 @@
   margin-top: 10px;
 }
 
+.order__action--item {
+  display: flex;
+  flex-direction: column;
+}
+
+.order__action--item p {
+  display: flex;
+  align-items: flex-start;
+}
+
 .order__action--status {
   margin-left: 10px;
   font-weight: 400;

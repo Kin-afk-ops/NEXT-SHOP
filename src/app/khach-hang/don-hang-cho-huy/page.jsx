@@ -10,8 +10,6 @@ import { toast } from "react-toastify";
 
 const CustomerContentOrder = () => {
   const [orders, setOrders] = useState([]);
-  const [modal, setModal] = useState(false);
-  const [orderId, setOrderId] = useState("");
   const [loading, setLoading] = useState(false);
 
   const user = useSelector((state) => state.user.currentUser);
@@ -29,35 +27,6 @@ const CustomerContentOrder = () => {
 
     getOrders();
   }, [loading]);
-
-  const handleDelete = async () => {
-    const newRequest = {
-      type: "delete order",
-      content: "Huỷ đơn hàng " + orderId,
-    };
-
-    try {
-      const res = await axiosInstance.post(`/request/${user._id}`, newRequest);
-      const newOrder = {
-        requestDelete: true,
-      };
-
-      try {
-        const resOrder = await axiosInstance.put(
-          `/user/order/${orderId}`,
-          newOrder
-        );
-
-        toast.success("Đơn hàng của sẽ được sử lý");
-        setLoading(true);
-      } catch (error) {
-        console.log(error);
-      }
-    } catch (error) {
-      toast.error("Gửi thông tin thất bại");
-      console.log(error);
-    }
-  };
 
   return (
     <div className="content__order main__container">
@@ -86,12 +55,23 @@ const CustomerContentOrder = () => {
                 </div>
 
                 <div className="order__action">
-                  <p className="main__title">
-                    Trạng thái đơn hàng:{" "}
-                    <span className="order__action--status">
-                      {order.status}
-                    </span>
-                  </p>
+                  <div className="order__action--item">
+                    <p className="main__title">
+                      Trạng thái đơn hàng:{" "}
+                      <span className="order__action--status">
+                        {order.status}
+                      </span>
+                    </p>
+
+                    <p className="main__title">
+                      Địa chỉ giao hàng:{" "}
+                      <span className="order__action--status">
+                        {order.address.address}
+                        <br /> {order.address.ward}, {order.address.district},
+                        {order.address.province}
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </li>
             ))}
@@ -102,21 +82,6 @@ const CustomerContentOrder = () => {
           <p className="content__order--empty">Không có đơn hàng.</p>
         </div>
       )}
-
-      <div className={modal ? "customer__modal" : "hidden"}>
-        <div className="customer__modal--title">Bạn muốn huỷ hàng này?</div>
-        <div className="customer__modal--content">
-          <button
-            className="customer__modal--hide"
-            onClick={() => setModal(false)}
-          >
-            Đóng
-          </button>
-          <button className="customer__modal--agree" onClick={handleDelete}>
-            Huỷ hàng
-          </button>
-        </div>
-      </div>
     </div>
   );
 };
