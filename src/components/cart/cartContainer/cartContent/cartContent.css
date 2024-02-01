@@ -20,6 +20,7 @@
 
 .cart__content--container-item {
   padding: 20px 0;
+  border-bottom: 1px solid #7a7a7a;
 }
 
 .cart__item--no-check {

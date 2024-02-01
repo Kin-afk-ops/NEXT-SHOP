@@ -17,6 +17,7 @@
 
 .content__order--list-item {
   padding: 20px 0;
+  border-bottom: 1px solid #7a7a7a;
 }
 
 .content__order--desc {
@@ -38,14 +39,19 @@
 }
 
 .order__action {
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding-bottom: 20px;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.order__action--status {
+  margin-left: 10px;
+  font-weight: 400;
 }
 
 .content__order--btn {
-  margin-right: 20px;
 }
 
 .content__order--btn-delete {

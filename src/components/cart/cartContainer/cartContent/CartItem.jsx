@@ -16,7 +16,10 @@ const CartItem = ({
   const [checked, setChecked] = useState(cartItem.check);
   const [quantity, setQuantity] = useState(cartItem.books.quantity);
   const [maxQuantity, setMaxQuantity] = useState(cartItem.books.maxQuantity);
-  const [quantityMode, setQuantityMode] = useState(false);
+  const [quantityMode, setQuantityMode] = useState("none");
+  const [payPrice, setPayPrice] = useState(
+    cartItem.books.quantity * cartItem.books.discountPrice
+  );
 
   // useEffect(() => {
   //   const handleCheckAll = async () => {
@@ -50,7 +53,7 @@ const CartItem = ({
 
   useEffect(() => {
     const setQuantity = async () => {
-      if (quantityMode === true) {
+      if (quantityMode === "reduce") {
         const newCart = {
           books: {
             bookId: cartItem?.books.bookId,
@@ -68,11 +71,48 @@ const CartItem = ({
           const res = await axiosInstance.put(`/cart/${cartItem._id}`, newCart);
           // console.log(newCart);
 
-          setQuantityMode(false);
+          if (checked) {
+            setTotalPrice(
+              (totalPrice) => totalPrice - cartItem.books.discountPrice
+            );
+          }
+
+          setPayPrice(res.data.books.discountPrice * res.data.books.quantity);
+
+          setQuantityMode("none");
         } catch (error) {
           console.log(error);
         }
-      } else {
+      } else if (quantityMode === "increase") {
+        const newCart = {
+          books: {
+            bookId: cartItem?.books.bookId,
+            name: cartItem?.books.name,
+            image: cartItem?.books.image,
+            price: cartItem?.books.price,
+            discountPrice: cartItem?.books.discountPrice,
+
+            quantity: quantity,
+            maxQuantity: cartItem?.books.maxQuantity,
+          },
+        };
+
+        try {
+          const res = await axiosInstance.put(`/cart/${cartItem._id}`, newCart);
+          // console.log(newCart);
+
+          if (checked) {
+            setTotalPrice(
+              (totalPrice) => totalPrice + cartItem.books.discountPrice
+            );
+          }
+
+          setPayPrice(res.data.books.discountPrice * res.data.books.quantity);
+
+          setQuantityMode("none");
+        } catch (error) {
+          console.log(error);
+        }
       }
     };
 
@@ -88,8 +128,7 @@ const CartItem = ({
         await axiosInstance.put(`/cart/${cartItem._id}`, newCartCheck);
 
         setTotalPrice(
-          (totalPrice) =>
-            totalPrice + cartItem.books.discountPrice * cartItem.books.quantity
+          (totalPrice) => totalPrice + cartItem.books.discountPrice * quantity
         );
       } catch (error) {
         console.log(error);
@@ -101,8 +140,7 @@ const CartItem = ({
       try {
         await axiosInstance.put(`/cart/${cartItem._id}`, newCartCheck);
         setTotalPrice(
-          (totalPrice) =>
-            totalPrice - cartItem.books.discountPrice * cartItem.books.quantity
+          (totalPrice) => totalPrice - cartItem.books.discountPrice * quantity
         );
       } catch (error) {
         console.log(error);
@@ -118,13 +156,13 @@ const CartItem = ({
   const handleReduce = async () => {
     if (quantity > 1) {
       setQuantity((quantity) => quantity - 1);
-      setQuantityMode(true);
+      setQuantityMode("reduce");
     }
   };
   const handleIncrease = () => {
     if (quantity < maxQuantity) {
       setQuantity((quantity) => quantity + 1);
-      setQuantityMode(true);
+      setQuantityMode("increase");
     }
   };
 
@@ -165,40 +203,46 @@ const CartItem = ({
       </div>
       <div className="cart__content--container-item-quantity display__flex--center c-2">
         <div className="cart__content--quantity-wrapper display__flex--center">
-          <div
-            className={
-              quantity > 1
-                ? "cart__content--quantity-reduce display__flex--center"
-                : "cart__content--quantity-reduce display__flex--center non__quantity"
-            }
-            onClick={() => {
-              handleReduce();
-            }}
-          >
-            -
-          </div>
+          {!payMode && (
+            <div
+              className={
+                quantity > 1
+                  ? "cart__content--quantity-reduce display__flex--center"
+                  : "cart__content--quantity-reduce display__flex--center non__quantity"
+              }
+              onClick={() => {
+                handleReduce();
+              }}
+            >
+              -
+            </div>
+          )}
+
           <input
             className="cart__content--quantity-value"
             type="text"
             value={quantity}
           />
-          <div
-            className={
-              quantity < maxQuantity
-                ? "cart__content--quantity-increase display__flex--center"
-                : "cart__content--quantity-increase display__flex--center non__quantity"
-            }
-            onClick={() => {
-              handleIncrease();
-            }}
-          >
-            +
-          </div>
+
+          {!payMode && (
+            <div
+              className={
+                quantity < maxQuantity
+                  ? "cart__content--quantity-increase display__flex--center"
+                  : "cart__content--quantity-increase display__flex--center non__quantity"
+              }
+              onClick={() => {
+                handleIncrease();
+              }}
+            >
+              +
+            </div>
+          )}
         </div>
       </div>
 
       <div className="cart__content--container-item-money display__flex--center c-2">
-        {VND.format(cartItem?.books.quantity * cartItem?.books.discountPrice)}
+        {VND.format(payPrice)}
       </div>
 
       {!payMode && (
