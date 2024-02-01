@@ -66,7 +66,7 @@ const CustomerContentInfo = () => {
           </p>
           <p>
             <i className="fa-solid fa-phone"></i>
-            {user.phone}
+            {user?.phone}
           </p>
           <p>
             <i className="fa-solid fa-person"></i>
