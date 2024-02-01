@@ -142,7 +142,7 @@ const Header = () => {
               newInfoUser
             );
 
-            toast.success("Chỉnh sửa thông tin thành công");
+            toast.success("Đăng ký thành công");
           } catch (error) {
             console.log(error);
           }
