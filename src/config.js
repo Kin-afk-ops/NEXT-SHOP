@@ -9,7 +9,8 @@ if (typeof window !== "undefined") {
 }
 
 const axiosInstance = axios.create({
-  baseURL: "https://next-shop-backend-delta.vercel.app/api",
+  // baseURL: "https://next-shop-backend-delta.vercel.app/api",
+  baseURL: "http://localhost:8000/api",
   withCredentials: true,
   credentials: "include",
   headers: {
