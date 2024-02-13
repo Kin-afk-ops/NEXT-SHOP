@@ -14,6 +14,7 @@ import logo from "../../assets/images/toi_doc_sach_logo.png";
 import avatar from "../../assets/images/default_avatar.png";
 import axiosInstance from "../../config";
 import { toast } from "react-toastify";
+import HeaderInput from "./HeaderInput";
 
 const Header = () => {
   const router = useRouter();
@@ -211,16 +212,7 @@ const Header = () => {
           </Link> */}
         </div>
 
-        <div className="header__center">
-          <input
-            type="text"
-            className="header__center--input"
-            placeholder="Tìm kiếm sản phẩm mong muốn..."
-          />
-          <div className="header__center--icon">
-            <i className="fa-solid fa-magnifying-glass"></i>
-          </div>
-        </div>
+        <HeaderInput />
 
         <div className="header__right">
           <div className="header__icon">
@@ -311,7 +303,11 @@ const Header = () => {
                 ) : (
                   <div className="header__icon--user-header">
                     <Image
-                      src={checkInfoUser ? infoUser?.avatar.path : avatar}
+                      src={
+                        infoUser?.avatar.path !== ""
+                          ? infoUser?.avatar.path
+                          : avatar
+                      }
                       alt={
                         infoUser?.lastName +
                         " " +

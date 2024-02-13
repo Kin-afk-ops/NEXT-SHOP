@@ -17,50 +17,74 @@ const ListPage = async ({ params, searchParams }) => {
 
   const resCategories = await axiosInstance.get("/category");
 
-  if (query === "Sách mới của cửa hàng") {
+  if (type === "danh-muc") {
+    if (query === "Sách mới của cửa hàng") {
+      if (from && to) {
+        res = await axiosInstance.get(
+          `/book/filter?qPage=${currentPage}&qFrom=${from}&qTo=${to}`
+        );
+      } else {
+        res = await axiosInstance.get(
+          `/book?qNew=${true}&qPage=${currentPage}`
+        );
+      }
+      books = {
+        title: "Sách mới của cửa hàng",
+        data: res.data.books,
+      };
+
+      totalPage = res.data.totalPage;
+    } else if (query === "Giảm giá siêu ưu đãi") {
+      if (from && to) {
+        res = await axiosInstance.get(
+          `/book/filter?qSale=${true}&qPage=${currentPage}&qFrom=${from}&qTo=${to}`
+        );
+      } else {
+        res = await axiosInstance.get(
+          `/book?qSale=${true}&qPage=${currentPage}`
+        );
+      }
+
+      books = {
+        title: "Giảm giá siêu ưu đãi",
+        data: res.data.books,
+      };
+      totalPage = res.data.totalPage;
+    } else {
+      if (from && to) {
+        res = await axiosInstance.get(
+          `/book/filter?qCategory=${query}&qPage=${currentPage}&qFrom=${from}&qTo=${to}`
+        );
+      } else {
+        res = await axiosInstance.get(
+          `/book?qCategory=${query}&qPage=${currentPage}`
+        );
+      }
+
+      books = {
+        title: query,
+        data: res.data.books,
+      };
+      totalPage = res.data.totalPage;
+    }
+  } else if (type === "tim-kiem") {
     if (from && to) {
       res = await axiosInstance.get(
-        `/book/filter?qPage=${currentPage}&qFrom=${from}&qTo=${to}`
+        `search/book/filter?qPage=${currentPage}&qFrom=${from}&qTo=${to}&search=${query}`
       );
     } else {
-      res = await axiosInstance.get(`/book?qNew=${true}&qPage=${currentPage}`);
+      res = await axiosInstance.get(
+        `/search/book?&qPage=${currentPage}&search=${query}`
+      );
     }
     books = {
-      title: "Sách mới của cửa hàng",
+      title: `Kết quả của "${query}"`,
       data: res.data.books,
     };
 
-    totalPage = res.data.totalPage;
-  } else if (query === "Giảm giá siêu ưu đãi") {
-    if (from && to) {
-      res = await axiosInstance.get(
-        `/book/filter?qSale=${true}&qPage=${currentPage}&qFrom=${from}&qTo=${to}`
-      );
-    } else {
-      res = await axiosInstance.get(`/book?qSale=${true}&qPage=${currentPage}`);
-    }
-
-    books = {
-      title: "Giảm giá siêu ưu đãi",
-      data: res.data.books,
-    };
     totalPage = res.data.totalPage;
   } else {
-    if (from && to) {
-      res = await axiosInstance.get(
-        `/book/filter?qCategory=${query}&qPage=${currentPage}&qFrom=${from}&qTo=${to}`
-      );
-    } else {
-      res = await axiosInstance.get(
-        `/book?qCategory=${query}&qPage=${currentPage}`
-      );
-    }
-
-    books = {
-      title: query,
-      data: res.data.books,
-    };
-    totalPage = res.data.totalPage;
+    console.log(type);
   }
 
   return (

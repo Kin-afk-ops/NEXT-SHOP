@@ -27,22 +27,24 @@
   color: #646464;
   align-items: center;
   justify-content: space-between;
-  font-size: 14px;
   position: relative;
 }
 
-.product__comment--nav div {
+.product__comment--nav button {
   height: 100%;
   cursor: pointer;
   display: flex;
   align-items: center;
+  background-color: white;
+  border: none;
+  font-size: 16px;
 }
 
-.product__comment--nav div:hover {
+.product__comment--nav button:hover {
   color: var(--primary-color);
 }
 
-.product__comment--nav div.comment__active {
+.product__comment--nav button.comment__active {
   color: var(--primary-color);
   border-bottom: 1px solid var(--primary-color);
 }
@@ -107,5 +109,11 @@
 }
 
 .product__comment--icon-report {
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.comment__trash {
+  font-size: 20px;
   cursor: pointer;
 }

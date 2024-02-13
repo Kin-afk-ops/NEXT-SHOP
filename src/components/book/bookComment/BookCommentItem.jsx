@@ -7,10 +7,12 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-const BookCommentItem = ({ bookId, comment }) => {
+const BookCommentItem = ({ bookId, comment, setCheckRefresh }) => {
   const router = useRouter();
 
-  const [likeCheck, setLikeCheck] = useState(false);
+  const [check, setCheck] = useState(false);
+  const [commentCheck, setCommentCheck] = useState(false);
+
   const [likeTotal, setLikeTotal] = useState(comment.like.value);
   const user = useSelector((state) => state.user.currentUser);
 
@@ -18,7 +20,7 @@ const BookCommentItem = ({ bookId, comment }) => {
     const likeChecker = () => {
       comment.like.userId.forEach((u) => {
         if (u === user._id) {
-          return setLikeCheck(true);
+          return setCheck(true);
         }
       });
     };
@@ -39,16 +41,16 @@ const BookCommentItem = ({ bookId, comment }) => {
   }
 
   const handleLike = async () => {
-    setLikeCheck(true);
+    setCheck(true);
     setLikeTotal((likeCount) => likeCount + 1);
 
     let userIdArray = [];
 
-    if (comment.userId) {
-      userIdArray = comment.userId;
+    if (comment.like.userId !== 0) {
+      userIdArray = comment.like.userId;
     }
 
-    userIdArray.push(user._id);
+    userIdArray.push(user?._id);
 
     const newBookComments = {
       name: comment.name,
@@ -65,22 +67,19 @@ const BookCommentItem = ({ bookId, comment }) => {
         `/commentBook/${comment._id}`,
         newBookComments
       );
-      console.log(res.data);
-
-      toast.success("Đã thích bình luận!");
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleDislike = async () => {
-    setLikeCheck(false);
+    setCheck(false);
     setLikeTotal((likeCount) => likeCount - 1);
 
     let userIdArray = [];
 
-    if (comment.userId) {
-      const new_arr = comment.userId.filter((c) => c !== user._id);
+    if (comment.like.userId !== 0) {
+      const new_arr = comment.like.userId.filter((c) => c !== user._id);
 
       userIdArray = new_arr;
     }
@@ -108,8 +107,6 @@ const BookCommentItem = ({ bookId, comment }) => {
         `/commentBook/${comment._id}`,
         newBookComments
       );
-
-      toast.error("Đã bỏ thích bình luận này");
     } catch (error) {
       console.log(error);
     }
@@ -126,6 +123,16 @@ const BookCommentItem = ({ bookId, comment }) => {
       toast.success("Đã gửi báo cáo bình luận này!");
     } catch (error) {
       toast.error("Không gửi được báo cáo bình luận này!");
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const res = await axiosInstance.delete(`/commentBook/${comment._id}`);
+      setCheckRefresh(true);
+      console.log(res.data);
+    } catch (error) {
       console.log(error);
     }
   };
@@ -157,7 +164,7 @@ const BookCommentItem = ({ bookId, comment }) => {
         </div>
         <p className="product__comment--content">{comment?.content}</p>
         <div className="product__comment--icons">
-          {likeCheck ? (
+          {check ? (
             <>
               <i className="fa-regular fa-thumbs-up product__comment--icon-active"></i>
               <span
@@ -185,6 +192,19 @@ const BookCommentItem = ({ bookId, comment }) => {
           >
             Báo cáo
           </span>
+
+          {comment.userId === user._id && (
+            <i className="fa-solid fa-trash product__comment--icon"></i>
+          )}
+
+          {comment.userId === user._id && (
+            <span
+              className="product__comment--icon-report "
+              onClick={handleDelete}
+            >
+              Xoá bình luận
+            </span>
+          )}
         </div>
       </div>
     </li>

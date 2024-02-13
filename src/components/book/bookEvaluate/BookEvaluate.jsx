@@ -6,6 +6,7 @@ import "./bookEvaluate.css";
 
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const BookEvaluate = ({ bookId }) => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const BookEvaluate = ({ bookId }) => {
   const [commentValue, setCommentValue] = useState("");
 
   const [comment, setComment] = useState([]);
+  const user = useSelector((state) => state.user.currentUser);
 
   const avg = (comment) => {
     let sum = 0;
@@ -71,6 +73,7 @@ const BookEvaluate = ({ bookId }) => {
 
     if (noName) {
       newComment = {
+        userId: user._id,
         name: "Bình luận ẩn danh",
         star: radioValue,
         content: commentValue,
@@ -78,6 +81,7 @@ const BookEvaluate = ({ bookId }) => {
       };
     } else {
       newComment = {
+        userId: user._id,
         name: commentName,
         star: radioValue,
         content: commentValue,
