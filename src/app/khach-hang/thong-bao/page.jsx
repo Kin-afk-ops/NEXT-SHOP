@@ -8,8 +8,12 @@ import axiosInstance from "@/config";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
+import { useDispatch } from "react-redux";
+import { getCart, getNoti } from "@/lib/apiCall";
+
 const CustomerContentNotification = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [notification, setNotification] = useState([]);
   const [modal, setModal] = useState(false);
@@ -60,6 +64,7 @@ const CustomerContentNotification = () => {
       const res = await axiosInstance.delete(`/notification/${notiId}`);
 
       toast.success(res.data.message);
+      getNoti(dispatch, user._id);
       setModal(false);
       setLoading(true);
     } catch (error) {

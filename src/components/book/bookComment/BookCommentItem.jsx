@@ -5,28 +5,30 @@ import { useRouter } from "next/navigation";
 import axiosInstance from "@/config";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 
-const BookCommentItem = ({ bookId, comment, setCheckRefresh }) => {
+const BookCommentItem = ({ bookId, comment }) => {
   const router = useRouter();
 
   const [check, setCheck] = useState(false);
   const [commentCheck, setCommentCheck] = useState(false);
+  const [modal, setModal] = useState(false);
 
   const [likeTotal, setLikeTotal] = useState(comment.like.value);
   const user = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     const likeChecker = () => {
-      comment.like.userId.forEach((u) => {
-        if (u === user._id) {
-          return setCheck(true);
-        }
-      });
+      if (user) {
+        comment.like.userId.forEach((u) => {
+          if (u === user._id) {
+            return setCheck(true);
+          }
+        });
+      }
     };
 
     likeChecker();
-  }, [user._id]);
+  }, []);
 
   let starGrayArray = [];
 
@@ -79,7 +81,7 @@ const BookCommentItem = ({ bookId, comment, setCheckRefresh }) => {
     let userIdArray = [];
 
     if (comment.like.userId !== 0) {
-      const new_arr = comment.like.userId.filter((c) => c !== user._id);
+      const new_arr = comment.like.userId.filter((c) => c !== user?._id);
 
       userIdArray = new_arr;
     }
@@ -119,10 +121,9 @@ const BookCommentItem = ({ bookId, comment, setCheckRefresh }) => {
     };
 
     try {
-      const res = await axiosInstance.post(`/request/${user._id}`, newReport);
-      toast.success("Đã gửi báo cáo bình luận này!");
+      const res = await axiosInstance.post(`/request/${user?._id}`, newReport);
+      alert("Đã gửi báo cáo!");
     } catch (error) {
-      toast.error("Không gửi được báo cáo bình luận này!");
       console.log(error);
     }
   };
@@ -130,8 +131,7 @@ const BookCommentItem = ({ bookId, comment, setCheckRefresh }) => {
   const handleDelete = async () => {
     try {
       const res = await axiosInstance.delete(`/commentBook/${comment._id}`);
-      setCheckRefresh(true);
-      console.log(res.data);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -193,18 +193,41 @@ const BookCommentItem = ({ bookId, comment, setCheckRefresh }) => {
             Báo cáo
           </span>
 
-          {comment.userId === user._id && (
-            <i className="fa-solid fa-trash product__comment--icon"></i>
-          )}
+          {user && (
+            <>
+              {comment.userId === user?._id && (
+                <i className="fa-solid fa-trash product__comment--icon"></i>
+              )}
 
-          {comment.userId === user._id && (
-            <span
-              className="product__comment--icon-report "
-              onClick={handleDelete}
-            >
-              Xoá bình luận
-            </span>
+              {comment.userId === user?._id && (
+                <span
+                  className="product__comment--icon-report "
+                  onClick={() => setModal(true)}
+                >
+                  Xoá bình luận
+                </span>
+              )}
+            </>
           )}
+        </div>
+      </div>
+
+      {modal && (
+        <div className="comment__overlay" onClick={() => setModal(false)}></div>
+      )}
+
+      <div className={modal ? "customer__modal" : "hidden"}>
+        <div className="customer__modal--title">Xoá bình luận này</div>
+        <div className="customer__modal--content">
+          <button
+            className="customer__modal--hide"
+            onClick={() => setModal(false)}
+          >
+            Huỷ
+          </button>
+          <button className="customer__modal--agree" onClick={handleDelete}>
+            Xoá
+          </button>
         </div>
       </div>
     </li>

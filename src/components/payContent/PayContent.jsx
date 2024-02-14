@@ -8,6 +8,8 @@ import momoLogo from "../../assets/images/momo__logo.png";
 
 import vnpagLogo from "../../assets/images/vnpay__logo.png";
 import CartContent from "../cart/cartContainer/cartContent/CartContent";
+import { useDispatch } from "react-redux";
+import { getNoti, getCart } from "@/lib/apiCall";
 import { useSelector } from "react-redux";
 
 import axiosInstance from "@/config";
@@ -16,6 +18,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 const PayContent = ({ userId }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const [payMethod, setPayMethod] = useState("nhận hàng");
@@ -108,7 +111,10 @@ const PayContent = ({ userId }) => {
             note,
           };
 
-          const res = await axiosInstance.post(`/order/${user._id}`, newOrder);
+          const res = await axiosInstance.post(
+            `/order/create/${user._id}`,
+            newOrder
+          );
           // await axiosInstance.delete(`/cart/${cartId}`);
         } catch (error) {
           toast.error("Đặt hàng thất bại");
@@ -118,8 +124,23 @@ const PayContent = ({ userId }) => {
       }
       toast.success("Đặt hàng thành công");
 
+      try {
+        const newNotification = {
+          userId: user._id,
+        };
+
+        await axiosInstance.post(
+          `/order/noti/createNotification`,
+          newNotification
+        );
+      } catch (error) {
+        console.log(error);
+      }
+
       setTimeout(() => {
-        window.location.href = "/";
+        getNoti(dispatch, user?._id);
+        getCart(dispatch, user?._id);
+        router.push("/");
       }, 2000);
     } catch (error) {
       console.log(error);

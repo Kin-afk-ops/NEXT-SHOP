@@ -2,8 +2,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, getCart } from "../../lib/apiCall";
+import { login, getCart, getNoti } from "../../lib/apiCall";
 import { logout } from "../../lib/features/user/userSlice";
+import { logoutCart } from "../../lib/features/cart/cartLengthSlice";
+import { logoutNoti } from "../../lib/features/notification/notiSlice";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -35,8 +37,7 @@ const Header = () => {
   const [passwordConfirm, setPasswordConfirm] = useState(false);
 
   const [infoUser, setInfoUser] = useState({});
-  const [notification, setNotification] = useState([]);
-  const [cart, setCart] = useState([]);
+
   const [checkInfoUser, setCheckInfoUser] = useState(false);
   const [checkUser, setCheckUser] = useState(false);
 
@@ -46,6 +47,7 @@ const Header = () => {
 
   const user = useSelector((state) => state.user.currentUser);
   const cartLength = useSelector((state) => state.cartLength.length);
+  const notification = useSelector((state) => state.noti.notification);
 
   const languages = ["VI", "ENG"];
 
@@ -96,7 +98,8 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    window.location.reload();
+    dispatch(logoutCart());
+    dispatch(logoutNoti());
   };
 
   const handleRegister = async (e) => {
@@ -175,17 +178,14 @@ const Header = () => {
 
     const getHomeData = async () => {
       const resInfoUser = await axiosInstance.get(`infoUser/${user?._id}`);
-      const resNotification = await axiosInstance.get(
-        `/home/notification/${user?._id}`
-      );
 
       if (user) {
         getCart(dispatch, user?._id);
+        getNoti(dispatch, user?._id);
       }
 
       try {
         setInfoUser(resInfoUser.data);
-        setNotification(resNotification.data);
 
         !isEmptyObject(resInfoUser.data)
           ? setCheckInfoUser(true)

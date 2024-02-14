@@ -11,24 +11,21 @@ const BookComment = ({ bookId }) => {
   const [mode, setMode] = useState("new");
   const [comments, setComments] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
-  const [checkRefresh, setCheckRefresh] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const getComment = async () => {
-      if (checkRefresh) {
-        const res = await axiosInstance.get(
-          `/commentBook/find/${bookId}?q=${mode}&qPage=${currentPage}`
-        );
+      const res = await axiosInstance.get(
+        `/commentBook/find/${bookId}?q=${mode}&qPage=${currentPage}`
+      );
 
-        setComments(res.data.comments);
-        setTotalPage(res.data.totalPage);
-        setCheckRefresh(false);
-      }
+      setComments(res.data.comments);
+      setTotalPage(res.data.totalPage);
+      setCheckRefresh(false);
     };
 
     getComment();
-  }, [mode, currentPage, checkRefresh]);
+  }, [mode, currentPage]);
 
   return (
     <div className="product__comment main__container">
@@ -58,18 +55,17 @@ const BookComment = ({ bookId }) => {
             </div>
           </div>
 
-          {comments &&
-            comments?.map((comment, index) => (
-              <div key={comment._id}>
-                <ToastProvider>
-                  <BookCommentItem
-                    bookId={bookId}
-                    comment={comment}
-                    setCheckRefresh={setCheckRefresh}
-                  />
-                </ToastProvider>
-              </div>
-            ))}
+          {comments ? (
+            <ul>
+              {comments?.map((comment, index) => (
+                <div key={comment._id}>
+                  <BookCommentItem bookId={bookId} comment={comment} />
+                </div>
+              ))}
+            </ul>
+          ) : (
+            <div>Không có đánh giá</div>
+          )}
 
           <hr />
         </ul>

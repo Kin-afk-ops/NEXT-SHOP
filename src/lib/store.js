@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./features/user/userSlice";
 import cartLengthReducer from "./features/cart/cartLengthSlice";
+import notiReducer from "./features/notification/notiSlice";
 import {
   persistStore,
   persistReducer,
@@ -22,6 +23,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   cartLength: cartLengthReducer,
+  noti: notiReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

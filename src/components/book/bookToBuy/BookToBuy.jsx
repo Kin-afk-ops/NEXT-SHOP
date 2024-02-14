@@ -75,6 +75,7 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
     try {
       const res = await axiosInstance.post(`/cart`, newCart);
       dispatch(increaseCart());
+      router.push(`/gio-hang/${user._id}`);
     } catch (error) {
       console.log(error);
     }

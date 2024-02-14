@@ -98,7 +98,7 @@ body {
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  animation: faceIn linear 0.3s;
+  /* animation: faceIn linear 0.3s; */
 }
 
 .customer__modal--title {
@@ -138,14 +138,14 @@ body {
   color: white;
 }
 
-@keyframes faceIn {
+/* @keyframes faceIn {
   from {
     top: -120px;
   }
   to {
     top: 10px;
   }
-}
+} */
 
 .prevent-select {
   -webkit-user-select: none; /* Safari */
