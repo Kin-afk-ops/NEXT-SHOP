@@ -7,7 +7,7 @@ import axiosInstance from "../../config";
 import { useRouter } from "next/navigation";
 import "./filter.css";
 
-const Filter = ({ query, categories }) => {
+const Filter = ({ query, categories, type }) => {
   const router = useRouter();
 
   const [selected, setSelected] = useState(null);
@@ -58,7 +58,7 @@ const Filter = ({ query, categories }) => {
       to: "",
     };
 
-    handleChangePage(queryItem);
+    handleChangePage(queryItem, "danh-muc");
   };
 
   const handleCheck = (priceItem, index) => {
@@ -79,19 +79,21 @@ const Filter = ({ query, categories }) => {
         from: priceItem.from,
         to: temp,
       };
-      handleChangePage(queryItem);
+      handleChangePage(queryItem, "tim-kiem");
     }
   };
 
-  const handleChangePage = (query) => {
+  const handleChangePage = (query, typeItem) => {
     if (query.from !== "" && query.to !== "") {
       router.push(
-        `/danh-sach/danh-muc.html?q=${createQuery(query.q)}&from=${
+        `/danh-sach/${typeItem}.html?q=${createQuery(query.q)}&from=${
           query.from
         }&to=${query.to}&trang=1`
       );
     } else {
-      router.push(`/danh-sach/danh-muc.html?q=${createQuery(query.q)}&trang=1`);
+      router.push(
+        `/danh-sach/${typeItem}.html?q=${createQuery(query.q)}&trang=1`
+      );
     }
   };
 

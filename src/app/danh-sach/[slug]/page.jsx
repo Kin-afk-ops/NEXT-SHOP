@@ -90,7 +90,7 @@ const ListPage = async ({ params, searchParams }) => {
   return (
     <div className="row">
       <div className="col c-3">
-        <Filter query={query} categories={resCategories.data} />
+        <Filter query={query} categories={resCategories.data} type={type} />
       </div>
       <div className="col c-9">
         {books.data.length !== 0 ? (

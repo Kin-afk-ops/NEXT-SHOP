@@ -21,7 +21,6 @@ const BookComment = ({ bookId }) => {
 
       setComments(res.data.comments);
       setTotalPage(res.data.totalPage);
-      setCheckRefresh(false);
     };
 
     getComment();

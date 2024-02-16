@@ -123,6 +123,12 @@ const Header = () => {
           email: "",
           gender: "",
           birthday: "",
+          address: {
+            province: "",
+            district: "",
+            ward: "",
+            address: "",
+          },
         };
 
         try {
@@ -198,6 +204,21 @@ const Header = () => {
     getHomeData();
   }, [checkUser]);
 
+  const handleReadNoti = async (path, id) => {
+    const newNoti = {
+      read: true,
+    };
+
+    try {
+      await axiosInstance.put(`/notification/user/${id}`, newNoti);
+
+      router.push(path);
+      getNoti(dispatch, user._id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="header">
       <div div className="header__content">
@@ -216,9 +237,13 @@ const Header = () => {
 
         <div className="header__right">
           <div className="header__icon">
-            <i className="fa-solid fa-bell"></i>
-            <span>Thông báo</span>
-
+            <i
+              className="fa-solid fa-bell"
+              onClick={() => router.push("/khach-hang/thong-bao")}
+            ></i>
+            <span onClick={() => router.push("/khach-hang/thong-bao")}>
+              Thông báo
+            </span>
             {notification.length !== 0 && (
               <div className="header__icon--total">{notification?.length}</div>
             )}
@@ -239,9 +264,11 @@ const Header = () => {
                   <>
                     {notification?.map((noti, index) => (
                       <li className="header__icon--notify-li" key={noti._id}>
-                        <Link
-                          href={noti.notify.path}
-                          className="link display__flex--center"
+                        <div
+                          className=" display__flex--center"
+                          onClick={() =>
+                            handleReadNoti(noti.notify.path, noti._id)
+                          }
                         >
                           <i className="header__icon--notify-li-icon fa-solid fa-triangle-exclamation"></i>
                           <div className="header__icon--notify-li-wrap">
@@ -252,7 +279,7 @@ const Header = () => {
                               {noti.notify.content}
                             </span>
                           </div>
-                        </Link>
+                        </div>
                       </li>
                     ))}
                   </>

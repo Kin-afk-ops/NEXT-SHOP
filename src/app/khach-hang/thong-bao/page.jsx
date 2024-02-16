@@ -48,6 +48,8 @@ const CustomerContentNotification = () => {
         newNotification
       );
       router.push(path);
+
+      getNoti(dispatch, user._id);
     } catch (error) {
       console.log(error);
     }
