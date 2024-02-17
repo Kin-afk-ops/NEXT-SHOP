@@ -79,7 +79,7 @@ const Filter = ({ query, categories, type }) => {
         from: priceItem.from,
         to: temp,
       };
-      handleChangePage(queryItem, "tim-kiem");
+      handleChangePage(queryItem, type);
     }
   };
 

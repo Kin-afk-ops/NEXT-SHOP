@@ -9,6 +9,8 @@
   cursor: pointer;
   border-radius: 10px;
   transition: 0.3s linear;
+  border: 1px solid transparent;
+
   overflow: hidden;
 }
 

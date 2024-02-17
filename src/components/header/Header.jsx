@@ -284,7 +284,7 @@ const Header = () => {
                     ))}
                   </>
                 ) : (
-                  <p className="main__title">Không có thông báo</p>
+                  <p className="main__title">Không có thông báo mới</p>
                 )}
               </ul>
             )}
