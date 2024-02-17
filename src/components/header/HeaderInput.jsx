@@ -12,9 +12,7 @@ const HeaderInput = () => {
   const router = useRouter();
   const input = useRef(null);
 
-  const [searchHistoryArray, setSearchHistoryArray] = useState(
-    JSON.parse(window.localStorage.getItem("searchHistory"))
-  );
+  const [searchHistoryArray, setSearchHistoryArray] = useState("");
 
   const [historyMode, setHistoryMode] = useState(false);
 
@@ -38,8 +36,15 @@ const HeaderInput = () => {
       // console.log(res.data);
     };
 
+    const getHistory = () => {
+      setSearchHistoryArray(
+        JSON.parse(window.localStorage.getItem("searchHistory"))
+      );
+    };
+
     getBook();
     getCate();
+    getHistory();
   }, []);
 
   const createQuery = (query) => {

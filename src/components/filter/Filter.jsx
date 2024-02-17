@@ -4,13 +4,22 @@ import Link from "next/link";
 
 import { useEffect, useState } from "react";
 import axiosInstance from "../../config";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import "./filter.css";
 
 const Filter = ({ query, categories, type }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const qFrom = searchParams.get("from") ? searchParams.get("from") : "";
+
+  const qTo = searchParams.get("to") ? searchParams.get("to") : "";
+  const qForm = searchParams.get("form") ? searchParams.get("form") : "";
+  const q = searchParams.get("q");
 
   const [selected, setSelected] = useState(null);
+  const [selectedForm, setSelectedForm] = useState(null);
+  const [formItem, setFormItem] = useState("");
 
   const VND = new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -46,17 +55,44 @@ const Filter = ({ query, categories, type }) => {
 
   const form = ["Bìa cứng", "Bìa mềm"];
 
+  useEffect(() => {
+    const getPriceCheck = () => {
+      if (qFrom !== "") {
+        price.forEach((p, index) => {
+          if (p.from === parseInt(qFrom)) {
+            setSelected(index);
+          }
+        });
+      }
+      if (qForm !== "") {
+        form.forEach((f, index) => {
+          if (f === qForm) {
+            setSelectedForm(index);
+          }
+        });
+      }
+    };
+
+    getPriceCheck();
+  }, [q]);
+
   const createQuery = (query) => {
     if (query !== "") return query.split(" ").join("+");
   };
 
   const handleChangeCategory = (name) => {
     setSelected(null);
+
+    const temp = qTo === "trở lên" ? createQuery(qTo) : qTo;
+
     const queryItem = {
-      q: createQuery(name),
-      from: "",
-      to: "",
+      q: name,
+      from: qFrom,
+      to: temp,
+      item: formItem,
     };
+
+    // console.log(queryItem);
 
     handleChangePage(queryItem, "danh-muc");
   };
@@ -65,7 +101,15 @@ const Filter = ({ query, categories, type }) => {
     setSelected((prev) => (index === prev ? null : index));
 
     if (index === selected) {
-      router.push(`/danh-sach/danh-muc.html?q=${createQuery(query)}&trang=1`);
+      if (formItem === "") {
+        router.push(`/danh-sach/danh-muc.html?q=${createQuery(query)}&trang=1`);
+      } else {
+        router.push(
+          `/danh-sach/danh-muc.html?q=${createQuery(
+            query
+          )}&trang=1&form=${formItem}`
+        );
+      }
     } else {
       let temp;
 
@@ -74,26 +118,79 @@ const Filter = ({ query, categories, type }) => {
       } else {
         temp = priceItem.to;
       }
+
       const queryItem = {
         q: query,
         from: priceItem.from,
         to: temp,
+        item: qForm,
+      };
+
+      handleChangePage(queryItem, type);
+    }
+  };
+
+  const handleChangeForm = (item, index) => {
+    setSelectedForm((prev) => (index === prev ? null : index));
+
+    if (index === selectedForm) {
+      setFormItem("");
+      if (qFrom !== "" && qTo !== "") {
+        router.push(
+          `/danh-sach/danh-muc.html?q=${createQuery(
+            query
+          )}&from=${qFrom}&qTo=${qTo}&trang=1`
+        );
+      } else {
+        router.push(`/danh-sach/danh-muc.html?q=${createQuery(query)}&trang=1`);
+      }
+    } else {
+      setFormItem(item);
+      const temp = qTo === "trở lên" ? createQuery(qTo) : qTo;
+
+      const queryItem = {
+        q: query,
+        from: qFrom,
+        to: temp,
+        item,
       };
       handleChangePage(queryItem, type);
     }
   };
 
   const handleChangePage = (query, typeItem) => {
+    // console.log(createQuery(query.q));
+
     if (query.from !== "" && query.to !== "") {
-      router.push(
-        `/danh-sach/${typeItem}.html?q=${createQuery(query.q)}&from=${
-          query.from
-        }&to=${query.to}&trang=1`
-      );
+      if (query.item === "") {
+        router.push(
+          `/danh-sach/${typeItem}.html?q=${createQuery(query.q)}&from=${
+            query.from
+          }&to=${query.to}&trang=1`
+        );
+      } else {
+        router.push(
+          `/danh-sach/${typeItem}.html?q=${createQuery(query.q)}&from=${
+            query.from
+          }&to=${query.to}&trang=1&form=${createQuery(query.item)}`
+        );
+      }
     } else {
-      router.push(
-        `/danh-sach/${typeItem}.html?q=${createQuery(query.q)}&trang=1`
-      );
+      if (query.item === "") {
+        router.push(
+          `/danh-sach/${typeItem}.html?q=${createQuery(query.q)}&trang=1`
+        );
+      } else {
+        router.push(
+          `/danh-sach/${typeItem}.html?q=${createQuery(
+            query.q
+          )}&trang=1&form=${createQuery(query.item)}`
+        );
+      }
+
+      // router.push(
+      //   `/danh-sach/${typeItem}.html?q=${createQuery(query.q)}&trang=1`
+      // );
     }
   };
 
@@ -103,27 +200,19 @@ const Filter = ({ query, categories, type }) => {
         <div className="filer__list--item">
           <h2>Danh mục sách</h2>
           <ul>
-            <Link
-              href={`/danh-sach/danh-muc.html?q=${createQuery(
-                "Sách mới của cửa hàng"
-              )}&trang=1`}
-              className="link"
+            <li
+              className={query === "Sách mới của cửa hàng" ? "active" : ""}
+              onClick={() => handleChangeCategory("Sách mới của cửa hàng")}
             >
-              <li className={query === "Sách mới của cửa hàng" ? "active" : ""}>
-                Sách mới của cửa hàng
-              </li>
-            </Link>
+              Sách mới của cửa hàng
+            </li>
 
-            <Link
-              href={`/danh-sach/danh-muc.html?q=${createQuery(
-                "Giảm giá siêu ưu đãi"
-              )}&trang=1`}
-              className="link"
+            <li
+              className={query === "Giảm giá siêu ưu đãi" ? "active" : ""}
+              onClick={() => handleChangeCategory("Giảm giá siêu ưu đãi")}
             >
-              <li className={query === "Giảm giá siêu ưu đãi" ? "active" : ""}>
-                Giảm giá siêu ưu đãi
-              </li>
-            </Link>
+              Giảm giá siêu ưu đãi
+            </li>
 
             {categories?.map((category, index) => (
               <li
@@ -165,7 +254,13 @@ const Filter = ({ query, categories, type }) => {
           <ul>
             {form.map((formItem, index) => (
               <li key={index}>
-                <input type="radio" name="formItem" id={formItem} />
+                <input
+                  type="checkbox"
+                  name="formItem"
+                  id={formItem}
+                  onChange={() => handleChangeForm(formItem, index)}
+                  checked={index === selectedForm}
+                />
                 <label htmlFor={formItem} className="filer__list--item-li">
                   {formItem}
                 </label>

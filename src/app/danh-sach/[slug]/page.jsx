@@ -10,6 +10,7 @@ const ListPage = async ({ params, searchParams }) => {
   const query = searchParams.q;
   const from = searchParams.from;
   const to = searchParams.to;
+  const form = searchParams.form;
 
   let books = {};
   let totalPage = 0;
@@ -23,10 +24,18 @@ const ListPage = async ({ params, searchParams }) => {
         res = await axiosInstance.get(
           `/book/filter?qPage=${currentPage}&qFrom=${from}&qTo=${to}`
         );
+
+        if (form) {
+          res.data.books = res.data.books.filter((d) => d.form === form);
+        }
       } else {
         res = await axiosInstance.get(
           `/book?qNew=${true}&qPage=${currentPage}`
         );
+
+        if (form) {
+          res.data.books = res.data.books.filter((d) => d.form === form);
+        }
       }
       books = {
         title: "Sách mới của cửa hàng",
@@ -39,10 +48,18 @@ const ListPage = async ({ params, searchParams }) => {
         res = await axiosInstance.get(
           `/book/filter?qSale=${true}&qPage=${currentPage}&qFrom=${from}&qTo=${to}`
         );
+
+        if (form) {
+          res.data.books = res.data.books.filter((d) => d.form === form);
+        }
       } else {
         res = await axiosInstance.get(
           `/book?qSale=${true}&qPage=${currentPage}`
         );
+
+        if (form) {
+          res.data.books = res.data.books.filter((d) => d.form === form);
+        }
       }
 
       books = {
@@ -55,10 +72,18 @@ const ListPage = async ({ params, searchParams }) => {
         res = await axiosInstance.get(
           `/book/filter?qCategory=${query}&qPage=${currentPage}&qFrom=${from}&qTo=${to}`
         );
+
+        if (form) {
+          res.data.books = res.data.books.filter((d) => d.form === form);
+        }
       } else {
         res = await axiosInstance.get(
           `/book?qCategory=${query}&qPage=${currentPage}`
         );
+
+        if (form) {
+          res.data.books = res.data.books.filter((d) => d.form === form);
+        }
       }
 
       books = {
@@ -94,7 +119,7 @@ const ListPage = async ({ params, searchParams }) => {
       </div>
       <div className="col c-9">
         {books.data.length !== 0 ? (
-          <List books={books} />
+          <List books={books} form={form} />
         ) : (
           <div className="no__books main__container">
             <p>Không có sản phẩm</p>
