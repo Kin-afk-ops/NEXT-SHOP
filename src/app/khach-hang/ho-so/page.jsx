@@ -38,6 +38,7 @@ const CustomerContentEdit = () => {
   const [firstNameError, setFirstNameError] = useState(false);
   const [birthdayError, setBirthdayError] = useState(false);
   const [addressError, setAddressError] = useState(false);
+  const [buttonError, setButtonError] = useState(false);
 
   let imageData = {};
 
@@ -125,59 +126,72 @@ const CustomerContentEdit = () => {
       },
     };
 
-    if (emailValidate(newInfoUser.email)) {
+    if (
+      lastName !== "" &&
+      firstName !== "" &&
+      birthday !== "" &&
+      address !== ""
+    ) {
       try {
         const res = await axiosInstance.put(
           `/infoUser/${user._id}`,
           newInfoUser
         );
         toast.success("Chỉnh sửa thông tin thành công!");
-        setEmailError(false);
       } catch (error) {
         console.log(error);
         toast.error("Chỉnh sửa thông tin thất bại!");
       }
     } else {
-      setEmailError(true);
+      toast.error("Chưa thể thay đổi thông tin!");
     }
   };
 
   const handleChangeProvinces = async (value) => {
-    console.log(value);
-    setProvince(value.split("_")[0]);
-    setProvinceId(value.split("_")[1]);
+    if (value !== "--Thành phố/Tỉnh--") {
+      setProvince(value.split("_")[0]);
+      setProvinceId(value.split("_")[1]);
+      setAddressError(false);
 
-    const id = value.split("_")[1];
+      const id = value.split("_")[1];
 
-    try {
-      const res = await axios.get(
-        `https://vapi.vnappmob.com/api/province/district/${id}`
-      );
+      try {
+        const res = await axios.get(
+          `https://vapi.vnappmob.com/api/province/district/${id}`
+        );
 
-      setDistricts(res.data.results);
-    } catch (error) {
-      console.log(error);
+        setDistricts(res.data.results);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const handleChangeDistricts = async (value) => {
-    setDistrict(value.split("_")[0]);
-    setDistrictId(value.split("_")[1]);
+    if (value !== "--Quận/Huyện--") {
+      setDistrict(value.split("_")[0]);
+      setDistrictId(value.split("_")[1]);
 
-    const id = value.split("_")[1];
-    try {
-      const res = await axios.get(
-        `https://vapi.vnappmob.com/api/province/ward/${id}`
-      );
+      const id = value.split("_")[1];
+      setAddressError(false);
 
-      setWards(res.data.results);
-    } catch (error) {
-      console.log(error);
+      try {
+        const res = await axios.get(
+          `https://vapi.vnappmob.com/api/province/ward/${id}`
+        );
+
+        setWards(res.data.results);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const handleChangeWards = async (value) => {
-    setWard(value.split("_")[0]);
+    if (value !== "--Xã/Phường/Thị trấn--") {
+      setWard(value.split("_")[0]);
+      setAddressError(false);
+    }
   };
 
   const handleBlurAddress = () => {
@@ -345,10 +359,9 @@ const CustomerContentEdit = () => {
             id="provinces"
             onChange={(e) => handleChangeProvinces(e.target.value)}
           >
-            <option disabled>--Thành phố/Tỉnh--</option>
+            <option>--Thành phố/Tỉnh--</option>
             {provinces?.map((p) => (
               <option
-                selected={p.province_name === province}
                 key={p.province_id}
                 value={p.province_name + "_" + p.province_id}
               >
@@ -367,10 +380,9 @@ const CustomerContentEdit = () => {
             id="district"
             onChange={(e) => handleChangeDistricts(e.target.value)}
           >
-            <option disabled>--Quận/Huyện--</option>
+            <option>--Quận/Huyện--</option>
             {districts?.map((d) => (
               <option
-                selected={d.district_name === province}
                 key={d.district_id}
                 value={d.district_name + "_" + d.district_id}
               >
@@ -389,13 +401,9 @@ const CustomerContentEdit = () => {
             id="ward"
             onChange={(e) => handleChangeWards(e.target.value)}
           >
-            <option disabled>--Xã/Phường/Thị trấn--</option>
+            <option>--Xã/Phường/Thị trấn--</option>
             {wards?.map((w) => (
-              <option
-                selected={w.ward_name === province}
-                key={w.ward_id}
-                value={w.ward_name + "_" + w.ward_id}
-              >
+              <option key={w.ward_id} value={w.ward_name + "_" + w.ward_id}>
                 {w.ward_name}
               </option>
             ))}

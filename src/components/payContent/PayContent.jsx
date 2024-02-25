@@ -33,12 +33,18 @@ const PayContent = ({ userId }) => {
 
   const [provinces, setProvinces] = useState([]);
   const [province, setProvince] = useState("");
+  const [otherProvince, setOtherProvince] = useState("");
   const [provinceId, setProvinceId] = useState("");
   const [districts, setDistricts] = useState([]);
   const [district, setDistrict] = useState("");
+  const [otherDistrict, setOtherDistrict] = useState("");
   const [districtId, setDistrictId] = useState("");
   const [wards, setWards] = useState([]);
   const [ward, setWard] = useState("");
+  const [otherWard, setOtherWard] = useState("");
+
+  const [otherAddressMode, setOtherAddressMode] = useState(false);
+  const [otherAddress, setOtherAddress] = useState("");
 
   const user = useSelector((state) => state.user.currentUser);
 
@@ -151,7 +157,7 @@ const PayContent = ({ userId }) => {
   };
 
   const handleChangeProvinces = async (value) => {
-    setProvince(value.split("_")[0]);
+    setOtherProvince(value.split("_")[0]);
     setProvinceId(value.split("_")[1]);
 
     const id = value.split("_")[1];
@@ -168,7 +174,7 @@ const PayContent = ({ userId }) => {
   };
 
   const handleChangeDistricts = async (value) => {
-    setDistrict(value.split("_")[0]);
+    setOtherDistrict(value.split("_")[0]);
     setDistrictId(value.split("_")[1]);
 
     const id = value.split("_")[1];
@@ -184,7 +190,17 @@ const PayContent = ({ userId }) => {
   };
 
   const handleChangeWards = async (value) => {
-    setWard(value.split("_")[0]);
+    setOtherWard(value.split("_")[0]);
+  };
+
+  const handleChangeOtherAddress = (e) => {
+    console.log(e.target.checked);
+
+    if (e.target.checked) {
+      setOtherAddressMode(true);
+    } else {
+      setOtherAddressMode(false);
+    }
   };
 
   return (
@@ -215,72 +231,109 @@ const PayContent = ({ userId }) => {
 
         <div className="pay__address--wrap">
           <div className="pay__address">
-            <input type="radio" name="pay__address" value="default" />
-            <div className="pay__address--title">Mặt định</div>
-            <div className="pay__address--content">
-              {address + ", " + ward + ", " + ", " + district + ", " + province}
-            </div>
+            <input
+              type="radio"
+              name="pay__address"
+              id="pay__address--default"
+              value="default"
+              onChange={() => setOtherAddressMode(false)}
+            />
+            <label htmlFor="pay__address--default">
+              <div className="pay__address--title">Mặt định</div>
+
+              <div className="pay__address--content">
+                {address && <span>{address + ", "}</span>}
+                {ward && <span>{ward + ", "}</span>}
+                {district && <span>{district + ", "}</span>}
+                {province && <span>{province + "."}</span>}
+              </div>
+            </label>
           </div>
 
           <div className="pay__address">
-            <input type="radio" name="pay__address" value="other" />
+            <input
+              type="radio"
+              name="pay__address"
+              id="pay__address--other"
+              value="other"
+              onChange={(e) => handleChangeOtherAddress(e)}
+            />
+            <label htmlFor="pay__address--other">
+              <div className="pay__address--title">Khác</div>
+
+              {otherAddressMode ? (
+                <div className="pay__address--content">
+                  {otherAddress && <span>{otherAddress + ", "}</span>}
+                  {otherWard && <span>{otherWard + ", "}</span>}
+                  {otherDistrict && <span>{otherDistrict + ", "}</span>}
+                  {otherProvince && <span>{otherProvince + "."}</span>}
+                </div>
+              ) : (
+                <div className="pay__address--content">...</div>
+              )}
+            </label>
           </div>
         </div>
 
-        <select
-          className="pay__select--address"
-          name="provinces"
-          id="provinces"
-          onChange={(e) => handleChangeProvinces(e.target.value)}
-        >
-          <option>--Thành phố/Tỉnh--</option>
-          {provinces?.map((p) => (
-            <option
-              key={p.province_id}
-              value={p.province_name + "_" + p.province_id}
+        {otherAddressMode && (
+          <>
+            <select
+              className="pay__select--address"
+              name="provinces"
+              id="provinces"
+              onChange={(e) => handleChangeProvinces(e.target.value)}
             >
-              {p.province_name}
-            </option>
-          ))}
-        </select>
+              <option>--Thành phố/Tỉnh--</option>
+              {provinces?.map((p) => (
+                <option
+                  key={p.province_id}
+                  value={p.province_name + "_" + p.province_id}
+                >
+                  {p.province_name}
+                </option>
+              ))}
+            </select>
 
-        <select
-          className="pay__select--address"
-          name="district"
-          id="district"
-          onChange={(e) => handleChangeDistricts(e.target.value)}
-        >
-          <option>--Quận/Huyện--</option>
-          {districts?.map((d) => (
-            <option
-              key={d.district_id}
-              value={d.district_name + "_" + d.district_id}
+            <select
+              className="pay__select--address"
+              name="district"
+              id="district"
+              onChange={(e) => handleChangeDistricts(e.target.value)}
             >
-              {d.district_name}
-            </option>
-          ))}
-        </select>
+              <option>--Quận/Huyện--</option>
+              {districts?.map((d) => (
+                <option
+                  key={d.district_id}
+                  value={d.district_name + "_" + d.district_id}
+                >
+                  {d.district_name}
+                </option>
+              ))}
+            </select>
 
-        <select
-          className="pay__select--address"
-          name="ward"
-          id="ward"
-          onChange={(e) => handleChangeWards(e.target.value)}
-        >
-          <option>--Xã/Phường/Thị trấn--</option>
-          {wards?.map((w) => (
-            <option key={w.ward_id} value={w.ward_name + "_" + w.ward_id}>
-              {w.ward_name}
-            </option>
-          ))}
-        </select>
+            <select
+              className="pay__select--address"
+              name="ward"
+              id="ward"
+              onChange={(e) => handleChangeWards(e.target.value)}
+            >
+              <option>--Xã/Phường/Thị trấn--</option>
+              {wards?.map((w) => (
+                <option key={w.ward_id} value={w.ward_name + "_" + w.ward_id}>
+                  {w.ward_name}
+                </option>
+              ))}
+            </select>
 
-        <input
-          className="pay__input"
-          type="text"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
+            <input
+              className="pay__input"
+              type="text"
+              value={otherAddress}
+              placeholder="Số nhà, tên đường"
+              onChange={(e) => setOtherAddress(e.target.value)}
+            />
+          </>
+        )}
 
         <label className="pay__form--label" for="">
           Ghi chú
