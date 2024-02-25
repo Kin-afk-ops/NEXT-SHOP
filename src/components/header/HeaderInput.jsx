@@ -21,10 +21,6 @@ const HeaderInput = () => {
   const [bookHot, setBookHot] = useState([]);
   const [categoriesHot, setCategoriesHot] = useState([]);
 
-  window.onscroll = () => {
-    setHistoryMode(false);
-  };
-
   useEffect(() => {
     const getBook = async () => {
       const res = await axiosInstance.get("home/book/input");
@@ -41,6 +37,12 @@ const HeaderInput = () => {
         JSON.parse(window.localStorage.getItem("searchHistory"))
       );
     };
+
+    function onScroll() {
+      setHistoryMode(false);
+    }
+
+    window.addEventListener("scroll", onScroll);
 
     getBook();
     getCate();

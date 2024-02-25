@@ -8,6 +8,7 @@ import axiosInstance from "@/config";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
+import emailValidate from "../../../validation/email";
 
 const CustomerContentEdit = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -31,6 +32,12 @@ const CustomerContentEdit = () => {
   const [districtId, setDistrictId] = useState("");
   const [wards, setWards] = useState([]);
   const [ward, setWard] = useState("");
+
+  const [emailError, setEmailError] = useState(false);
+  const [lastNameError, setLastNameError] = useState(false);
+  const [firstNameError, setFirstNameError] = useState(false);
+  const [birthdayError, setBirthdayError] = useState(false);
+  const [addressError, setAddressError] = useState(false);
 
   let imageData = {};
 
@@ -118,16 +125,25 @@ const CustomerContentEdit = () => {
       },
     };
 
-    try {
-      const res = await axiosInstance.put(`/infoUser/${user._id}`, newInfoUser);
-      toast.success("Chỉnh sửa thông tin thành công!");
-    } catch (error) {
-      console.log(error);
-      toast.error("Chỉnh sửa thông tin thất bại!");
+    if (emailValidate(newInfoUser.email)) {
+      try {
+        const res = await axiosInstance.put(
+          `/infoUser/${user._id}`,
+          newInfoUser
+        );
+        toast.success("Chỉnh sửa thông tin thành công!");
+        setEmailError(false);
+      } catch (error) {
+        console.log(error);
+        toast.error("Chỉnh sửa thông tin thất bại!");
+      }
+    } else {
+      setEmailError(true);
     }
   };
 
   const handleChangeProvinces = async (value) => {
+    console.log(value);
     setProvince(value.split("_")[0]);
     setProvinceId(value.split("_")[1]);
 
@@ -162,6 +178,14 @@ const CustomerContentEdit = () => {
 
   const handleChangeWards = async (value) => {
     setWard(value.split("_")[0]);
+  };
+
+  const handleBlurAddress = () => {
+    if (address === "" || ward === "" || district === "" || province === "") {
+      setAddressError(true);
+    } else {
+      setAddressError(false);
+    }
   };
 
   return (
@@ -212,27 +236,74 @@ const CustomerContentEdit = () => {
         <div className="c-6 customer__edit--left">
           <label>Họ</label>
           <input
-            className="customer__edit--input"
+            className={
+              lastNameError
+                ? "customer__edit--input customer__edit--error"
+                : "customer__edit--input"
+            }
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            onBlur={() => {
+              if (lastName === "") {
+                setLastNameError(true);
+              } else {
+                setLastNameError(false);
+              }
+            }}
+            onFocus={() => setLastNameError(false)}
           />
+          {lastNameError && (
+            <p style={{ color: "red" }}>Họ không được bỏ trống</p>
+          )}
 
           <label>Tên</label>
           <input
-            className="customer__edit--input"
+            className={
+              firstNameError
+                ? "customer__edit--input customer__edit--error"
+                : "customer__edit--input"
+            }
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            onBlur={() => {
+              if (firstName === "") {
+                setFirstNameError(true);
+              } else {
+                setFirstNameError(false);
+              }
+            }}
+            onFocus={() => setFirstNameError(false)}
           />
+          {firstNameError && (
+            <p style={{ color: "red" }}>Tên không được bỏ trống</p>
+          )}
 
           <label>Email</label>
           <input
-            className="customer__edit--input"
+            className={
+              emailError
+                ? "customer__edit--input customer__edit--error"
+                : "customer__edit--input"
+            }
             type="text"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmailError(false);
+              setEmail(e.target.value);
+            }}
+            onFocus={() => setEmailError(false)}
+            onBlur={(e) => {
+              if (emailValidate(e.target.value) || e.target.value === "") {
+                setEmailError(false);
+              } else {
+                setEmailError(true);
+              }
+            }}
           />
+
+          {emailError && <p style={{ color: "red" }}>Email không hợp lệ</p>}
 
           <label>Giới tính</label>
           <div className="customer__edit--right-gender">
@@ -265,14 +336,19 @@ const CustomerContentEdit = () => {
           <label>Địa chỉ</label>
 
           <select
-            className="customer__edit--select"
+            className={
+              addressError
+                ? "customer__edit--select customer__edit--error"
+                : "customer__edit--select"
+            }
             name="provinces"
             id="provinces"
             onChange={(e) => handleChangeProvinces(e.target.value)}
           >
-            <option>--Thành phố/Tỉnh--</option>
+            <option disabled>--Thành phố/Tỉnh--</option>
             {provinces?.map((p) => (
               <option
+                selected={p.province_name === province}
                 key={p.province_id}
                 value={p.province_name + "_" + p.province_id}
               >
@@ -282,14 +358,19 @@ const CustomerContentEdit = () => {
           </select>
 
           <select
-            className="customer__edit--select"
+            className={
+              addressError
+                ? "customer__edit--select customer__edit--error"
+                : "customer__edit--select"
+            }
             name="district"
             id="district"
             onChange={(e) => handleChangeDistricts(e.target.value)}
           >
-            <option>--Quận/Huyện--</option>
+            <option disabled>--Quận/Huyện--</option>
             {districts?.map((d) => (
               <option
+                selected={d.district_name === province}
                 key={d.district_id}
                 value={d.district_name + "_" + d.district_id}
               >
@@ -299,26 +380,44 @@ const CustomerContentEdit = () => {
           </select>
 
           <select
-            className="customer__edit--select"
+            className={
+              addressError
+                ? "customer__edit--select customer__edit--error"
+                : "customer__edit--select"
+            }
             name="ward"
             id="ward"
             onChange={(e) => handleChangeWards(e.target.value)}
           >
-            <option>--Xã/Phường/Thị trấn--</option>
+            <option disabled>--Xã/Phường/Thị trấn--</option>
             {wards?.map((w) => (
-              <option key={w.ward_id} value={w.ward_name + "_" + w.ward_id}>
+              <option
+                selected={w.ward_name === province}
+                key={w.ward_id}
+                value={w.ward_name + "_" + w.ward_id}
+              >
                 {w.ward_name}
               </option>
             ))}
           </select>
 
           <input
-            className="customer__edit--input"
+            className={
+              addressError
+                ? "customer__edit--input customer__edit--error"
+                : "customer__edit--input"
+            }
             type="text"
             placeholder="Số nhà, tên đường"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
+            onBlur={handleBlurAddress}
+            onFocus={() => setAddressError(false)}
           />
+
+          {addressError && (
+            <p style={{ color: "red" }}>Hãy nhập một địa chỉ cụ thể!</p>
+          )}
 
           {/* <input
             className="customer__edit--input"

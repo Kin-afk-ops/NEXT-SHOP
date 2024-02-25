@@ -16,6 +16,7 @@ import axiosInstance from "@/config";
 import VND from "@/vnd";
 import { toast } from "react-toastify";
 import axios from "axios";
+import "./payContent.css";
 
 const PayContent = ({ userId }) => {
   const dispatch = useDispatch();
@@ -53,6 +54,8 @@ const PayContent = ({ userId }) => {
         setProvince(res.data.address.province);
         setDistrict(res.data.address.district);
         setWard(res.data.address.ward);
+
+        console.log(res.data.address);
       } catch (error) {
         console.log(error);
       }
@@ -209,6 +212,20 @@ const PayContent = ({ userId }) => {
         <label className="pay__form--label" for="">
           Địa chỉ giao hàng
         </label>
+
+        <div className="pay__address--wrap">
+          <div className="pay__address">
+            <input type="radio" name="pay__address" value="default" />
+            <div className="pay__address--title">Mặt định</div>
+            <div className="pay__address--content">
+              {address + ", " + ward + ", " + ", " + district + ", " + province}
+            </div>
+          </div>
+
+          <div className="pay__address">
+            <input type="radio" name="pay__address" value="other" />
+          </div>
+        </div>
 
         <select
           className="pay__select--address"

@@ -55,6 +55,12 @@
   font-size: 16px;
 }
 
+.customer__edit--select.customer__edit--error,
+.customer__edit--input.customer__edit--error {
+  border: 1px solid red;
+  color: red;
+}
+
 .customer__edit--select {
   margin-bottom: 3px;
   height: 40px;

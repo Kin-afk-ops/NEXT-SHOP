@@ -18,4 +18,13 @@ const axiosInstance = axios.create({
   },
 });
 
+export const axiosClient = axios.create({
+  baseURL: "http://localhost:3000/api",
+  withCredentials: true,
+  credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 export default axiosInstance;
