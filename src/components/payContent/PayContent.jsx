@@ -45,6 +45,9 @@ const PayContent = ({ userId }) => {
 
   const [otherAddressMode, setOtherAddressMode] = useState(false);
   const [otherAddress, setOtherAddress] = useState("");
+  const [otherAddressError, setOtherAddressError] = useState(false);
+  const [clientNameError, setClientNameError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
 
   const user = useSelector((state) => state.user.currentUser);
 
@@ -53,8 +56,12 @@ const PayContent = ({ userId }) => {
       try {
         const res = await axiosInstance.get(`/infoUser/${userId}`);
 
-        setName(res?.data.lastName + " " + res?.data.firstName);
-        setClientName(res?.data.lastName + " " + res?.data.firstName);
+        if (res?.data.lastName !== "" && res?.data.firstName !== "") {
+          setName(res?.data.lastName + " " + res?.data.firstName);
+          setClientName(res?.data.lastName + " " + res?.data.firstName);
+        }
+        setClientName("");
+
         setPhone(user.phone);
         setAddress(res.data.address.address);
         setProvince(res.data.address.province);
@@ -101,58 +108,77 @@ const PayContent = ({ userId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      for (let i = 0; i < cart.length; i++) {
+    if (clientName === "" || otherAddressError || phone === "") {
+      toast.error("Đặt hàng không thành công! Hãy xem lại");
+
+      console.log("Haha");
+    } else {
+      try {
+        for (let i = 0; i < cart.length; i++) {
+          try {
+            await axiosInstance.delete(`/cart/${cart[i]._id}`);
+            let newOrder = {};
+            if (!otherAddressMode) {
+              newOrder = {
+                name: name,
+                clientName: clientName,
+                books: cart[i].books,
+                phone,
+                totalPrice,
+                address: {
+                  province,
+                  district,
+                  ward,
+                  address,
+                },
+                note,
+              };
+            } else {
+              newOrder = {
+                name: name,
+                clientName: clientName,
+                books: cart[i].books,
+                phone,
+                totalPrice,
+                address: {
+                  province: otherProvince,
+                  district: otherDistrict,
+                  ward: otherWard,
+                  address: otherAddress,
+                },
+                note,
+              };
+            }
+            const res = await axiosInstance.post(
+              `/order/create/${user._id}`,
+              newOrder
+            );
+            // await axiosInstance.delete(`/cart/${cartId}`);
+          } catch (error) {
+            toast.error("Đặt hàng thất bại");
+            console.log(error);
+          }
+        }
+        toast.success("Đặt hàng thành công");
         try {
-          await axiosInstance.delete(`/cart/${cart[i]._id}`);
-          const newOrder = {
-            name: name,
-            clientName: clientName,
-            books: cart[i].books,
-            phone,
-            totalPrice,
-            address: {
-              province,
-              district,
-              ward,
-              address,
-            },
-            note,
+          const newNotification = {
+            userId: user._id,
           };
-
-          const res = await axiosInstance.post(
-            `/order/create/${user._id}`,
-            newOrder
+          await axiosInstance.post(
+            `/order/noti/createNotification`,
+            newNotification
           );
-          // await axiosInstance.delete(`/cart/${cartId}`);
         } catch (error) {
-          toast.error("Đặt hàng thất bại");
-
           console.log(error);
         }
-      }
-      toast.success("Đặt hàng thành công");
-
-      try {
-        const newNotification = {
-          userId: user._id,
-        };
-
-        await axiosInstance.post(
-          `/order/noti/createNotification`,
-          newNotification
-        );
+        setTimeout(() => {
+          getNoti(dispatch, user?._id);
+          getCart(dispatch, user?._id);
+          router.push("/");
+        }, 2000);
       } catch (error) {
         console.log(error);
       }
-
-      setTimeout(() => {
-        getNoti(dispatch, user?._id);
-        getCart(dispatch, user?._id);
-        router.push("/");
-      }, 2000);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -207,23 +233,46 @@ const PayContent = ({ userId }) => {
     <form className="pay__form" onSubmit={handleSubmit}>
       <div className="pay__form--wrap c-6">
         <label className="pay__form--label" for="">
-          Họ và tên người nhận
+          Họ và tên người nhận hàng
         </label>
         <input
-          className="pay__input"
+          className={clientNameError ? "pay__input pay__error" : "pay__input"}
           type="text"
           value={clientName}
           onChange={(e) => setClientName(e.target.value)}
+          onBlur={(e) => {
+            if (e.target.value === "") {
+              setClientNameError(true);
+            } else {
+              setClientNameError(false);
+            }
+          }}
+          onFocus={() => setClientNameError(false)}
         />
+
+        {clientNameError && (
+          <p style={{ color: "red" }}>Hãy nhập tên người nhận hàng</p>
+        )}
+
         <label className="pay__form--label" for="">
           Số điện thoại
         </label>
         <input
-          className="pay__input"
+          className={phoneError ? "pay__input pay__error" : "pay__input"}
           type="text"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          onBlur={(e) => {
+            if (e.target.value === "") {
+              setPhoneError(true);
+            } else {
+              setPhoneError(false);
+            }
+          }}
+          onFocus={() => setPhoneError(false)}
         />
+
+        {phoneError && <p style={{ color: "red" }}>Hãy nhập số điện thoại</p>}
 
         <label className="pay__form--label" for="">
           Địa chỉ giao hàng
@@ -237,6 +286,7 @@ const PayContent = ({ userId }) => {
               id="pay__address--default"
               value="default"
               onChange={() => setOtherAddressMode(false)}
+              defaultChecked
             />
             <label htmlFor="pay__address--default">
               <div className="pay__address--title">Mặt định</div>
@@ -278,10 +328,15 @@ const PayContent = ({ userId }) => {
         {otherAddressMode && (
           <>
             <select
-              className="pay__select--address"
+              className={
+                otherAddressError
+                  ? "pay__select--address pay__error"
+                  : "pay__select--address"
+              }
               name="provinces"
               id="provinces"
               onChange={(e) => handleChangeProvinces(e.target.value)}
+              onFocus={() => setOtherAddressError(false)}
             >
               <option>--Thành phố/Tỉnh--</option>
               {provinces?.map((p) => (
@@ -295,10 +350,15 @@ const PayContent = ({ userId }) => {
             </select>
 
             <select
-              className="pay__select--address"
+              className={
+                otherAddressError
+                  ? "pay__select--address pay__error"
+                  : "pay__select--address"
+              }
               name="district"
               id="district"
               onChange={(e) => handleChangeDistricts(e.target.value)}
+              onFocus={() => setOtherAddressError(false)}
             >
               <option>--Quận/Huyện--</option>
               {districts?.map((d) => (
@@ -312,10 +372,15 @@ const PayContent = ({ userId }) => {
             </select>
 
             <select
-              className="pay__select--address"
+              className={
+                otherAddressError
+                  ? "pay__select--address pay__error"
+                  : "pay__select--address"
+              }
               name="ward"
               id="ward"
               onChange={(e) => handleChangeWards(e.target.value)}
+              onFocus={() => setOtherAddressError(false)}
             >
               <option>--Xã/Phường/Thị trấn--</option>
               {wards?.map((w) => (
@@ -326,13 +391,32 @@ const PayContent = ({ userId }) => {
             </select>
 
             <input
-              className="pay__input"
+              className={
+                otherAddressError ? "pay__input pay__error" : "pay__input"
+              }
               type="text"
               value={otherAddress}
               placeholder="Số nhà, tên đường"
               onChange={(e) => setOtherAddress(e.target.value)}
+              onBlur={(e) => {
+                if (
+                  e.target.value === "" ||
+                  otherWard === "" ||
+                  otherDistrict === "" ||
+                  otherProvince === ""
+                ) {
+                  setOtherAddressError(true);
+                } else {
+                  setOtherAddressError(false);
+                }
+              }}
+              onFocus={() => setOtherAddressError(false)}
             />
           </>
+        )}
+
+        {otherAddressError && (
+          <p style={{ color: "red" }}>Hãy nhập một địa chỉ hợp lệ</p>
         )}
 
         <label className="pay__form--label" for="">
