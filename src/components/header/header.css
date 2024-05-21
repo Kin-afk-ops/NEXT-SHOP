@@ -133,6 +133,10 @@
   padding: 5px;
 }
 
+.icon__active {
+  color: var(--primary-color);
+}
+
 .header__input--history ul li i:hover {
   color: var(--primary-color);
 }

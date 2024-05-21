@@ -123,7 +123,9 @@ const CustomerContentOrder = () => {
           </ul>
         </div>
       ) : (
-        <p className="content__order--empty">Không có đơn hàng.</p>
+        <div className="display__flex--center">
+          <p className="main__title">Không có đơn hàng.</p>
+        </div>
       )}
 
       <div className={modal ? "customer__modal" : "hidden"}>

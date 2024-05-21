@@ -17,10 +17,12 @@ import avatar from "../../assets/images/default_avatar.png";
 import axiosInstance from "../../config";
 import { toast } from "react-toastify";
 import HeaderInput from "./HeaderInput";
+import dynamic from "next/dynamic";
 
 const Header = () => {
   const router = useRouter();
   const [language, setLanguage] = useState("VI");
+  const [userId, setUserId] = useState("");
   const [headerModal, setHeaderModal] = useState(false);
   const [mode, setMode] = useState("login");
   const [phone, setPhone] = useState("");
@@ -32,8 +34,10 @@ const Header = () => {
   const [passwordLoginError, setPasswordLoginError] = useState(false);
 
   const [phoneRegisterError, setPhoneRegisterError] = useState(false);
+  const [phoneExistError, setPhoneExistError] = useState(false);
   const [passwordRegisterError, setPasswordRegisterError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [noAccountError, setNoAccount] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
 
   const [infoUser, setInfoUser] = useState({});
@@ -46,6 +50,8 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.currentUser);
+  const isError = useSelector((state) => state.user.isError);
+
   const cartLength = useSelector((state) => state.cartLength.length);
   const notification = useSelector((state) => state.noti.notification);
 
@@ -76,15 +82,11 @@ const Header = () => {
 
     if (validate()) {
       login(dispatch, newLogin);
-      try {
-        toast.success("Đăng nhập thành công!");
-        setHeaderModal(false);
-        setCheckUser(true);
-        window.location.reload();
-      } catch (error) {
-        toast.error("Đăng nhập thất bại! Hãy kiểm tra lại!");
 
-        console.log(error);
+      if (isError === true) {
+        setNoAccount(true);
+      } else {
+        setNoAccount(false);
       }
     } else {
       if (phone === "") {
@@ -100,6 +102,9 @@ const Header = () => {
     dispatch(logout());
     dispatch(logoutCart());
     dispatch(logoutNoti());
+    setCheckInfoUser(false);
+    setCheckUser(false);
+    router.push("/");
   };
 
   const handleRegister = async (e) => {
@@ -154,7 +159,7 @@ const Header = () => {
 
             toast.success("Đăng ký thành công");
           } catch (error) {
-            console.log(error);
+            console.log(error.response);
           }
         } catch (error) {
           toast.error("Đăng kí thất bại!");
@@ -178,31 +183,31 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const isEmptyObject = (obj) => {
-      return JSON.stringify(obj) === "{}";
-    };
-
     const getHomeData = async () => {
-      const resInfoUser = await axiosInstance.get(`infoUser/${user?._id}`);
+      let resInfoUser;
 
+      console.log(resInfoUser);
       if (user) {
         getCart(dispatch, user?._id);
         getNoti(dispatch, user?._id);
+        setCheckUser(true);
+        resInfoUser = await axiosInstance.get(`infoUser/${user?._id}`);
+        setUserId(user._id);
+      } else {
+        setUserId("");
       }
 
       try {
-        setInfoUser(resInfoUser.data);
+        resInfoUser && setInfoUser(resInfoUser.data);
 
-        !isEmptyObject(resInfoUser.data)
-          ? setCheckInfoUser(true)
-          : setCheckInfoUser(false);
+        resInfoUser ? setCheckInfoUser(true) : setCheckInfoUser(false);
       } catch (error) {
         console.log(error);
       }
     };
 
     getHomeData();
-  }, [checkUser]);
+  }, [checkUser, dispatch, user]);
 
   const handleReadNoti = async (path, id) => {
     const newNoti = {
@@ -221,7 +226,7 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div div className="header__content">
+      <div className="header__content">
         <div className="header__left">
           <Link className="link header__logo--img" href="/">
             <Image src={logo} alt="" width={220} height={39} />
@@ -261,7 +266,7 @@ const Header = () => {
                 </div>
                 <hr />
                 {notification?.length !== 0 ? (
-                  <>
+                  <div>
                     {notification?.map((noti, index) => (
                       <li className="header__icon--notify-li" key={noti._id}>
                         <div
@@ -282,7 +287,7 @@ const Header = () => {
                         </div>
                       </li>
                     ))}
-                  </>
+                  </div>
                 ) : (
                   <p className="main__title">Không có thông báo mới</p>
                 )}
@@ -290,7 +295,7 @@ const Header = () => {
             )}
           </div>
 
-          <Link href={`/gio-hang/${user?._id}`} className="link">
+          <Link href={`/gio-hang/${userId}`} className="link">
             <div className="header__icon">
               <i className="fa-solid fa-cart-shopping"></i>
               <span>Giỏ hàng</span>
@@ -308,7 +313,11 @@ const Header = () => {
             <span>Tài khoản</span>
 
             <ul className="header__icon--user-list">
-              <Link href={`/khach-hang/thong-tin`} className="link">
+              <div
+                onClick={() => {
+                  user && router.push("/khach-hang/thong-tin");
+                }}
+              >
                 {!checkInfoUser ? (
                   <div className="header__icon--user-header">
                     <Image
@@ -317,6 +326,7 @@ const Header = () => {
                       width={50}
                       height={50}
                       style={{
+                        objectFit: "contain",
                         borderRadius: "50%",
                         border: "1px solid #ccc",
                       }}
@@ -345,18 +355,21 @@ const Header = () => {
                       width={50}
                       height={50}
                       style={{
+                        objectFit: "contain",
                         borderRadius: "50%",
                         border: "1px solid #ccc",
                       }}
                     />
                     <div>
-                      {infoUser?.lastName && (
+                      {infoUser?.lastName && infoUser?.firstName ? (
                         <p className="header__icon--user-name">
-                          {infoUser?.lastName + " " + infoUser.firstName}
+                          {infoUser?.lastName + " " + infoUser?.firstName}
                         </p>
+                      ) : (
+                        <p className="header__icon--user-name"></p>
                       )}
 
-                      {infoUser?.email && (
+                      {user?.phone && (
                         <p className="header__icon--user-phone">
                           {user?.phone}
                         </p>
@@ -365,7 +378,7 @@ const Header = () => {
                     <i className="fa-solid fa-chevron-right"></i>
                   </div>
                 )}
-              </Link>
+              </div>
               <Link href="/khach-hang/don-hang" className="link">
                 <li className="header__icon--user-li">
                   <i className="fa-solid fa-clipboard"></i>
@@ -376,7 +389,7 @@ const Header = () => {
               </Link>
               <hr />
 
-              {user ? (
+              {checkUser ? (
                 <li
                   className="header__icon--user-li"
                   onClick={() => handleLogout()}
@@ -395,14 +408,6 @@ const Header = () => {
               )}
 
               <hr />
-              {/* {user ? (
-                <li className="header__icon--user-li">
-                  <i className="fa-regular fa-address-card"></i>
-                  <span className="header__icon--user-li-title">Đăng kí</span>
-                </li>
-              ) : (
-                <li></li>
-              )} */}
             </ul>
           </div>
 
@@ -451,12 +456,19 @@ const Header = () => {
                     onChange={(e) => {
                       setPhoneLoginError(false);
                       setPhone(e.target.value);
+                      setNoAccount(false);
                     }}
                   />
 
                   {phoneLoginError && (
                     <p className="error__message">
                       Số điện thoại không được bỏ trống
+                    </p>
+                  )}
+
+                  {noAccountError && (
+                    <p className="error__message">
+                      Số điện thoại hoặc mật khẩu không đúng
                     </p>
                   )}
 
@@ -469,10 +481,16 @@ const Header = () => {
                       onChange={(e) => {
                         setPasswordLoginError(false);
                         setPassword(e.target.value);
+                        setNoAccount(false);
                       }}
                     />
+
                     <i
-                      className="fa-solid fa-eye"
+                      className={
+                        passwordType
+                          ? "fa-solid fa-eye"
+                          : "fa-solid fa-eye-slash"
+                      }
                       onClick={() => setPasswordType(!passwordType)}
                     ></i>
                   </div>
@@ -480,6 +498,12 @@ const Header = () => {
                   {passwordLoginError && (
                     <p className="error__message">
                       Mật khẩu không được bỏ trống
+                    </p>
+                  )}
+
+                  {noAccountError && (
+                    <p className="error__message">
+                      Số điện thoại hoặc mật khẩu không đúng
                     </p>
                   )}
 
@@ -546,7 +570,11 @@ const Header = () => {
                       }}
                     />
                     <i
-                      className="fa-solid fa-eye"
+                      className={
+                        passwordType
+                          ? "fa-solid fa-eye"
+                          : "fa-solid fa-eye-slash"
+                      }
                       onClick={() => setPasswordType(!passwordType)}
                     ></i>
                   </div>
@@ -574,7 +602,11 @@ const Header = () => {
                       }}
                     />
                     <i
-                      className="fa-solid fa-eye"
+                      className={
+                        confirmPasswordType
+                          ? "fa-solid fa-eye"
+                          : "fa-solid fa-eye-slash"
+                      }
                       onClick={() =>
                         setConfirmPasswordType(!confirmPasswordType)
                       }
@@ -613,4 +645,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default dynamic(() => Promise.resolve(Header), { ssr: false });

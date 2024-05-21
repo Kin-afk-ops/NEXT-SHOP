@@ -16,6 +16,7 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.currentUser = action.payload;
       window.localStorage.setItem("token", state.currentUser.accessToken);
+      window.location.reload();
     },
     loginFailure: (state) => {
       state.isFetching = false;

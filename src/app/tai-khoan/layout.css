@@ -6,37 +6,35 @@
   justify-content: center;
 }
 
-.register {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.forget__password--title {
+  color: var(--primary-color);
 }
 
-.register__container {
+.forget__password--container {
   border: 1px solid #ccc;
   width: 450px;
   margin-top: 0 !important;
 }
 
-.register__content {
+.forget__password--content {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.register__form {
+.forget__password--form {
   display: flex;
   flex-direction: column;
   width: 80%;
 }
 
-.register__form label {
+.forget__password--form label {
   font-size: 18px;
   font-weight: 600;
   padding: 20px 0 5px;
 }
 
-.register__form input {
+.forget__password--form input {
   width: 100%;
   height: 40px;
   padding-left: 20px;
@@ -56,14 +54,14 @@
   color: var(--primary-color);
 }
 
-.register__btn--main {
+.forget__password--btn--main {
   margin-top: 20px;
   background-color: var(--primary-color);
   border: none;
   color: white;
 }
 
-.register__btn--extra {
+.forget__password--btn--extra {
   margin-top: 10px;
   background-color: white;
   border: 1px solid var(--primary-color);

@@ -27,7 +27,7 @@ const CustomerContentNotification = () => {
       try {
         const res = await axiosInstance.get(`/notification/${user._id}`);
 
-        setNotification(res.data);
+        setNotification(res.data.reverse());
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -79,8 +79,9 @@ const CustomerContentNotification = () => {
     <div className="customer__notification main__container">
       {notification.length !== 0 ? (
         <ul className="customer__notification--list">
-          {notification?.map((n) => (
+          {notification?.map((n, index) => (
             <li
+              key={index}
               className={
                 n.read
                   ? "customer__notification--item read"

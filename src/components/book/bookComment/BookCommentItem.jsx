@@ -1,14 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import axiosInstance from "@/config";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const BookCommentItem = ({ bookId, comment }) => {
-  const router = useRouter();
-
   const [check, setCheck] = useState(false);
   const [commentCheck, setCommentCheck] = useState(false);
   const [modal, setModal] = useState(false);

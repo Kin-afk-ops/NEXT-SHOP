@@ -79,7 +79,7 @@ const CustomerContentOrder = () => {
         </div>
       ) : (
         <div className="display__flex--center">
-          <p className="content__order--empty">Không có đơn hàng.</p>
+          <p className="main__title">Không có đơn hàng.</p>
         </div>
       )}
     </div>

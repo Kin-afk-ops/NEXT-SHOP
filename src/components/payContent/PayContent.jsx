@@ -59,8 +59,9 @@ const PayContent = ({ userId }) => {
         if (res?.data.lastName !== "" && res?.data.firstName !== "") {
           setName(res?.data.lastName + " " + res?.data.firstName);
           setClientName(res?.data.lastName + " " + res?.data.firstName);
+        } else {
+          setClientName("");
         }
-        setClientName("");
 
         setPhone(user.phone);
         setAddress(res.data.address.address);
