@@ -6,6 +6,8 @@ import axiosInstance from "@/config";
 import VND from "@/vnd";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import configSlug from "@/slug";
 
 const CartItem = ({
   cartItem,
@@ -195,7 +197,12 @@ const CartItem = ({
         />
       </div>
       <div className="cart__content--container-item-info c-4">
-        <p className="info__title">{cartItem?.books.name}</p>
+        <Link
+          className="link"
+          href={`/sach/${configSlug(cartItem?.books.name)}.html`}
+        >
+          <p className="info__title">{cartItem?.books.name}</p>
+        </Link>
         <div className="info__money">
           <p className="info__money--all">
             {VND.format(cartItem?.books?.discountPrice)}
@@ -222,11 +229,7 @@ const CartItem = ({
             </div>
           )}
 
-          <input
-            className="cart__content--quantity-value"
-            type="text"
-            value={quantity}
-          />
+          <div className="cart__content--quantity-value">{quantity}</div>
 
           {!payMode && (
             <div

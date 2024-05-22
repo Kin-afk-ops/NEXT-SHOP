@@ -16,13 +16,15 @@ import {
 
 import axiosInstance from "../config";
 
-export const login = async (dispatch, user) => {
+export const login = async (dispatch, user, setNoAccount) => {
   dispatch(loginStart());
   try {
     const res = await axiosInstance.post("/auth/login", user);
     dispatch(loginSuccess(res.data));
+    setNoAccount(false);
   } catch (err) {
     dispatch(loginFailure());
+    setNoAccount(true);
   }
 };
 

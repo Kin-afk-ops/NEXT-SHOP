@@ -13,6 +13,7 @@ const userSlice = createSlice({
       state.isFetching = true;
     },
     loginSuccess: (state, action) => {
+      state.isError = false;
       state.isFetching = false;
       state.currentUser = action.payload;
       window.localStorage.setItem("token", state.currentUser.accessToken);
@@ -28,10 +29,15 @@ const userSlice = createSlice({
       state.currentUser = null;
       window.localStorage.removeItem("token");
     },
+    resetState: (state) => {
+      state.currentUser = null;
+      state.isFetching = false;
+      state.isError = false;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } =
+export const { loginStart, loginSuccess, loginFailure, logout, resetState } =
   userSlice.actions;
 
 export default userSlice.reducer;

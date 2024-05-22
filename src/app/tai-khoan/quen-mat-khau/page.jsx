@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import firebase from "../../../firebase/firebase";
 
 const forgetPasswordPage = () => {
   const [overlay, setOverlay] = useState(false);
@@ -11,19 +12,52 @@ const forgetPasswordPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setupRecaptcha();
+    }
+  }, []);
+
   const setupRecaptcha = () => {
-    window.recaptchaVerifier = new firebase.auth.recaptchaVerifier(
-      "sign-in-button",
-      {
-        size: "invisible",
-        defaultCountry: "VN",
-      }
-    );
+    if (typeof window !== "undefined") {
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+        "sign-in-button",
+        {
+          size: "invisible",
+          callback: () => {
+            // reCAPTCHA đã được giải quyết - sẽ tiếp tục với sendOtp
+            handleSendOtp();
+          },
+          "expired-callback": () => {
+            // Phản hồi hết hạn. Yêu cầu người dùng giải reCAPTCHA lại.
+            setupRecaptcha();
+          },
+        }
+      );
+    }
   };
 
-  useEffect(() => {
-    setupRecaptcha();
-  }, []);
+  const handleSendOtp = async () => {
+    const appVerifier = window.recaptchaVerifier;
+    try {
+      const confirmationResult = await firebase
+        .auth()
+        .signInWithPhoneNumber(phone, appVerifier);
+      window.confirmationResult = confirmationResult;
+      alert("OTP đã được gửi");
+    } catch (error) {
+      console.error("Lỗi trong signInWithPhoneNumber", error);
+    }
+  };
+
+  const handleVerifyOTP = async () => {
+    try {
+      await window.confirmationResult.confirm(otp);
+      alert("Xác minh OTP thành công");
+    } catch (error) {
+      console.error("Lỗi trong xác minh OTP", error);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,7 +70,7 @@ const forgetPasswordPage = () => {
       <hr />
 
       <div className="forget__password--content">
-        <form className="forget__password--form">
+        <div className="forget__password--form">
           <label>Số điện thoại</label>
           <input
             placeholder="Nhập số điện thoại"
@@ -58,15 +92,15 @@ const forgetPasswordPage = () => {
                 setOtp(e.target.value);
               }}
             />
-            <button>Gửi OPT</button>
+            <button onClick={handleSendOtp}>Gửi OPT</button>
           </div>
           <button
             className="main__btn forget__password--btn--main"
-            onClick={(e) => handleSubmit(e)}
+            onClick={handleVerifyOTP}
           >
             Nhập mật khẩu mới
           </button>
-        </form>
+        </div>
       </div>
 
       <div
@@ -132,6 +166,8 @@ const forgetPasswordPage = () => {
           </div>
         </div>
       </div>
+
+      <div id="sign-in-button"></div>
     </div>
   );
 };

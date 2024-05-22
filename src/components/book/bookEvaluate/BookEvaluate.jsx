@@ -171,7 +171,7 @@ const BookEvaluate = ({ bookId }) => {
               value={4}
               onChange={(e) => setRadioValue(e.target.value)}
             />
-            <label for="rate-4"> </label>
+            <label htmlFor="rate-4"> </label>
             <input
               className="rating__input"
               type="radio"
@@ -180,7 +180,7 @@ const BookEvaluate = ({ bookId }) => {
               value={3}
               onChange={(e) => setRadioValue(e.target.value)}
             />
-            <label for="rate-3"> </label>
+            <label htmlFor="rate-3"> </label>
             <input
               className="rating__input"
               type="radio"
@@ -189,7 +189,7 @@ const BookEvaluate = ({ bookId }) => {
               value={2}
               onChange={(e) => setRadioValue(e.target.value)}
             />
-            <label for="rate-2"> </label>
+            <label htmlFor="rate-2"> </label>
             <input
               className="rating__input"
               type="radio"
@@ -198,7 +198,7 @@ const BookEvaluate = ({ bookId }) => {
               value={1}
               onChange={(e) => setRadioValue(e.target.value)}
             />
-            <label for="rate-1"> </label>
+            <label htmlFor="rate-1"> </label>
           </div>
           <form onSubmit={handleSubmit} className="product__modal--form">
             <div className="product__modal--name">

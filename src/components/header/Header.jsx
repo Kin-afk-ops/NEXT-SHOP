@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, getCart, getNoti } from "../../lib/apiCall";
-import { logout } from "../../lib/features/user/userSlice";
+import { logout, resetState } from "../../lib/features/user/userSlice";
 import { logoutCart } from "../../lib/features/cart/cartLengthSlice";
 import { logoutNoti } from "../../lib/features/notification/notiSlice";
 
@@ -37,7 +37,7 @@ const Header = () => {
   const [phoneExistError, setPhoneExistError] = useState(false);
   const [passwordRegisterError, setPasswordRegisterError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
-  const [noAccountError, setNoAccount] = useState(false);
+  const [noAccount, setNoAccount] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
 
   const [infoUser, setInfoUser] = useState({});
@@ -50,7 +50,6 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.currentUser);
-  const isError = useSelector((state) => state.user.isError);
 
   const cartLength = useSelector((state) => state.cartLength.length);
   const notification = useSelector((state) => state.noti.notification);
@@ -80,14 +79,10 @@ const Header = () => {
       password,
     };
 
-    if (validate()) {
-      login(dispatch, newLogin);
+    login(dispatch, newLogin, setNoAccount);
 
-      if (isError === true) {
-        setNoAccount(true);
-      } else {
-        setNoAccount(false);
-      }
+    console.log(isError);
+    if (validate()) {
     } else {
       if (phone === "") {
         setPhoneLoginError(true);
@@ -466,7 +461,7 @@ const Header = () => {
                     </p>
                   )}
 
-                  {noAccountError && (
+                  {noAccount && (
                     <p className="error__message">
                       Số điện thoại hoặc mật khẩu không đúng
                     </p>
@@ -501,7 +496,7 @@ const Header = () => {
                     </p>
                   )}
 
-                  {noAccountError && (
+                  {noAccount && (
                     <p className="error__message">
                       Số điện thoại hoặc mật khẩu không đúng
                     </p>

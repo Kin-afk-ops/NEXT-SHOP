@@ -52,6 +52,11 @@
 
 .info__title {
   font-weight: 600;
+  transition: 1s;
+}
+
+.info__title:hover {
+  text-decoration: underline;
 }
 
 .info__money {

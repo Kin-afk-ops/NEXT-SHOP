@@ -69,7 +69,7 @@ const PayContent = ({ userId }) => {
         setDistrict(res.data.address.district);
         setWard(res.data.address.ward);
 
-        console.log(res.data.address);
+        res.data.address.address === "" && setOtherAddressMode(true);
       } catch (error) {
         console.log(error);
       }
@@ -111,6 +111,16 @@ const PayContent = ({ userId }) => {
 
     if (clientName === "" || otherAddressError || phone === "") {
       toast.error("Đặt hàng không thành công! Hãy xem lại");
+
+      console.log("Haha");
+    } else if (otherAddressMode) {
+      if (
+        otherAddress === "" ||
+        otherWard === "" ||
+        otherDistrict === "" ||
+        otherProvince === ""
+      )
+        toast.error("Hãy điền đầy đủ địa chỉ");
 
       console.log("Haha");
     } else {
@@ -233,7 +243,7 @@ const PayContent = ({ userId }) => {
   return (
     <form className="pay__form" onSubmit={handleSubmit}>
       <div className="pay__form--wrap c-6">
-        <label className="pay__form--label" for="">
+        <label className="pay__form--label" htmlFor="">
           Họ và tên người nhận hàng
         </label>
         <input
@@ -255,7 +265,7 @@ const PayContent = ({ userId }) => {
           <p style={{ color: "red" }}>Hãy nhập tên người nhận hàng</p>
         )}
 
-        <label className="pay__form--label" for="">
+        <label className="pay__form--label" htmlFor="">
           Số điện thoại
         </label>
         <input
@@ -275,42 +285,49 @@ const PayContent = ({ userId }) => {
 
         {phoneError && <p style={{ color: "red" }}>Hãy nhập số điện thoại</p>}
 
-        <label className="pay__form--label" for="">
+        <label className="pay__form--label" htmlFor="">
           Địa chỉ giao hàng
         </label>
 
         <div className="pay__address--wrap">
-          <div className="pay__address">
-            <input
-              type="radio"
-              name="pay__address"
-              id="pay__address--default"
-              value="default"
-              onChange={() => setOtherAddressMode(false)}
-              defaultChecked
-            />
-            <label htmlFor="pay__address--default">
-              <div className="pay__address--title">Mặt định</div>
+          {address !== "" && (
+            <div className="pay__address">
+              <input
+                type="radio"
+                name="pay__address"
+                id="pay__address--default"
+                value="default"
+                onChange={() => setOtherAddressMode(false)}
+                defaultChecked
+              />
+              <label htmlFor="pay__address--default">
+                <div className="pay__address--title">Mặt định</div>
 
-              <div className="pay__address--content">
-                {address && <span>{address + ", "}</span>}
-                {ward && <span>{ward + ", "}</span>}
-                {district && <span>{district + ", "}</span>}
-                {province && <span>{province + "."}</span>}
-              </div>
-            </label>
-          </div>
+                <div className="pay__address--content">
+                  {address && <span>{address + ", "}</span>}
+                  {ward && <span>{ward + ", "}</span>}
+                  {district && <span>{district + ", "}</span>}
+                  {province && <span>{province + "."}</span>}
+                </div>
+              </label>
+            </div>
+          )}
 
           <div className="pay__address">
-            <input
-              type="radio"
-              name="pay__address"
-              id="pay__address--other"
-              value="other"
-              onChange={(e) => handleChangeOtherAddress(e)}
-            />
+            {address !== "" && (
+              <input
+                type="radio"
+                name="pay__address"
+                id="pay__address--other"
+                value="other"
+                onChange={(e) => handleChangeOtherAddress(e)}
+              />
+            )}
+
             <label htmlFor="pay__address--other">
-              <div className="pay__address--title">Khác</div>
+              {address !== "" && (
+                <div className="pay__address--title">Khác</div>
+              )}
 
               {otherAddressMode ? (
                 <div className="pay__address--content">
@@ -420,7 +437,7 @@ const PayContent = ({ userId }) => {
           <p style={{ color: "red" }}>Hãy nhập một địa chỉ hợp lệ</p>
         )}
 
-        <label className="pay__form--label" for="">
+        <label className="pay__form--label" htmlFor="">
           Ghi chú
         </label>
         <input

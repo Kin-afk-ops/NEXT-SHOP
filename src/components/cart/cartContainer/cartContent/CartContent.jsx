@@ -31,7 +31,7 @@ const CartContent = ({ cart, setTotalPrice, payMode, setLoading }) => {
             cart?.map((c, index) => (
               <li
                 className="cart__content--container-item row no-gutters"
-                key={c.id}
+                key={c._id}
               >
                 <CartItem
                   cartItem={c}
