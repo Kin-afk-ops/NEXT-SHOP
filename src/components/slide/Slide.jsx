@@ -11,11 +11,12 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 import "./slide.css";
+import "./responsive.css";
 
 const Slide = () => {
   return (
     <div className="slide row">
-      <div className="col c-8 slide__left">
+      <div className="col c-8 m-12 slide__left">
         <Swiper
           modules={[Navigation, A11y, Pagination, Autoplay]}
           spaceBetween={0}

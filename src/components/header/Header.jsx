@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import Image from "next/image";
 import "./header.css";
+import "./responsive.css";
 import logo from "../../assets/images/toi_doc_sach_logo.png";
 import avatar from "../../assets/images/default_avatar.png";
 import axiosInstance from "../../config";
@@ -221,7 +222,7 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div className="header__content">
+      <div className="header__content grid wide">
         <div className="header__left">
           <Link className="link header__logo--img" href="/">
             <Image src={logo} alt="" width={220} height={39} />
@@ -406,7 +407,7 @@ const Header = () => {
             </ul>
           </div>
 
-          <div className="header__icon header__icon--language">
+          {/* <div className="header__icon header__icon--language">
             <div>
               <p>{language}</p>
             </div>
@@ -420,7 +421,7 @@ const Header = () => {
             </div>
 
             <span>Ngôn ngữ</span>
-          </div>
+          </div> */}
         </div>
       </div>
 
