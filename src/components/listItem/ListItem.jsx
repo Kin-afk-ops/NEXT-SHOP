@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import "./listItem.css";
+import "./responsive.css";
 
 const ListItem = ({ book }) => {
   const VND = new Intl.NumberFormat("vi-VN", {
@@ -31,7 +32,7 @@ const ListItem = ({ book }) => {
           <p className="list__item--discount">{VND.format(book?.price)}</p>
         </div>
 
-        <div className="list__item--percent">{book?.discount}%</div>
+        <div className="list__item--percent">-{book?.discount}%</div>
       </div>
     </Link>
   );

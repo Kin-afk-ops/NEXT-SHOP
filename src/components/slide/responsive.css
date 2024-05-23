@@ -1,14 +1,3 @@
 /*Ipad ngang(1024 x 768)*/
 @media screen and (max-width: 1024px) {
-  .slide__right {
-    display: none;
-  }
-
-  .slide {
-    height: 400px;
-  }
-
-  .slide__img {
-    height: 400px;
-  }
 }

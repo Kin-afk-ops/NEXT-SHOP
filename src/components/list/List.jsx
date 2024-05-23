@@ -11,7 +11,7 @@ const List = ({ books }) => {
 
       <div className="row list__container">
         {books?.data.map((book, index) => (
-          <div className="col c-3" key={index}>
+          <div className="col l-3" key={index}>
             <ListItem book={book} />
           </div>
         ))}

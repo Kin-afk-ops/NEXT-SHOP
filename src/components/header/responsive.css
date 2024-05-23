@@ -1,3 +1,30 @@
 /*Ipad ngang(1024 x 768)*/
 @media screen and (max-width: 1024px) {
 }
+
+/*Ipad dọc(768 x 1024)*/
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .header__logo--img {
+    width: 130px;
+    height: 30px;
+  }
+
+  .header__icon i {
+    font-size: 25px;
+  }
+
+  .header__center {
+    flex: 2.5 1;
+  }
+  .header__icon--total {
+    right: -9px;
+  }
+
+  .header__icon--total-cart {
+    right: -9px;
+  }
+
+  .header__right i {
+    margin-left: 10px;
+  }
+}

@@ -8,7 +8,7 @@ const Footer = () => {
     <div className="footer main__container">
       <div className="grid wide">
         <div className="row footer__container">
-          <div className="col l-3 footer__container--left c-3">
+          <div className="col l-3 m-3 footer__container--left">
             <Link href="/">
               <Image
                 src={logo}
@@ -36,39 +36,41 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="row footer__container--right c-9">
-            <div className="col l-4 footer__container--right-item">
-              <p className="footer__container--right-title">DỊCH VỤ</p>
+          <div className=" l-9 c-9 m-9  footer__container--right ">
+            <div className="row">
+              <div className="col l-4 footer__container--right-item">
+                <p className="footer__container--right-title">DỊCH VỤ</p>
 
-              <ul>
-                <li>
-                  Giới thiệu về <b>toidocsach</b>
-                </li>
-              </ul>
-            </div>
+                <ul>
+                  <li>
+                    Giới thiệu về <b>toidocsach</b>
+                  </li>
+                </ul>
+              </div>
 
-            <div className="col l-4 footer__container--right-item">
-              <p className="footer__container--right-title">HỖ TRỢ</p>
-              <ul>
-                <li>Giao hàng đi toàn quốc</li>
-                <li>Đổi trả trong 7 ngày</li>
-                <li>Hoàn tiền 100%</li>
-                <li>Thanh toán băng tiền mặt, VNPAY và MOMO</li>
-              </ul>
-            </div>
+              <div className="col l-4 footer__container--right-item">
+                <p className="footer__container--right-title">HỖ TRỢ</p>
+                <ul>
+                  <li>Giao hàng đi toàn quốc</li>
+                  <li>Đổi trả trong 7 ngày</li>
+                  <li>Hoàn tiền 100%</li>
+                  <li>Thanh toán băng tiền mặt, VNPAY và MOMO</li>
+                </ul>
+              </div>
 
-            <div className="col l-4 footer__container--right-item">
-              <p className="footer__container--right-title">
-                TÀI KHOẢN CỦA TÔI
-              </p>
-              <ul>
-                <Link href="/khach-hang/ho-so" className="link">
-                  <li>Thay đổi thông tin</li>
-                </Link>
-                <Link href="/khach-hang/thong-tin" className="link">
-                  <li>Chi tiết tài khoản</li>
-                </Link>
-              </ul>
+              <div className="col l-4 footer__container--right-item">
+                <p className="footer__container--right-title">
+                  TÀI KHOẢN CỦA TÔI
+                </p>
+                <ul>
+                  <Link href="/khach-hang/ho-so" className="link">
+                    <li>Thay đổi thông tin</li>
+                  </Link>
+                  <Link href="/khach-hang/thong-tin" className="link">
+                    <li>Chi tiết tài khoản</li>
+                  </Link>
+                </ul>
+              </div>
             </div>
 
             <div className="footer__container--contact grid">

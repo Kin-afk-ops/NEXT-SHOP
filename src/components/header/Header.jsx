@@ -225,7 +225,7 @@ const Header = () => {
       <div className="header__content grid wide">
         <div className="header__left">
           <Link className="link header__logo--img" href="/">
-            <Image src={logo} alt="" width={220} height={39} />
+            <Image src={logo} alt="logo" />
           </Link>
 
           {/* <Link className="link header__icon--left" href="/bai-viet">
@@ -242,7 +242,10 @@ const Header = () => {
               className="fa-solid fa-bell"
               onClick={() => router.push("/khach-hang/thong-bao")}
             ></i>
-            <span onClick={() => router.push("/khach-hang/thong-bao")}>
+            <span
+              className="m-0"
+              onClick={() => router.push("/khach-hang/thong-bao")}
+            >
               Thông báo
             </span>
             {notification.length !== 0 && (
@@ -250,7 +253,7 @@ const Header = () => {
             )}
 
             {notification && (
-              <ul className="header__icon--notify-list">
+              <ul className="header__icon--notify-list m-0">
                 <div className="header__icon--notify-header">
                   <span className="header__icon--notify-title">
                     {" "}
@@ -294,7 +297,7 @@ const Header = () => {
           <Link href={`/gio-hang/${userId}`} className="link">
             <div className="header__icon">
               <i className="fa-solid fa-cart-shopping"></i>
-              <span>Giỏ hàng</span>
+              <span className="m-0">Giỏ hàng</span>
 
               {cartLength !== 0 && (
                 <div className="header__icon--total header__icon--total-cart">
@@ -306,7 +309,7 @@ const Header = () => {
 
           <div className="header__icon">
             <i className="fa-solid fa-user"></i>
-            <span>Tài khoản</span>
+            <span className="m-0">Tài khoản</span>
 
             <ul className="header__icon--user-list">
               <div

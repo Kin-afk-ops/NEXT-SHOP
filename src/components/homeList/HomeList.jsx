@@ -2,6 +2,7 @@ import Link from "next/link";
 import "./homeList.css";
 import ListItem from "../listItem/ListItem";
 import configSlug from "@/slug";
+import "./responsive.css";
 
 const HomeList = ({ books }) => {
   const createQuery = (query) => {
@@ -15,7 +16,7 @@ const HomeList = ({ books }) => {
 
       <div className="row list__container">
         {books?.data.map((book, index) => (
-          <div className="col l-2-4" key={index}>
+          <div className="col l-2-4 m-2-4" key={index}>
             <ListItem book={book} />
           </div>
         ))}

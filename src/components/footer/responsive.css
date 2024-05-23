@@ -1,0 +1,9 @@
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .footer__container--right {
+    padding-left: 170px;
+  }
+
+  .footer__container--left::after {
+    right: -100px;
+  }
+}

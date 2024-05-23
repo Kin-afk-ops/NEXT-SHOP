@@ -1,0 +1,7 @@
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .list__item--percent {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}

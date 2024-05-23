@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import axiosInstance from "../../config";
 import "./categories.css";
+import "./responsive.css";
 
 const Categories = async () => {
   const res = await axiosInstance.get("/home/categories");
