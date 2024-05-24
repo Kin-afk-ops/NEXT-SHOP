@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import "./page.css";
+import "../don-hang/responsive.css";
 import axiosInstance from "@/config";
 import { useSelector } from "react-redux";
 import Image from "next/image";
@@ -38,39 +39,50 @@ const CustomerContentOrder = () => {
                 <Image
                   className="img__main"
                   src={order.books.image}
-                  alt=""
+                  alt={order.books}
                   width={100}
                   height={100}
                 />
-                <div className="content__order--desc c-8">
+                <div className="content__order--desc c-8 m-9">
                   <p className="content__order--title">{order.books.name}</p>
 
                   <p className="content__order--quality">
                     Số lượng: {order.books.quantity}
                   </p>
+
+                  <div className="content__order--price-middle">
+                    {VND.format(
+                      order.books.discountPrice * order.books.quantity
+                    )}
+                  </div>
                 </div>
 
-                <div className="content__order--price c-2">
+                <div className="content__order--price c-2 m-0">
                   {VND.format(order.books.discountPrice * order.books.quantity)}
                 </div>
 
                 <div className="order__action">
-                  <div className="order__action--item">
-                    <p className="main__title">
-                      Trạng thái đơn hàng:{" "}
-                      <span className="order__action--status">
-                        {order.status}
-                      </span>
-                    </p>
+                  <div className="order__action--item row no-gutters">
+                    <div className="l-3 m-5">
+                      <p className="order__action--title">
+                        {" "}
+                        Trạng thái đơn hàng:
+                      </p>
+                      <p className="order__action--title">
+                        {" "}
+                        Địa chỉ giao hàng:
+                      </p>
+                    </div>
 
-                    <p className="main__title">
-                      Địa chỉ giao hàng:{" "}
-                      <span className="order__action--status">
+                    <div className="l-9 m-7">
+                      <p className="order__action--status">{order.status}</p>
+
+                      <p className="order__action--status">
                         {order.address.address}
                         <br /> {order.address.ward}, {order.address.district},
                         {order.address.province}
-                      </span>
-                    </p>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </li>

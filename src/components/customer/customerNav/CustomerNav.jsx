@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import "./customerNav.css";
+import "./responsive.css";
 
 const CustomerNav = () => {
   const pathname = usePathname();
   const slug = pathname.split("/")[2];
 
   return (
-    <div className="customer__nav col c-3 main__container">
+    <div className="customer__nav col l-3 m-3 main__container">
       <h1 className="customer__title">Tài khoản</h1>
       <hr />
       <div className="customer__nav--content">

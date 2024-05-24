@@ -5,6 +5,12 @@
   justify-content: space-around;
 }
 
+.customer__info--avatar {
+  object-fit: contain;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
 .customer__info--info {
   margin-left: 20px;
   font-size: 18px;

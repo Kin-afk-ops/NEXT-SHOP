@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { increaseCart } from "../../../lib/features/cart/cartLengthSlice";
 
 import "./bookToBuy.css";
+import "./responsive.css";
 import VND from "../../../vnd";
 import { useSelector } from "react-redux";
 import axiosInstance from "@/config";
@@ -95,7 +96,8 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
 
         <div className="product__buy--btn">
           <button className="product__buy--btn-add" onClick={handleAddCart}>
-            <i className="fa-solid fa-cart-plus"></i>Thêm vào giỏ hàng
+            <i className="fa-solid fa-cart-plus"></i>
+            <span className="m-0">Thêm vào giỏ hàng</span>
           </button>
 
           <button className="product__buy--btn-buy " onClick={handleBuy}>

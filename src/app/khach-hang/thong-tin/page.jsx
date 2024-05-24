@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import "./page.css";
+import "./responsive.css";
 import avatar from "../../../assets/images/default_avatar.png";
 import { useSelector } from "react-redux";
 import axiosInstance from "@/config";
@@ -36,13 +37,8 @@ const CustomerContentInfo = () => {
         <Image
           src={checkInfo ? infoUser?.avatar.path : avatar}
           alt="avatar"
-          width={225}
-          height={225}
-          style={{
-            objectFit: "contain",
-            borderRadius: "50%",
-            border: "1px solid #ccc",
-          }}
+          width={255}
+          height={255}
           className="customer__info--avatar"
         />
 

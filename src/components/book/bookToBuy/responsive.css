@@ -1,0 +1,17 @@
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .product__buy--img {
+    height: 50%;
+  }
+
+  .product__buy--btn-add {
+    font-size: 18px;
+  }
+
+  .product__buy--price {
+    margin-top: 25px;
+  }
+  .product__buy--policy {
+    margin-top: 20px;
+    width: 200%;
+  }
+}

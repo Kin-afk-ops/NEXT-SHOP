@@ -4,7 +4,7 @@ const Layout = ({ children }) => {
   return (
     <div className="row">
       <CustomerNav />
-      <div className="col c-9 ">
+      <div className="col l-9 m-9">
         <ToastProvider>{children}</ToastProvider>
       </div>
     </div>
