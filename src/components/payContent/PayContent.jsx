@@ -17,6 +17,7 @@ import VND from "@/vnd";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "./payContent.css";
+import "./responsive.css";
 
 const PayContent = ({ userId }) => {
   const dispatch = useDispatch();
@@ -242,7 +243,7 @@ const PayContent = ({ userId }) => {
 
   return (
     <form className="pay__form" onSubmit={handleSubmit}>
-      <div className="pay__form--wrap c-6">
+      <div className="pay__form--wrap l-6 m-12">
         <label className="pay__form--label" htmlFor="">
           Họ và tên người nhận hàng
         </label>

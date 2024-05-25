@@ -1,0 +1,9 @@
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .customer__modal--title {
+    font-size: 16px;
+  }
+
+  .cart__content--container-item-quantity-middle {
+    display: flex !important;
+  }
+}

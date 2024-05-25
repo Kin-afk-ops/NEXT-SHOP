@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import "./page.css";
+import "./responsive.css";
 import axiosInstance from "@/config";
 import { useSelector } from "react-redux";
 import Image from "next/image";
@@ -97,14 +98,14 @@ const CustomerContentOrder = () => {
                   <div className="order__action--item">
                     <p className="main__title">
                       Trạng thái đơn hàng:{" "}
-                      <span className="order__action--status">
+                      <span className="order__action--status-order">
                         {order.status}
                       </span>
                     </p>
 
                     <p className="main__title">
                       Địa chỉ giao hàng:{" "}
-                      <span className="order__action--status">
+                      <span className="order__action--status-order">
                         {order.address.address}
                         <br /> {order.address.ward}, {order.address.district},
                         {order.address.province}

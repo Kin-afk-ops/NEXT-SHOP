@@ -4,6 +4,7 @@ import axiosInstance from "@/config";
 import { useDispatch } from "react-redux";
 import { reduceCart } from "@/lib/features/cart/cartLengthSlice";
 import { useRouter } from "next/navigation";
+import "./responsive.css";
 
 const CartDelete = ({
   deleteDisplay,

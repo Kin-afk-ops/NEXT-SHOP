@@ -1,6 +1,7 @@
 import Image from "next/image";
 import logo from "../../assets/images/toi_doc_sach_logo.png";
 import "./footer.css";
+import "./responsive.css";
 import Link from "next/link";
 
 const Footer = () => {
@@ -38,7 +39,7 @@ const Footer = () => {
 
           <div className=" l-9 c-9 m-9  footer__container--right ">
             <div className="row">
-              <div className="col l-4 footer__container--right-item">
+              <div className="col l-4 m-12 footer__container--right-item">
                 <p className="footer__container--right-title">DỊCH VỤ</p>
 
                 <ul>
@@ -48,7 +49,7 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="col l-4 footer__container--right-item">
+              <div className="col l-4 m-12 footer__container--right-item">
                 <p className="footer__container--right-title">HỖ TRỢ</p>
                 <ul>
                   <li>Giao hàng đi toàn quốc</li>
@@ -58,7 +59,7 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="col l-4 footer__container--right-item">
+              <div className="col l-4 m-12 footer__container--right-item">
                 <p className="footer__container--right-title">
                   TÀI KHOẢN CỦA TÔI
                 </p>

@@ -1,0 +1,10 @@
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .card__pay--content-left div {
+    width: 100%;
+  }
+
+  .card__pay--content-btn .router-btn {
+    margin-top: 0px;
+    width: 55%;
+  }
+}

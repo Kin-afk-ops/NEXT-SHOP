@@ -75,6 +75,16 @@
   color: #ccc;
 }
 
+.cart__content--container-item-quantity-middle {
+  width: 130px;
+  overflow: hidden;
+  font-size: 18px;
+
+  border: 1px solid #ccc;
+
+  display: none;
+}
+
 .cart__content--container-item-quantity {
   overflow: hidden;
   font-size: 18px;

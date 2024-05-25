@@ -63,7 +63,7 @@ const CustomerContentOrder = () => {
 
                 <div className="order__action">
                   <div className="order__action--item row no-gutters">
-                    <div className="l-3 m-5">
+                    <div className="l-6 m-5">
                       <p className="order__action--title">
                         {" "}
                         Trạng thái đơn hàng:
@@ -74,7 +74,7 @@ const CustomerContentOrder = () => {
                       </p>
                     </div>
 
-                    <div className="l-9 m-7">
+                    <div className="l-6 m-7">
                       <p className="order__action--status">{order.status}</p>
 
                       <p className="order__action--status">

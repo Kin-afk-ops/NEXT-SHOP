@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import configSlug from "@/slug";
+import "./responsive.css";
 
 const CartItem = ({
   cartItem,
@@ -188,7 +189,7 @@ const CartItem = ({
         )}
       </div>
 
-      <div className="img__main c-1">
+      <div className="img__main l-1 m-2">
         <Image
           src={cartItem.books.image}
           alt={cartItem.books.image}
@@ -196,13 +197,45 @@ const CartItem = ({
           height={100}
         />
       </div>
-      <div className="cart__content--container-item-info c-4">
+      <div className="cart__content--container-item-info c-4 m-7">
         <Link
           className="link"
           href={`/sach/${configSlug(cartItem?.books.name)}.html`}
         >
           <p className="info__title">{cartItem?.books.name}</p>
         </Link>
+
+        {!payMode && (
+          <div className="cart__content--container-item-quantity-middle">
+            <div
+              className={
+                quantity > 1
+                  ? "cart__content--quantity-reduce display__flex--center"
+                  : "cart__content--quantity-reduce display__flex--center non__quantity"
+              }
+              onClick={() => {
+                handleReduce();
+              }}
+            >
+              -
+            </div>
+            <div className="cart__content--quantity-value">{quantity}</div>
+
+            <div
+              className={
+                quantity < maxQuantity
+                  ? "cart__content--quantity-increase display__flex--center"
+                  : "cart__content--quantity-increase display__flex--center non__quantity"
+              }
+              onClick={() => {
+                handleIncrease();
+              }}
+            >
+              +
+            </div>
+          </div>
+        )}
+
         <div className="info__money">
           <p className="info__money--all">
             {VND.format(cartItem?.books?.discountPrice)}
@@ -211,8 +244,10 @@ const CartItem = ({
             {VND.format(cartItem?.books.price)}
           </p>
         </div>
+
+        {payMode && <div className="l-0">Số lượng: {quantity}</div>}
       </div>
-      <div className="cart__content--container-item-quantity display__flex--center c-2">
+      <div className="cart__content--container-item-quantity display__flex--center l-2 m-0">
         <div className="cart__content--quantity-wrapper display__flex--center">
           {!payMode && (
             <div
@@ -248,13 +283,13 @@ const CartItem = ({
         </div>
       </div>
 
-      <div className="cart__content--container-item-money display__flex--center c-2">
+      <div className="cart__content--container-item-money display__flex--center c-2 m-1">
         {VND.format(payPrice)}
       </div>
 
       {!payMode && (
         <div
-          className="cart__content--container-item-trash display__flex--center c-2"
+          className="cart__content--container-item-trash display__flex--center c-2 m-1"
           onClick={() => handleDelete()}
         >
           <i className="fa-solid fa-trash"></i>

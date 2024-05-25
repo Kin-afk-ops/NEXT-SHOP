@@ -72,6 +72,7 @@
 .order__action--status {
   font-weight: 400;
   margin-top: 20px;
+  text-align: left;
 }
 
 .content__order--btn {

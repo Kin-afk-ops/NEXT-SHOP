@@ -44,11 +44,18 @@
   padding-bottom: 20px;
   justify-content: space-between;
   margin-top: 10px;
+  margin-left: 20px;
 }
 
 .order__action--item {
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+
+.order__action--title {
+  font-weight: 700;
+  margin-top: 20px;
 }
 
 .order__action--item p {
@@ -56,9 +63,10 @@
   align-items: flex-start;
 }
 
-.order__action--status {
-  margin-left: 10px;
+.order__action--status-order {
   font-weight: 400;
+  text-align: left;
+  margin-left: 20px;
 }
 
 .content__order--btn {
@@ -67,6 +75,7 @@
 
 .content__order--btn-delete {
   height: 40px;
+  width: 112px;
   padding: 20px;
   display: flex;
   justify-content: center;

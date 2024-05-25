@@ -12,7 +12,7 @@ const CartContent = ({ cart, setTotalPrice, payMode, setLoading }) => {
 
   return (
     <div className="cart__content main__container">
-      <div className="cart__content--title main__title row no-gutters">
+      <div className="cart__content--title main__title row no-gutters m-0">
         {/* <input
           type="checkbox"
           className="c-1"
@@ -23,7 +23,7 @@ const CartContent = ({ cart, setTotalPrice, payMode, setLoading }) => {
         <p className="c-2 display__flex--center">Số lượng</p>
         <p className="c-2 display__flex--center">Thành tiền</p>
       </div>
-      <hr />
+      <hr className="m-0" />
 
       <div className="cart__content--container">
         <ul className="cart__content--container-list">

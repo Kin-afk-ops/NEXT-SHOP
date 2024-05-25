@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../config";
 import { useRouter, useSearchParams } from "next/navigation";
 import "./filter.css";
+import "./responsive.css";
 
 const Filter = ({ query, categories, type }) => {
   const router = useRouter();
@@ -198,7 +199,7 @@ const Filter = ({ query, categories, type }) => {
     <div className="filer main__container">
       <div className="filer__list">
         <div className="filer__list--item">
-          <h2>Danh mục sách</h2>
+          <h2>Danh mục</h2>
           <ul>
             <li
               className={query === "Sách mới của cửa hàng" ? "active" : ""}

@@ -1,4 +1,9 @@
 @media screen and (min-width: 768px) and (max-width: 1023px) {
+  .order__action--item p {
+    text-align: left;
+    padding-left: 0;
+  }
+
   .content__order--price-middle {
     display: block;
   }

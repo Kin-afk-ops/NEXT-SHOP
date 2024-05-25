@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import axiosInstance from "@/config";
 import { toast } from "react-toastify";
 import "./page.css";
+import "./responsive.css";
 
 import { logout } from "../../../lib/features/user/userSlice";
 
