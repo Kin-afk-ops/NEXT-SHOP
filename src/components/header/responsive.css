@@ -28,3 +28,52 @@
     margin-left: 10px;
   }
 }
+
+/* Mobile */
+@media (max-width: 767px) {
+  .header__content {
+    height: 100px;
+    flex-wrap: wrap;
+  }
+
+  .header__left {
+    height: 50%;
+    justify-content: center;
+  }
+
+  .header__center {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--primary-color);
+  }
+  .header__center--input {
+    width: 100%;
+    background-color: #fff;
+  }
+
+  .header__right {
+    height: 50%;
+    justify-content: space-around;
+    background-color: var(--primary-color);
+  }
+
+  .header__icon {
+    font-size: 25px;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+  }
+  .header__icon i {
+    color: white;
+  }
+
+  .header__icon--total {
+    border: 1px solid #ccc;
+    background-color: greenyellow;
+    color: white;
+    font-weight: 700;
+    right: -8px;
+  }
+}

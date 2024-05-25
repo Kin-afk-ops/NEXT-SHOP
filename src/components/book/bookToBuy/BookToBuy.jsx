@@ -91,6 +91,9 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
             alt={book?.name}
             width={388}
             height={388}
+            style={{
+              objectFit: "contain",
+            }}
           />
         </div>
 

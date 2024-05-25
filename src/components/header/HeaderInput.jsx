@@ -139,7 +139,7 @@ const HeaderInput = () => {
   };
 
   return (
-    <div className="header__center">
+    <div className="header__center s-8">
       <div className="header__center--search">
         <input
           ref={input}
@@ -159,7 +159,7 @@ const HeaderInput = () => {
             }
           }}
         />
-        <div className="header__center--icon" onClick={handleSearch}>
+        <div className="header__center--icon s-0" onClick={handleSearch}>
           <i className="fa-solid fa-magnifying-glass"></i>
         </div>
       </div>

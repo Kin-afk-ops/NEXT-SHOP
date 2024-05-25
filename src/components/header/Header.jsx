@@ -223,7 +223,7 @@ const Header = () => {
   return (
     <div className="header">
       <div className="header__content grid wide">
-        <div className="header__left">
+        <div className="header__left s-12">
           <Link className="link header__logo--img" href="/">
             <Image src={logo} alt="logo" />
           </Link>
@@ -236,14 +236,14 @@ const Header = () => {
 
         <HeaderInput />
 
-        <div className="header__right">
+        <div className="header__right s-4">
           <div className="header__icon">
             <i
               className="fa-solid fa-bell"
               onClick={() => router.push("/khach-hang/thong-bao")}
             ></i>
             <span
-              className="m-0"
+              className="m-0 s-0"
               onClick={() => router.push("/khach-hang/thong-bao")}
             >
               Thông báo
@@ -253,7 +253,7 @@ const Header = () => {
             )}
 
             {notification && (
-              <ul className="header__icon--notify-list m-0">
+              <ul className="header__icon--notify-list m-0 s-0">
                 <div className="header__icon--notify-header">
                   <span className="header__icon--notify-title">
                     {" "}
@@ -297,7 +297,7 @@ const Header = () => {
           <Link href={`/gio-hang/${userId}`} className="link">
             <div className="header__icon">
               <i className="fa-solid fa-cart-shopping"></i>
-              <span className="m-0">Giỏ hàng</span>
+              <span className="m-0 s-0">Giỏ hàng</span>
 
               {cartLength !== 0 && (
                 <div className="header__icon--total header__icon--total-cart">
@@ -307,11 +307,17 @@ const Header = () => {
             </div>
           </Link>
 
-          <div className="header__icon">
-            <i className="fa-solid fa-user"></i>
-            <span className="m-0">Tài khoản</span>
+          <Link className="link" href={`/khach-hang/thong-tin`}>
+            <div className="header__icon l-0 m-0">
+              <i className="fa-solid fa-user"></i>
+            </div>
+          </Link>
 
-            <ul className="header__icon--user-list">
+          <div className="header__icon s-0">
+            <i className="fa-solid fa-user"></i>
+            <span className="m-0 s-0">Tài khoản</span>
+
+            <ul className="header__icon--user-list s-0">
               <div
                 onClick={() => {
                   user && router.push("/khach-hang/thong-tin");
