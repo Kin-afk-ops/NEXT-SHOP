@@ -1,8 +1,8 @@
-.filer {
+.filter {
   border-radius: 0;
 }
 
-.filer__list {
+.filter__list {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,40 +12,44 @@
   overflow: hidden;
 }
 
-.filer__list div {
+.filter__list div {
   height: 100%;
   flex: 1;
 }
 
-.filer__list--item {
+.filter__list--item {
   width: 100%;
   border-bottom: 1px solid #eee;
   padding-bottom: 20px;
 }
 
-.filer__list--item h2 {
+.filter__list--item h2 {
   padding: 5px;
 }
 
-.filer__list--item ul {
+.filter__list--item ul {
   list-style: none;
 }
 
-.filer__list--item ul li {
+.filter__list--item ul li {
   cursor: pointer;
   padding: 5px 10px;
   font-size: 15px;
 }
 
-.filer__list--item-li {
+.filter__list--item-li {
   padding-left: 10px;
   cursor: pointer;
 }
 
-.filer__list--item ul li:hover {
+.filter__list--item ul li:hover {
   color: var(--primary-color);
 }
 
-.filer__list--item ul li.active {
+.filter__list--item ul li.active {
   color: var(--primary-color);
+}
+
+.filter__menu {
+  display: none;
 }

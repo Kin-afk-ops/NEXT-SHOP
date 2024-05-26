@@ -135,12 +135,12 @@ const BookCommentItem = ({ bookId, comment }) => {
 
   return (
     <li className="product__comment--item row no-gutters">
-      <div className="col c-2">
+      <div className="col l-2 m-2 s-3">
         <p className="product__comment--name">{comment?.name}</p>
         {/* <p className="product__comment--date">{bookComment.createdAt}</p> */}
       </div>
 
-      <div className="col c-10">
+      <div className="col l-10 m-10 s-9">
         <div className="product__comment--star">
           <div>
             {starGoldArray.map((star, i) => (
@@ -192,12 +192,15 @@ const BookCommentItem = ({ bookId, comment }) => {
           {user && (
             <>
               {comment.userId === user?._id && (
-                <i className="fa-solid fa-trash product__comment--icon"></i>
+                <i
+                  onClick={() => setModal(true)}
+                  className="fa-solid fa-trash product__comment--icon"
+                ></i>
               )}
 
               {comment.userId === user?._id && (
                 <span
-                  className="product__comment--icon-report "
+                  className="product__comment--icon-report s-0"
                   onClick={() => setModal(true)}
                 >
                   Xoá bình luận

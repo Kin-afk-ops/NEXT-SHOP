@@ -6,7 +6,7 @@ const BookInfo = ({ infoBook }) => {
       <h2 className="main__title">Thông tin sản phẩm</h2>
 
       <div className="product__info--content row no-gutters">
-        <div className="col c-6 row no-gutters product__info--top">
+        <div className="col c-6 m-12 row no-gutters product__info--top">
           <div className="col c-6 product__info--top-left">
             <p>Mã hàng</p>
             <p>Tên nhà cung cấp</p>

@@ -120,6 +120,7 @@
 
 .comment__overlay {
   position: fixed;
+  z-index: 15;
   top: 0;
   left: 0;
   right: 0;

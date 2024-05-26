@@ -21,6 +21,7 @@ const Filter = ({ query, categories, type }) => {
   const [selected, setSelected] = useState(null);
   const [selectedForm, setSelectedForm] = useState(null);
   const [formItem, setFormItem] = useState("");
+  const [filterMobile, setFilterMobile] = useState(false);
 
   const VND = new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -196,81 +197,98 @@ const Filter = ({ query, categories, type }) => {
   };
 
   return (
-    <div className="filer main__container">
-      <div className="filer__list">
-        <div className="filer__list--item">
-          <h2>Danh mục</h2>
-          <ul>
-            <li
-              className={query === "Sách mới của cửa hàng" ? "active" : ""}
-              onClick={() => handleChangeCategory("Sách mới của cửa hàng")}
-            >
-              Sách mới của cửa hàng
-            </li>
-
-            <li
-              className={query === "Giảm giá siêu ưu đãi" ? "active" : ""}
-              onClick={() => handleChangeCategory("Giảm giá siêu ưu đãi")}
-            >
-              Giảm giá siêu ưu đãi
-            </li>
-
-            {categories?.map((category, index) => (
+    <>
+      <i
+        onClick={() => setFilterMobile(false)}
+        className="fa-solid fa-bars filter__menu"
+      ></i>
+      <div
+        className={
+          filterMobile
+            ? "filter main__container filter__mobile"
+            : "filter main__container"
+        }
+      >
+        <div className="filter__list">
+          <div className="filter__list--item">
+            <h2>Danh mục</h2>
+            <ul>
               <li
-                key={category._id}
-                onClick={() => handleChangeCategory(category.name)}
-                className={query === category.name ? "active" : ""}
+                className={query === "Sách mới của cửa hàng" ? "active" : ""}
+                onClick={() => handleChangeCategory("Sách mới của cửa hàng")}
               >
-                {category.name}
+                Sách mới của cửa hàng
               </li>
-            ))}
-          </ul>
+
+              <li
+                className={query === "Giảm giá siêu ưu đãi" ? "active" : ""}
+                onClick={() => handleChangeCategory("Giảm giá siêu ưu đãi")}
+              >
+                Giảm giá siêu ưu đãi
+              </li>
+
+              {categories?.map((category, index) => (
+                <li
+                  key={category._id}
+                  onClick={() => handleChangeCategory(category.name)}
+                  className={query === category.name ? "active" : ""}
+                >
+                  {category.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="filter__list--item">
+            <h2>Giá</h2>
+            <ul>
+              {price.map((priceItem, index) => (
+                <li key={index}>
+                  <input
+                    type="checkbox"
+                    name="priceCheck"
+                    id={index}
+                    checked={index === selected}
+                    onChange={() => handleCheck(priceItem, index)}
+                  />
+                  <label htmlFor={index} className="filter__list--item-li">
+                    {VND.format(priceItem.from)}&nbsp;-&nbsp;
+                    {priceItem.to === "Trở lên"
+                      ? priceItem.to
+                      : VND.format(priceItem.to)}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="filter__list--item">
+            <h2>Hình thức</h2>
+            <ul>
+              {form.map((formItem, index) => (
+                <li key={index}>
+                  <input
+                    type="checkbox"
+                    name="formItem"
+                    id={formItem}
+                    onChange={() => handleChangeForm(formItem, index)}
+                    checked={index === selectedForm}
+                  />
+                  <label htmlFor={formItem} className="filter__list--item-li">
+                    {formItem}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        <div className="filer__list--item">
-          <h2>Giá</h2>
-          <ul>
-            {price.map((priceItem, index) => (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  name="priceCheck"
-                  id={index}
-                  checked={index === selected}
-                  onChange={() => handleCheck(priceItem, index)}
-                />
-                <label htmlFor={index} className="filer__list--item-li">
-                  {VND.format(priceItem.from)}&nbsp;-&nbsp;
-                  {priceItem.to === "Trở lên"
-                    ? priceItem.to
-                    : VND.format(priceItem.to)}
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="filer__list--item">
-          <h2>Hình thức</h2>
-          <ul>
-            {form.map((formItem, index) => (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  name="formItem"
-                  id={formItem}
-                  onChange={() => handleChangeForm(formItem, index)}
-                  checked={index === selectedForm}
-                />
-                <label htmlFor={formItem} className="filer__list--item-li">
-                  {formItem}
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <i
+          onClick={() => setFilterMobile(true)}
+          className="fa-solid fa-rectangle-xmark filter__close"
+        ></i>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -54,6 +54,7 @@
 }
 
 .product__modal {
+  margin-top: 0 !important;
   position: fixed;
   top: 50%;
   left: 50%;

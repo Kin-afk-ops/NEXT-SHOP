@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import BookCommentItem from "./BookCommentItem";
 import "./bookComment.css";
+import "../responsive.css";
 import axiosInstance from "@/config";
 import CommentPagination from "@/components/pagination/commentPagination/CommentPagination";
 

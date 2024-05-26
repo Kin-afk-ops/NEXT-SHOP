@@ -71,9 +71,19 @@
 
   .header__icon--total {
     border: 1px solid #ccc;
-    background-color: greenyellow;
+    background-color: #2ed62e;
     color: white;
     font-weight: 700;
     right: -8px;
+  }
+
+  .header__input--history {
+    top: 100%;
+    width: 150%;
+  }
+
+  .history__overlay {
+    top: 110px;
+    z-index: 100;
   }
 }

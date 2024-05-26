@@ -9,7 +9,7 @@ const Footer = () => {
     <div className="footer main__container">
       <div className="grid wide">
         <div className="row footer__container">
-          <div className="col l-3 m-3 footer__container--left">
+          <div className="col l-3 m-3 s-12 footer__container--left">
             <Link href="/">
               <Image
                 src={logo}
@@ -37,9 +37,9 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className=" l-9 c-9 m-9  footer__container--right ">
+          <div className=" l-9 c-9 m-9 s-12 footer__container--right ">
             <div className="row">
-              <div className="col l-4 m-12 footer__container--right-item">
+              <div className="col l-4 m-12 s-4 footer__container--right-item">
                 <p className="footer__container--right-title">DỊCH VỤ</p>
 
                 <ul>
@@ -49,7 +49,7 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="col l-4 m-12 footer__container--right-item">
+              <div className="col l-4 m-12 s-4 footer__container--right-item">
                 <p className="footer__container--right-title">HỖ TRỢ</p>
                 <ul>
                   <li>Giao hàng đi toàn quốc</li>
@@ -59,7 +59,7 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="col l-4 m-12 footer__container--right-item">
+              <div className="col l-4 m-12 s-4 footer__container--right-item">
                 <p className="footer__container--right-title">
                   TÀI KHOẢN CỦA TÔI
                 </p>
@@ -77,17 +77,17 @@ const Footer = () => {
             <div className="footer__container--contact grid">
               <div className="footer__container--right-title">LIÊN HỆ</div>
               <ul className="row">
-                <li className="col l-4">
+                <li className="col l-4 s-12">
                   <i className="fa-solid fa-location-dot"></i>
                   <span>4/9A, Mậu Thân, Ninh Kiều, Cần Thơ</span>
                 </li>
 
-                <li className="col l-4">
+                <li className="col l-4 s-12">
                   <i className="fa-solid fa-envelope"></i>
                   <span>linhb2110130@student.ctu.edu.vn</span>
                 </li>
 
-                <li className="col l-4">
+                <li className="col l-4 s-12">
                   <i className="fa-solid fa-phone"></i>
                   <span>(+84) 589443320</span>
                 </li>

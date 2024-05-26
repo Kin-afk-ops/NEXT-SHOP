@@ -3,3 +3,11 @@
     width: 135px;
   }
 }
+
+/* Mobile */
+
+@media (max-width: 767px) {
+  .categories ul {
+    flex-wrap: wrap;
+  }
+}

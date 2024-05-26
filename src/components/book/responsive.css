@@ -1,0 +1,66 @@
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .product__buy--img {
+    height: 70%;
+  }
+
+  .product__buy--btn-add {
+    font-size: 18px;
+  }
+
+  .product__buy--price {
+    margin-top: 25px;
+  }
+  .product__buy--policy {
+    margin-top: 20px;
+    width: 200%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .product__buy--btn {
+    background-color: #fff;
+    position: fixed;
+    bottom: 10px;
+
+    z-index: 10;
+    height: 70px;
+    border: 1px solid #ccc;
+  }
+
+  .product__buy--quality {
+    margin-top: 0 !important;
+  }
+
+  .product__buy--right {
+    padding: 0 15px !important;
+  }
+
+  .product__buy--price {
+    margin-top: 35px;
+  }
+
+  .product__buy--policy {
+    width: 200%;
+  }
+  .product__comment--nav {
+    width: 50%;
+  }
+
+  .product__modal {
+    width: 100%;
+    top: 30%;
+  }
+
+  .product__modal--no-name {
+    width: 30%;
+  }
+
+  .product__comment--item {
+    padding: 20px 10px;
+  }
+
+  .customer__modal {
+    min-width: 100%;
+  }
+}

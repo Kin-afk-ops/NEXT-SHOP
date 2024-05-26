@@ -16,7 +16,7 @@ import "./responsive.css";
 const Slide = () => {
   return (
     <div className="slide row">
-      <div className="col l-8 m-12 slide__left">
+      <div className="col l-8 m-12 s-12 slide__left">
         <Swiper
           modules={[Navigation, A11y, Pagination, Autoplay]}
           spaceBetween={0}
@@ -69,7 +69,7 @@ const Slide = () => {
           </SwiperSlide>
         </Swiper>
       </div>
-      <div className="col l-4 m-0 slide__right">
+      <div className="col l-4 m-0 s-0 slide__right">
         <div className="slide__right--img">
           <Image
             fill={true}
