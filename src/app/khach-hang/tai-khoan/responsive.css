@@ -3,3 +3,13 @@
     width: 80%;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .customer__account form {
+    width: 100% !important;
+  }
+
+  .customer__modal {
+    width: 100%;
+  }
+}

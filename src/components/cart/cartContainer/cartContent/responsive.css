@@ -7,3 +7,18 @@
     display: flex !important;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .customer__modal--title {
+    font-size: 16px;
+  }
+
+  .cart__content--container-item-quantity-middle {
+    width: 80px !important;
+    display: flex !important;
+  }
+
+  .customer__modal {
+    width: 100% !important;
+  }
+}

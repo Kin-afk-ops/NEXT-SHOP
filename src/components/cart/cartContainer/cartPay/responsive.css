@@ -8,3 +8,9 @@
     width: 55%;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .card__pay--content-left div {
+    width: 100%;
+  }
+}

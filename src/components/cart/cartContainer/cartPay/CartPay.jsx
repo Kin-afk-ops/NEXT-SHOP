@@ -12,13 +12,13 @@ const CartPay = ({ totalPrice, userId }) => {
   return (
     <div className="card__pay main__container">
       <div className="card__pay--content row no-gutters">
-        <div className="c-6 row no-gutters card__pay--content-left">
+        <div className="c-6 s-12 row no-gutters card__pay--content-left">
           <div>
             <p className="card__pay--content-title">Thành tiền:</p>
             <p className="card__pay--content-money">{VND.format(totalPrice)}</p>
           </div>
         </div>
-        <div className="c-6 card__pay--content-right">
+        <div className="c-6 s-12 card__pay--content-right">
           <div className="card__pay--content-btn">
             <Link
               href={`/thanh-toan/${userId}`}

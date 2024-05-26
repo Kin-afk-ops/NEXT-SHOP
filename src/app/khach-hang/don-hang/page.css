@@ -92,3 +92,9 @@
   background-color: var(--primary-color);
   color: white;
 }
+
+.content__order--price-middle {
+  color: var(--primary-color);
+  font-weight: 700;
+  display: none;
+}

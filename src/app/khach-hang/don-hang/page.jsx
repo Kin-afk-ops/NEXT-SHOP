@@ -76,7 +76,7 @@ const CustomerContentOrder = () => {
                   width={100}
                   height={100}
                 />
-                <div className="content__order--desc c-8 m-9">
+                <div className="content__order--desc c-8 m-9 s-9">
                   <p className="content__order--title">{order.books.name}</p>
 
                   <p className="content__order--quality">
@@ -90,7 +90,7 @@ const CustomerContentOrder = () => {
                   </div>
                 </div>
 
-                <div className="content__order--price c-2 m-0">
+                <div className="content__order--price c-2 m-0 s-0">
                   {VND.format(order.books.discountPrice * order.books.quantity)}
                 </div>
 

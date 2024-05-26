@@ -243,7 +243,7 @@ const PayContent = ({ userId }) => {
 
   return (
     <form className="pay__form" onSubmit={handleSubmit}>
-      <div className="pay__form--wrap l-6 m-12">
+      <div className="pay__form--wrap l-6 m-12 s-12">
         <label className="pay__form--label" htmlFor="">
           Họ và tên người nhận hàng
         </label>

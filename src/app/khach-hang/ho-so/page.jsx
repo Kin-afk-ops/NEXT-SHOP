@@ -3,6 +3,7 @@
 import Image from "next/image";
 import avatarDefault from "../../../assets/images/default_avatar.png";
 import "./page.css";
+import "./responsive.css";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/config";
 import { useSelector } from "react-redux";
@@ -247,7 +248,7 @@ const CustomerContentEdit = () => {
           />
         </div>
 
-        <div className="c-6 customer__edit--left">
+        <div className="c-6 s-12 customer__edit--left">
           <label>Họ</label>
           <input
             className={
@@ -338,7 +339,7 @@ const CustomerContentEdit = () => {
             <label>Nữ</label>
           </div>
         </div>
-        <div className="c-6 customer__edit--right">
+        <div className="c-6 s-12 customer__edit--right">
           <label>Ngày sinh</label>
           <input
             className="customer__edit--input"

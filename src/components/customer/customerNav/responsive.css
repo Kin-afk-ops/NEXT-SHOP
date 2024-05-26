@@ -3,3 +3,9 @@
     font-size: 27px;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .customer__nav--router.active {
+    transform: translate(0);
+  }
+}

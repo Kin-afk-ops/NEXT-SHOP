@@ -1,0 +1,7 @@
+@media screen and (max-width: 767px) {
+  .customer__edit--button,
+  .customer__edit--select,
+  .customer__edit--input {
+    width: 100%;
+  }
+}

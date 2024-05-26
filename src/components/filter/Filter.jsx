@@ -215,14 +215,20 @@ const Filter = ({ query, categories, type }) => {
             <ul>
               <li
                 className={query === "Sách mới của cửa hàng" ? "active" : ""}
-                onClick={() => handleChangeCategory("Sách mới của cửa hàng")}
+                onClick={() => {
+                  handleChangeCategory("Sách mới của cửa hàng");
+                  setFilterMobile(true);
+                }}
               >
                 Sách mới của cửa hàng
               </li>
 
               <li
                 className={query === "Giảm giá siêu ưu đãi" ? "active" : ""}
-                onClick={() => handleChangeCategory("Giảm giá siêu ưu đãi")}
+                onClick={() => {
+                  handleChangeCategory("Giảm giá siêu ưu đãi");
+                  setFilterMobile(true);
+                }}
               >
                 Giảm giá siêu ưu đãi
               </li>
@@ -230,7 +236,10 @@ const Filter = ({ query, categories, type }) => {
               {categories?.map((category, index) => (
                 <li
                   key={category._id}
-                  onClick={() => handleChangeCategory(category.name)}
+                  onClick={() => {
+                    handleChangeCategory(category.name);
+                    setFilterMobile(true);
+                  }}
                   className={query === category.name ? "active" : ""}
                 >
                   {category.name}
@@ -249,7 +258,11 @@ const Filter = ({ query, categories, type }) => {
                     name="priceCheck"
                     id={index}
                     checked={index === selected}
-                    onChange={() => handleCheck(priceItem, index)}
+                    onChange={() => {
+                      handleCheck(priceItem, index);
+
+                      setFilterMobile(true);
+                    }}
                   />
                   <label htmlFor={index} className="filter__list--item-li">
                     {VND.format(priceItem.from)}&nbsp;-&nbsp;
@@ -271,7 +284,11 @@ const Filter = ({ query, categories, type }) => {
                     type="checkbox"
                     name="formItem"
                     id={formItem}
-                    onChange={() => handleChangeForm(formItem, index)}
+                    onChange={() => {
+                      handleChangeForm(formItem, index);
+
+                      setFilterMobile(true);
+                    }}
                     checked={index === selectedForm}
                   />
                   <label htmlFor={formItem} className="filter__list--item-li">

@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import VND from "@/vnd";
 import { toast } from "react-toastify";
+import "./responsive.css";
 
 const CustomerContentOrder = () => {
   const [orders, setOrders] = useState([]);
@@ -43,7 +44,7 @@ const CustomerContentOrder = () => {
                   width={100}
                   height={100}
                 />
-                <div className="content__order--desc c-8 m-9">
+                <div className="content__order--desc c-8 m-9 s-9">
                   <p className="content__order--title">{order.books.name}</p>
 
                   <p className="content__order--quality">
@@ -57,13 +58,13 @@ const CustomerContentOrder = () => {
                   </div>
                 </div>
 
-                <div className="content__order--price c-2 m-0">
+                <div className="content__order--price c-2 m-0 s-0">
                   {VND.format(order.books.discountPrice * order.books.quantity)}
                 </div>
 
                 <div className="order__action">
                   <div className="order__action--item row no-gutters">
-                    <div className="l-6 m-5">
+                    <div className="l-6 m-5 s-5">
                       <p className="order__action--title">
                         {" "}
                         Trạng thái đơn hàng:
@@ -74,7 +75,7 @@ const CustomerContentOrder = () => {
                       </p>
                     </div>
 
-                    <div className="l-6 m-7">
+                    <div className="l-6 m-7 s-7">
                       <p className="order__action--status">{order.status}</p>
 
                       <p className="order__action--status">

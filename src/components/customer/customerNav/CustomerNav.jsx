@@ -2,15 +2,29 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useDispatch } from "react-redux";
 import "./customerNav.css";
 import "./responsive.css";
+
+import { logout } from "@/lib/features/user/userSlice";
+import { logoutCart } from "@/lib/features/cart/cartLengthSlice";
+import { logoutNoti } from "@/lib/features/notification/notiSlice";
 
 const CustomerNav = () => {
   const pathname = usePathname();
   const slug = pathname.split("/")[2];
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(logoutCart());
+    dispatch(logoutNoti());
+
+    window.location.href = "/";
+  };
 
   return (
-    <div className="customer__nav col l-3 m-3 main__container">
+    <div className="customer__nav main__container">
       <h1 className="customer__title">Tài khoản</h1>
       <hr />
       <div className="customer__nav--content">
@@ -96,6 +110,11 @@ const CustomerNav = () => {
             >
               Thông báo
             </Link>
+          </li>
+          <hr />
+
+          <li onClick={handleLogout} className="l-0 m-0 customer__nav--router">
+            Đăng xuất
           </li>
         </ul>
       </div>

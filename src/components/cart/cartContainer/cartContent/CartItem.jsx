@@ -197,7 +197,7 @@ const CartItem = ({
           height={100}
         />
       </div>
-      <div className="cart__content--container-item-info c-4 m-7">
+      <div className="cart__content--container-item-info c-4 m-7 s-7">
         <Link
           className="link"
           href={`/sach/${configSlug(cartItem?.books.name)}.html`}
@@ -245,9 +245,13 @@ const CartItem = ({
           </p>
         </div>
 
+        <div className="cart__content--container-item-money">
+          {VND.format(payPrice)}
+        </div>
+
         {payMode && <div className="l-0">Số lượng: {quantity}</div>}
       </div>
-      <div className="cart__content--container-item-quantity display__flex--center l-2 m-0">
+      <div className="cart__content--container-item-quantity display__flex--center l-2 m-0 s-0">
         <div className="cart__content--quantity-wrapper display__flex--center">
           {!payMode && (
             <div
@@ -283,13 +287,13 @@ const CartItem = ({
         </div>
       </div>
 
-      <div className="cart__content--container-item-money display__flex--center c-2 m-1">
+      <div className="cart__content--container-item-money display__flex--center c-2 m-1 s-0">
         {VND.format(payPrice)}
       </div>
 
       {!payMode && (
         <div
-          className="cart__content--container-item-trash display__flex--center c-2 m-1"
+          className="cart__content--container-item-trash display__flex--center c-2 m-1 s-1"
           onClick={() => handleDelete()}
         >
           <i className="fa-solid fa-trash"></i>

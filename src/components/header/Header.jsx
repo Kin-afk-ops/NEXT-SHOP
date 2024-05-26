@@ -220,6 +220,14 @@ const Header = () => {
     }
   };
 
+  const handleAccountMobile = () => {
+    if (!user) {
+      setHeaderModal(true);
+    } else {
+      router.push("/khach-hang/thong-tin");
+    }
+  };
+
   return (
     <div className="header">
       <div className="header__content grid wide">
@@ -307,11 +315,9 @@ const Header = () => {
             </div>
           </Link>
 
-          <Link className="link" href={`/khach-hang/thong-tin`}>
-            <div className="header__icon l-0 m-0">
-              <i className="fa-solid fa-user"></i>
-            </div>
-          </Link>
+          <div onClick={handleAccountMobile} className="header__icon l-0 m-0">
+            <i className="fa-solid fa-user"></i>
+          </div>
 
           <div className="header__icon s-0">
             <i className="fa-solid fa-user"></i>

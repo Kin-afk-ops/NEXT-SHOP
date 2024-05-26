@@ -9,6 +9,9 @@
 }
 
 @media (max-width: 767px) {
+  .footer {
+    margin-bottom: 78px !important;
+  }
   .footer__container--right {
     padding-left: 0;
     margin-top: 65px;

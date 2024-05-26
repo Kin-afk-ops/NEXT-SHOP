@@ -11,3 +11,32 @@
     flex-direction: column;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .content__order--title {
+    height: 40px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* số dòng hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .content__order--price-middle {
+    display: block;
+  }
+
+  .order__action {
+    margin: 0;
+    flex-direction: column;
+  }
+
+  .order__action--item p {
+    text-align: left;
+    padding: 10px 5px;
+  }
+
+  .customer__modal {
+    width: 100%;
+  }
+}

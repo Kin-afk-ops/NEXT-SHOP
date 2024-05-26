@@ -1,0 +1,14 @@
+@media screen and (max-width: 767px) {
+  .content__order--title {
+    height: 40px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* số dòng hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .customer__modal {
+    width: 100%;
+  }
+}

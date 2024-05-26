@@ -33,16 +33,18 @@ const CustomerContentInfo = () => {
 
   return (
     <div>
-      <div className="customer__info main__container">
-        <Image
-          src={checkInfo ? infoUser?.avatar.path : avatar}
-          alt="avatar"
-          width={255}
-          height={255}
-          className="customer__info--avatar"
-        />
+      <div className="customer__info main__container row">
+        <div className="s-12 display__flex--center">
+          <Image
+            src={checkInfo ? infoUser?.avatar.path : avatar}
+            alt="avatar"
+            width={255}
+            height={255}
+            className="customer__info--avatar"
+          />
+        </div>
 
-        <div className="customer__info--info">
+        <div className="customer__info--info s-12">
           <p>
             <i className="fa-solid fa-circle-info"></i>
 

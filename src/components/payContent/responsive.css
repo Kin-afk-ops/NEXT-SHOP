@@ -3,3 +3,23 @@
     background-color: #eee;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .pay__select--address {
+    background-color: #eee;
+  }
+
+  .pay__address {
+    height: 60px;
+    align-items: center;
+  }
+
+  .pay__select {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .pay__btn {
+    width: 80%;
+  }
+}
