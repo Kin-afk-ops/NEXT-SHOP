@@ -21,7 +21,7 @@ const Filter = ({ query, categories, type }) => {
   const [selected, setSelected] = useState(null);
   const [selectedForm, setSelectedForm] = useState(null);
   const [formItem, setFormItem] = useState("");
-  const [filterMobile, setFilterMobile] = useState(false);
+  const [filterMobile, setFilterMobile] = useState(true);
 
   const VND = new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -200,7 +200,7 @@ const Filter = ({ query, categories, type }) => {
     <>
       <i
         onClick={() => setFilterMobile(false)}
-        className="fa-solid fa-bars filter__menu"
+        className="fa-solid fa-bars filter__menu l-0 m-0"
       ></i>
       <div
         className={
@@ -302,7 +302,7 @@ const Filter = ({ query, categories, type }) => {
 
         <i
           onClick={() => setFilterMobile(true)}
-          className="fa-solid fa-rectangle-xmark filter__close"
+          className="fa-solid fa-rectangle-xmark filter__close l-0 m-0"
         ></i>
       </div>
     </>

@@ -3,3 +3,9 @@
     height: 130px;
   }
 }
+
+@media screen and (min-width: 320px) {
+  .list__item {
+    margin-top: 0;
+  }
+}

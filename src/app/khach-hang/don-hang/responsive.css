@@ -40,3 +40,23 @@
     width: 100%;
   }
 }
+
+@media screen and (max-width: 320px) {
+  .content__order--list-item img {
+    width: 70px !important;
+    height: 70px !important;
+  }
+
+  .content__order--desc {
+    font-size: 14px;
+  }
+
+  .order__action--item {
+    font-size: 14px;
+  }
+
+  .content__order--btn-delete {
+    height: 30px;
+    font-size: 14px;
+  }
+}

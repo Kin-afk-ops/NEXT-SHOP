@@ -453,6 +453,10 @@ const Header = () => {
             >
               <div className="register__title">
                 <h1 className="main__title">Đăng nhập</h1>
+                <i
+                  onClick={() => setHeaderModal(false)}
+                  className="header__modal--close fa-solid fa-rectangle-xmark l-0 m-0"
+                ></i>
               </div>
 
               <hr />
@@ -545,7 +549,14 @@ const Header = () => {
               className="main__container register__container"
               onClick={(e) => e.stopPropagation()}
             >
-              <h1 className="register__title main__title">Đăng ký</h1>
+              <div className="register__title">
+                {" "}
+                <h1 className=" main__title">Đăng ký</h1>
+                <i
+                  onClick={() => setHeaderModal(false)}
+                  className="header__modal--close fa-solid fa-rectangle-xmark l-0 m-0"
+                ></i>
+              </div>
               <hr />
 
               <div className="register__content">

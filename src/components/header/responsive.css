@@ -30,7 +30,7 @@
 }
 
 /* Mobile */
-@media (max-width: 767px) {
+@media screen and (max-width: 767px) {
   .header__content {
     height: 100px;
     flex-wrap: wrap;
@@ -85,5 +85,26 @@
   .history__overlay {
     top: 110px;
     z-index: 100;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .header__right {
+    justify-content: flex-end;
+  }
+
+  .register__container {
+    width: 100%;
+    top: 20px;
+    /* position: relative; */
+  }
+
+  .register__title {
+    position: relative;
+  }
+
+  .header__modal--close {
+    font-size: 25px;
+    color: var(--primary-color);
   }
 }

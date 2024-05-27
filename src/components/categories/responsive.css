@@ -6,8 +6,14 @@
 
 /* Mobile */
 
-@media (max-width: 767px) {
+@media screen and (max-width: 767px) {
   .categories ul {
     flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .categories ul li {
+    margin-bottom: 25px;
   }
 }

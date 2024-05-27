@@ -49,7 +49,3 @@
 .filter__list--item ul li.active {
   color: var(--primary-color);
 }
-
-.filter__menu {
-  display: none;
-}

@@ -189,7 +189,7 @@ const CartItem = ({
         )}
       </div>
 
-      <div className="img__main l-1 m-2">
+      <div className="img__main l-1 m-2 cart__item-img">
         <Image
           src={cartItem.books.image}
           alt={cartItem.books.image}

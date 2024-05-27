@@ -22,3 +22,24 @@
     width: 100% !important;
   }
 }
+
+@media screen and (max-width: 320px) {
+  .cart__item--check {
+    width: 20px;
+    height: 20px;
+  }
+
+  .cart__item-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .cart__item-img img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .card__pay--content-btn .router-btn {
+    width: 80% !important;
+  }
+}

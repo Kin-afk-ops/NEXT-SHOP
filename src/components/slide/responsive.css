@@ -2,11 +2,20 @@
 @media screen and (max-width: 1024px) {
 }
 
-@media (max-width: 767px) {
+@media screen and (max-width: 767px) {
   .slide {
     height: 230px;
   }
   .slide__img {
     height: 230px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .slide {
+    height: 165px;
+  }
+  .slide__img {
+    height: 165px;
   }
 }
