@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import "./cartTop.css";
 import axiosInstance from "@/config";
 import { useSelector } from "react-redux";
+import dynamic from "next/dynamic";
 
 const CartTop = () => {
   const cartLength = useSelector((state) => state.cartLength.length);
@@ -19,4 +20,4 @@ const CartTop = () => {
   );
 };
 
-export default CartTop;
+export default dynamic(() => Promise.resolve(CartTop), { ssr: false });

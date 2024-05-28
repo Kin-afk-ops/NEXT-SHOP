@@ -24,7 +24,7 @@ const BookComment = ({ bookId }) => {
     };
 
     getComment();
-  }, [mode, currentPage]);
+  }, [mode, currentPage, bookId]);
 
   return (
     <>

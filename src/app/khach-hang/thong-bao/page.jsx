@@ -35,7 +35,7 @@ const CustomerContentNotification = () => {
     };
 
     getNotification();
-  }, [loading]);
+  }, [loading, user._id]);
 
   const handleRead = async (path, id) => {
     const newNotification = {

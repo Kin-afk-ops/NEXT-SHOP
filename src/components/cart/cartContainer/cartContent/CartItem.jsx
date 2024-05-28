@@ -124,7 +124,19 @@ const CartItem = ({
     };
 
     setQuantity();
-  }, [quantity, quantityMode]);
+  }, [
+    quantity,
+    quantityMode,
+    cartItem._id,
+    cartItem.books.bookId,
+    cartItem.books.discountPrice,
+    cartItem.books.image,
+    cartItem.books.maxQuantity,
+    cartItem.books.name,
+    cartItem.books.price,
+    checked,
+    setTotalPrice,
+  ]);
 
   const handleCheck = async () => {
     if (checked === false) {

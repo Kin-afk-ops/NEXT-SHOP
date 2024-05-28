@@ -2,21 +2,15 @@
 import { useEffect, useState } from "react";
 import firebase from "../../../firebase/firebase";
 
-const forgetPasswordPage = () => {
+const ForgetPasswordPage = () => {
   const [overlay, setOverlay] = useState(false);
   const [passwordType, setPasswordType] = useState(true);
   const [confirmPasswordType, setConfirmPasswordType] = useState(true);
-  const [email, setEmail] = useState("");
+
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setupRecaptcha();
-    }
-  }, []);
 
   const setupRecaptcha = () => {
     if (typeof window !== "undefined") {
@@ -172,4 +166,4 @@ const forgetPasswordPage = () => {
   );
 };
 
-export default forgetPasswordPage;
+export default ForgetPasswordPage;

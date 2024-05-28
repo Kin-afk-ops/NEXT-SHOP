@@ -105,7 +105,7 @@ const PayContent = ({ userId }) => {
     getCart();
     getInfoUser();
     getAddress();
-  }, []);
+  }, [user.phone, userId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

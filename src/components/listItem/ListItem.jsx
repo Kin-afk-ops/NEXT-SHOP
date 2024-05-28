@@ -22,6 +22,7 @@ const ListItem = ({ book }) => {
             style={{
               objectFit: "contain",
             }}
+            sizes="(max-width: 320px) 50vw"
           />
         </div>
 

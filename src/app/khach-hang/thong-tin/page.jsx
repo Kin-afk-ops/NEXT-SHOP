@@ -29,7 +29,7 @@ const CustomerContentInfo = () => {
     };
 
     getInfoUser();
-  }, []);
+  }, [user._id]);
 
   return (
     <div>

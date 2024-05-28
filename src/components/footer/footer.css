@@ -20,7 +20,7 @@
 .footer__container--icon {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   font-size: 25px;
 }
 

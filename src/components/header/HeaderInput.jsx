@@ -242,6 +242,7 @@ const HeaderInput = () => {
               <div className="row no-gutters">
                 {categoriesHot?.map((cate) => (
                   <div
+                    key={cate._id}
                     className="header__input--history-cate col c-3"
                     onClick={() => {
                       router.push(
@@ -252,7 +253,12 @@ const HeaderInput = () => {
                       setHistoryMode(false);
                     }}
                   >
-                    <Image src={cate.image.path} height={100} width={100} />
+                    <Image
+                      src={cate.image.path}
+                      height={100}
+                      width={100}
+                      alt={cate.image.path}
+                    />
                     <p>{cate.name}</p>
                   </div>
                 ))}

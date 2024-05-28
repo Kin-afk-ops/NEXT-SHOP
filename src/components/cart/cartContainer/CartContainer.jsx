@@ -39,7 +39,7 @@ const CartContainer = ({ userId }) => {
     };
 
     getCart();
-  }, [loading]);
+  }, [loading, userId]);
 
   return (
     <div>

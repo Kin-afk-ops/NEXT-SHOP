@@ -28,7 +28,7 @@ const CustomerContentOrder = () => {
     };
 
     getOrders();
-  }, [loading]);
+  }, [loading, user._id]);
 
   return (
     <div className="content__order main__container">
@@ -36,7 +36,10 @@ const CustomerContentOrder = () => {
         <div>
           <ul className="content__order--list">
             {orders.map((order) => (
-              <li className="content__order--list-item row no-gutters">
+              <li
+                key={order._id}
+                className="content__order--list-item row no-gutters"
+              >
                 <Image
                   className="img__main"
                   src={order.books.image}

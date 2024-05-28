@@ -42,7 +42,7 @@ const BookEvaluate = ({ bookId }) => {
     };
 
     getComment();
-  }, []);
+  }, [bookId]);
 
   let starGrayArray = [];
 

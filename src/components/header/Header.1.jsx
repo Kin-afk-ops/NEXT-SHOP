@@ -1,19 +1,13 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, getCart, getNoti } from "../../lib/apiCall";
-import { logout, resetState } from "../../lib/features/user/userSlice";
+import { logout } from "../../lib/features/user/userSlice";
 import { logoutCart } from "../../lib/features/cart/cartLengthSlice";
 import { logoutNoti } from "../../lib/features/notification/notiSlice";
-
-import "react-toastify/dist/ReactToastify.css";
-
 import Link from "next/link";
 import Image from "next/image";
-import "./header.css";
-import "./responsive.css";
 import logo from "../../assets/images/toi_doc_sach_logo.png";
 import avatar from "../../assets/images/default_avatar.png";
 import axiosInstance from "../../config";
@@ -48,7 +42,6 @@ const Header = () => {
   const [checkUser, setCheckUser] = useState(false);
 
   // const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.currentUser);
@@ -238,9 +231,9 @@ const Header = () => {
           </Link>
 
           {/* <Link className="link header__icon--left" href="/bai-viet">
-            <i className="fa-solid fa-newspaper"></i>
-            <span>Bài viết</span>
-          </Link> */}
+              <i className="fa-solid fa-newspaper"></i>
+              <span>Bài viết</span>
+            </Link> */}
         </div>
 
         <HeaderInput />
@@ -424,20 +417,20 @@ const Header = () => {
           </div>
 
           {/* <div className="header__icon header__icon--language">
-            <div>
-              <p>{language}</p>
-            </div>
-
-            <div className="header__icon--language-choice">
-              {languages.map((lang, index) => (
-                <p key={index} onClick={() => setLanguage(lang)}>
-                  {lang}
-                </p>
-              ))}
-            </div>
-
-            <span>Ngôn ngữ</span>
-          </div> */}
+              <div>
+                <p>{language}</p>
+              </div>
+  
+              <div className="header__icon--language-choice">
+                {languages.map((lang, index) => (
+                  <p key={index} onClick={() => setLanguage(lang)}>
+                    {lang}
+                  </p>
+                ))}
+              </div>
+  
+              <span>Ngôn ngữ</span>
+            </div> */}
         </div>
       </div>
 
@@ -667,5 +660,4 @@ const Header = () => {
     </div>
   );
 };
-
 export default dynamic(() => Promise.resolve(Header), { ssr: false });

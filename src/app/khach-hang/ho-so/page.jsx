@@ -78,7 +78,7 @@ const CustomerContentEdit = () => {
 
     getInfoUser();
     getAddress();
-  }, []);
+  }, [user._id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

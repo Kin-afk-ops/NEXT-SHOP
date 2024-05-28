@@ -24,7 +24,7 @@ const BookCommentItem = ({ bookId, comment }) => {
     };
 
     likeChecker();
-  }, []);
+  }, [comment.like.userId, user]);
 
   let starGrayArray = [];
 

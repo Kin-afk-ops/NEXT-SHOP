@@ -374,7 +374,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .header__icon--user-header i {
@@ -482,7 +482,7 @@
 
 .register__title {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   justify-content: center;
 }
 

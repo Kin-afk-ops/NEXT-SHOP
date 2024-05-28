@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axiosInstance from "../../config";
 import { useRouter, useSearchParams } from "next/navigation";
 import "./filter.css";
@@ -28,34 +28,37 @@ const Filter = ({ query, categories, type }) => {
     currency: "VND",
   });
 
-  const price = [
-    {
-      from: 0,
-      to: 150000,
-    },
+  const price = useMemo(
+    () => [
+      {
+        from: 0,
+        to: 150000,
+      },
 
-    {
-      from: 150000,
-      to: 300000,
-    },
+      {
+        from: 150000,
+        to: 300000,
+      },
 
-    {
-      from: 300000,
-      to: 500000,
-    },
+      {
+        from: 300000,
+        to: 500000,
+      },
 
-    {
-      from: 500000,
-      to: 700000,
-    },
+      {
+        from: 500000,
+        to: 700000,
+      },
 
-    {
-      from: 700000,
-      to: "Trở lên",
-    },
-  ];
+      {
+        from: 700000,
+        to: "Trở lên",
+      },
+    ],
+    []
+  );
 
-  const form = ["Bìa cứng", "Bìa mềm"];
+  const form = useMemo(() => ["Bìa cứng", "Bìa mềm"], []);
 
   useEffect(() => {
     const getPriceCheck = () => {
@@ -76,7 +79,7 @@ const Filter = ({ query, categories, type }) => {
     };
 
     getPriceCheck();
-  }, [q]);
+  }, [q, form, price, qForm, qFrom]);
 
   const createQuery = (query) => {
     if (query !== "") return query.split(" ").join("+");
