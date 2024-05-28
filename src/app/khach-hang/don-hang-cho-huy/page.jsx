@@ -15,7 +15,7 @@ const CustomerContentOrder = () => {
   const [loading, setLoading] = useState(false);
 
   const user = useSelector((state) => state.user.currentUser);
-
+  const userId = user ? user._id : "";
   useEffect(() => {
     const getOrders = async () => {
       try {
@@ -27,17 +27,19 @@ const CustomerContentOrder = () => {
       }
     };
 
-    getOrders();
-  }, [loading, user._id]);
+    if (userId !== "") {
+      getOrders();
+    }
+  }, [loading, userId]);
 
   return (
     <div className="content__order main__container">
       {orders.length !== 0 ? (
         <div>
           <ul className="content__order--list">
-            {orders.map((order) => (
+            {orders.map((order, index) => (
               <li
-                key={order._id}
+                key={index}
                 className="content__order--list-item row no-gutters"
               >
                 <Image

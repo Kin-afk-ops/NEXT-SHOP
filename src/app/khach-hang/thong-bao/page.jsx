@@ -21,6 +21,7 @@ const CustomerContentNotification = () => {
   const [loading, setLoading] = useState(false);
 
   const user = useSelector((state) => state.user.currentUser);
+  const userId = user ? user._id : "";
 
   useEffect(() => {
     const getNotification = async () => {
@@ -34,8 +35,10 @@ const CustomerContentNotification = () => {
       }
     };
 
-    getNotification();
-  }, [loading, user._id]);
+    if (userId !== "") {
+      getNotification();
+    }
+  }, [loading, userId]);
 
   const handleRead = async (path, id) => {
     const newNotification = {

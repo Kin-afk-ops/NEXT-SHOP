@@ -17,6 +17,8 @@ const CustomerContentOrder = () => {
 
   const user = useSelector((state) => state.user.currentUser);
 
+  const userId = user ? user._id : "";
+
   useEffect(() => {
     const getOrders = async () => {
       try {
@@ -28,8 +30,10 @@ const CustomerContentOrder = () => {
       }
     };
 
-    getOrders();
-  }, [loading, user._id]);
+    if (userId !== "") {
+      getOrders();
+    }
+  }, [loading, userId]);
 
   const handleDelete = async () => {
     const newRequest = {
@@ -67,9 +71,9 @@ const CustomerContentOrder = () => {
       {orders.length !== 0 ? (
         <div>
           <ul className="content__order--list">
-            {orders.map((order) => (
+            {orders.map((order, index) => (
               <li
-                key={order._id}
+                key={index}
                 className="content__order--list-item row no-gutters"
               >
                 <Image

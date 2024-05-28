@@ -1,7 +1,4 @@
 {
-  "extends": ["next", "next/core-web-vitals", "plugin:compat/recommended"],
-  "plugins": ["compat"],
-  "settings": {
-    "browsers": [">1%", "last 2 versions", "Firefox ESR", "not dead"]
-  }
+  "extends": ["next", "next/core-web-vitals"],
+  "plugins": ["compat"]
 }

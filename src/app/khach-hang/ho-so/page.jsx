@@ -13,7 +13,7 @@ import emailValidate from "../../../validation/email";
 
 const CustomerContentEdit = () => {
   const user = useSelector((state) => state.user.currentUser);
-
+  const userId = user ? user._id : "";
   const [file, setFile] = useState(null);
 
   const [avatar, setAvatar] = useState({});
@@ -76,9 +76,11 @@ const CustomerContentEdit = () => {
       }
     };
 
-    getInfoUser();
-    getAddress();
-  }, [user._id]);
+    if (userId !== "") {
+      getInfoUser();
+      getAddress();
+    }
+  }, [userId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -10,6 +10,7 @@ import axiosInstance from "@/config";
 
 const CustomerContentInfo = () => {
   const user = useSelector((state) => state.user.currentUser);
+  const userId = user ? user._id : "";
 
   const [infoUser, setInfoUser] = useState({});
   const [checkInfo, setCheckInfo] = useState(false);
@@ -28,8 +29,10 @@ const CustomerContentInfo = () => {
       }
     };
 
-    getInfoUser();
-  }, [user._id]);
+    if (userId !== "") {
+      getInfoUser();
+    }
+  }, [userId]);
 
   return (
     <div>
