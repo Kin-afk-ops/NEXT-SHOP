@@ -263,7 +263,7 @@ const CartItem = ({
 
         {payMode && <div className="l-0">Số lượng: {quantity}</div>}
       </div>
-      <div className="cart__content--container-item-quantity display__flex--center l-2 m-0 s-0">
+      <div className="cart__content--container-item-quantity flex__center l-2 m-0 s-0">
         <div className="cart__content--quantity-wrapper display__flex--center">
           {!payMode && (
             <div
@@ -299,7 +299,7 @@ const CartItem = ({
         </div>
       </div>
 
-      <div className="cart__content--container-item-money display__flex--center c-2 m-1 s-0">
+      <div className="cart__content--container-item-money flex__center c-2 m-1 s-0">
         {VND.format(payPrice)}
       </div>
 
