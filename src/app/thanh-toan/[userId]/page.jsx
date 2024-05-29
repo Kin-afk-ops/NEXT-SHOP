@@ -1,4 +1,3 @@
-import axiosInstance from "@/config";
 import "./page.css";
 import PayContent from "@/components/payContent/PayContent";
 import ToastProvider from "@/toast/ToastProvider";

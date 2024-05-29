@@ -5,7 +5,7 @@ import CartDelete from "./CartDelete";
 import CartItem from "./CartItem";
 import "./cartContent.css";
 
-const CartContent = ({ cart, setTotalPrice, payMode, setLoading }) => {
+const CartContent = ({ cart, setTotalPrice, payMode, setLoading, loading }) => {
   // const [checkAll, setCheckAll] = useState(false);
   const [deleteDisplay, setDeleteDisplay] = useState(false);
   const [deleteId, setDeleteId] = useState("");
@@ -51,6 +51,7 @@ const CartContent = ({ cart, setTotalPrice, payMode, setLoading }) => {
         setDeleteDisplay={setDeleteDisplay}
         deleteId={deleteId}
         setLoading={setLoading}
+        loading={loading}
       />
     </div>
   );

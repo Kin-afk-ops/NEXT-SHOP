@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, getCart, getNoti } from "../../lib/apiCall";
-import { logout, resetState } from "../../lib/features/user/userSlice";
+import { logout } from "../../lib/features/user/userSlice";
 import { logoutCart } from "../../lib/features/cart/cartLengthSlice";
 import { logoutNoti } from "../../lib/features/notification/notiSlice";
 

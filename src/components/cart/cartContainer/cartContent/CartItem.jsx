@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { reduceCart } from "@/lib/features/cart/cartLengthSlice";
+
 import axiosInstance from "@/config";
 import VND from "@/vnd";
 import Image from "next/image";
@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import configSlug from "@/slug";
 import "./responsive.css";
+import LoadingPage from "@/components/loading/Loading";
 
 const CartItem = ({
   cartItem,
@@ -27,6 +28,7 @@ const CartItem = ({
   const [payPrice, setPayPrice] = useState(
     cartItem.books.quantity * cartItem.books.discountPrice
   );
+  const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
   //   const handleCheckAll = async () => {
@@ -61,6 +63,7 @@ const CartItem = ({
   useEffect(() => {
     const setQuantity = async () => {
       if (quantityMode === "reduce") {
+        setLoading(true);
         const newCart = {
           books: {
             bookId: cartItem?.books.bookId,
@@ -77,6 +80,7 @@ const CartItem = ({
         try {
           const res = await axiosInstance.put(`/cart/${cartItem._id}`, newCart);
           // console.log(newCart);
+          console.log(res.data);
 
           if (checked) {
             setTotalPrice(
@@ -87,10 +91,13 @@ const CartItem = ({
           setPayPrice(res.data.books.discountPrice * res.data.books.quantity);
 
           setQuantityMode("none");
+          setLoading(false);
         } catch (error) {
           console.log(error);
         }
       } else if (quantityMode === "increase") {
+        setLoading(true);
+
         const newCart = {
           books: {
             bookId: cartItem?.books.bookId,
@@ -117,6 +124,7 @@ const CartItem = ({
           setPayPrice(res.data.books.discountPrice * res.data.books.quantity);
 
           setQuantityMode("none");
+          setLoading(false);
         } catch (error) {
           console.log(error);
         }
@@ -140,6 +148,7 @@ const CartItem = ({
 
   const handleCheck = async () => {
     if (checked === false) {
+      setLoading(true);
       const newCartCheck = {
         check: true,
       };
@@ -149,10 +158,14 @@ const CartItem = ({
         setTotalPrice(
           (totalPrice) => totalPrice + cartItem.books.discountPrice * quantity
         );
+
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
     } else {
+      setLoading(true);
+
       const newCartCheck = {
         check: false,
       };
@@ -161,6 +174,7 @@ const CartItem = ({
         setTotalPrice(
           (totalPrice) => totalPrice - cartItem.books.discountPrice * quantity
         );
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -187,6 +201,7 @@ const CartItem = ({
 
   return (
     <>
+      {loading && <LoadingPage />}
       <div className="cart__content--container-item-input display__flex--center c-1">
         {!payMode && (
           <input
@@ -290,6 +305,7 @@ const CartItem = ({
                   : "cart__content--quantity-increase display__flex--center non__quantity"
               }
               onClick={() => {
+                setLoading(true);
                 handleIncrease();
               }}
             >

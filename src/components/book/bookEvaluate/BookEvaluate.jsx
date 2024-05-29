@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 
 import axiosInstance from "@/config";
 import "./bookEvaluate.css";
@@ -9,8 +8,6 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 const BookEvaluate = ({ bookId }) => {
-  const router = useRouter();
-
   const [display, setDisplay] = useState(false);
   const [noName, setNoName] = useState(false);
   const [radioValue, setRadioValue] = useState(0);

@@ -16,6 +16,7 @@ const ListItem = ({ book }) => {
       <div className="list__item">
         <div className="list__item--img">
           <Image
+            loading="lazy"
             fill={true}
             src={book?.image?.path}
             alt={book?.name}

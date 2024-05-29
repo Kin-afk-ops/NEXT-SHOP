@@ -2,9 +2,6 @@
 
 import Link from "next/link";
 import "./cartPay.css";
-import Image from "next/image";
-import momoLogo from "../../../../assets/images/momo__logo.png";
-import vnpagLogo from "../../../../assets/images/vnpay__logo.png";
 import VND from "@/vnd";
 import "./responsive.css";
 

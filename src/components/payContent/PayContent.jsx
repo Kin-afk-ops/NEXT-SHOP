@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import "./payContent.css";
 import "./responsive.css";
+import LoadingPage from "../loading/Loading";
 
 const PayContent = ({ userId }) => {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ const PayContent = ({ userId }) => {
   const [otherAddressError, setOtherAddressError] = useState(false);
   const [clientNameError, setClientNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const user = useSelector((state) => state.user.currentUser);
 
@@ -64,7 +66,7 @@ const PayContent = ({ userId }) => {
           setClientName("");
         }
 
-        setPhone(user.phone);
+        setPhone(user?.phone);
         setAddress(res.data.address.address);
         setProvince(res.data.address.province);
         setDistrict(res.data.address.district);
@@ -101,14 +103,16 @@ const PayContent = ({ userId }) => {
         console.log(error);
       }
     };
-
+    setLoading(true);
     getCart();
     getInfoUser();
     getAddress();
-  }, [user.phone, userId]);
+    setLoading(false);
+  }, [userId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (clientName === "" || otherAddressError || phone === "") {
       toast.error("Đặt hàng không thành công! Hãy xem lại");
@@ -169,9 +173,11 @@ const PayContent = ({ userId }) => {
           } catch (error) {
             toast.error("Đặt hàng thất bại");
             console.log(error);
+            setLoading(false);
           }
         }
         toast.success("Đặt hàng thành công");
+
         try {
           const newNotification = {
             userId: user._id,
@@ -180,6 +186,7 @@ const PayContent = ({ userId }) => {
             `/order/noti/createNotification`,
             newNotification
           );
+          setLoading(false);
         } catch (error) {
           console.log(error);
         }
@@ -242,276 +249,279 @@ const PayContent = ({ userId }) => {
   };
 
   return (
-    <form className="pay__form" onSubmit={handleSubmit}>
-      <div className="pay__form--wrap l-6 m-12 s-12">
-        <label className="pay__form--label" htmlFor="">
-          Họ và tên người nhận hàng
-        </label>
-        <input
-          className={clientNameError ? "pay__input pay__error" : "pay__input"}
-          type="text"
-          value={clientName}
-          onChange={(e) => setClientName(e.target.value)}
-          onBlur={(e) => {
-            if (e.target.value === "") {
-              setClientNameError(true);
-            } else {
-              setClientNameError(false);
-            }
-          }}
-          onFocus={() => setClientNameError(false)}
-        />
+    <>
+      {loading && <LoadingPage />}
+      <form className="pay__form" onSubmit={handleSubmit}>
+        <div className="pay__form--wrap l-6 m-12 s-12">
+          <label className="pay__form--label" htmlFor="">
+            Họ và tên người nhận hàng
+          </label>
+          <input
+            className={clientNameError ? "pay__input pay__error" : "pay__input"}
+            type="text"
+            value={clientName}
+            onChange={(e) => setClientName(e.target.value)}
+            onBlur={(e) => {
+              if (e.target.value === "") {
+                setClientNameError(true);
+              } else {
+                setClientNameError(false);
+              }
+            }}
+            onFocus={() => setClientNameError(false)}
+          />
 
-        {clientNameError && (
-          <p style={{ color: "red" }}>Hãy nhập tên người nhận hàng</p>
-        )}
-
-        <label className="pay__form--label" htmlFor="">
-          Số điện thoại
-        </label>
-        <input
-          className={phoneError ? "pay__input pay__error" : "pay__input"}
-          type="text"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          onBlur={(e) => {
-            if (e.target.value === "") {
-              setPhoneError(true);
-            } else {
-              setPhoneError(false);
-            }
-          }}
-          onFocus={() => setPhoneError(false)}
-        />
-
-        {phoneError && <p style={{ color: "red" }}>Hãy nhập số điện thoại</p>}
-
-        <label className="pay__form--label" htmlFor="">
-          Địa chỉ giao hàng
-        </label>
-
-        <div className="pay__address--wrap">
-          {address !== "" && (
-            <div className="pay__address">
-              <input
-                type="radio"
-                name="pay__address"
-                id="pay__address--default"
-                value="default"
-                onChange={() => setOtherAddressMode(false)}
-                defaultChecked
-              />
-              <label htmlFor="pay__address--default">
-                <div className="pay__address--title">Mặt định</div>
-
-                <div className="pay__address--content">
-                  {address && <span>{address + ", "}</span>}
-                  {ward && <span>{ward + ", "}</span>}
-                  {district && <span>{district + ", "}</span>}
-                  {province && <span>{province + "."}</span>}
-                </div>
-              </label>
-            </div>
+          {clientNameError && (
+            <p style={{ color: "red" }}>Hãy nhập tên người nhận hàng</p>
           )}
 
-          <div className="pay__address">
+          <label className="pay__form--label" htmlFor="">
+            Số điện thoại
+          </label>
+          <input
+            className={phoneError ? "pay__input pay__error" : "pay__input"}
+            type="text"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            onBlur={(e) => {
+              if (e.target.value === "") {
+                setPhoneError(true);
+              } else {
+                setPhoneError(false);
+              }
+            }}
+            onFocus={() => setPhoneError(false)}
+          />
+
+          {phoneError && <p style={{ color: "red" }}>Hãy nhập số điện thoại</p>}
+
+          <label className="pay__form--label" htmlFor="">
+            Địa chỉ giao hàng
+          </label>
+
+          <div className="pay__address--wrap">
             {address !== "" && (
-              <input
-                type="radio"
-                name="pay__address"
-                id="pay__address--other"
-                value="other"
-                onChange={(e) => handleChangeOtherAddress(e)}
-              />
+              <div className="pay__address">
+                <input
+                  type="radio"
+                  name="pay__address"
+                  id="pay__address--default"
+                  value="default"
+                  onChange={() => setOtherAddressMode(false)}
+                  defaultChecked
+                />
+                <label htmlFor="pay__address--default">
+                  <div className="pay__address--title">Mặt định</div>
+
+                  <div className="pay__address--content">
+                    {address && <span>{address + ", "}</span>}
+                    {ward && <span>{ward + ", "}</span>}
+                    {district && <span>{district + ", "}</span>}
+                    {province && <span>{province + "."}</span>}
+                  </div>
+                </label>
+              </div>
             )}
 
-            <label htmlFor="pay__address--other">
+            <div className="pay__address">
               {address !== "" && (
-                <div className="pay__address--title">Khác</div>
+                <input
+                  type="radio"
+                  name="pay__address"
+                  id="pay__address--other"
+                  value="other"
+                  onChange={(e) => handleChangeOtherAddress(e)}
+                />
               )}
 
-              {otherAddressMode ? (
-                <div className="pay__address--content">
-                  {otherAddress && <span>{otherAddress + ", "}</span>}
-                  {otherWard && <span>{otherWard + ", "}</span>}
-                  {otherDistrict && <span>{otherDistrict + ", "}</span>}
-                  {otherProvince && <span>{otherProvince + "."}</span>}
-                </div>
-              ) : (
-                <div className="pay__address--content">...</div>
-              )}
-            </label>
+              <label htmlFor="pay__address--other">
+                {address !== "" && (
+                  <div className="pay__address--title">Khác</div>
+                )}
+
+                {otherAddressMode ? (
+                  <div className="pay__address--content">
+                    {otherAddress && <span>{otherAddress + ", "}</span>}
+                    {otherWard && <span>{otherWard + ", "}</span>}
+                    {otherDistrict && <span>{otherDistrict + ", "}</span>}
+                    {otherProvince && <span>{otherProvince + "."}</span>}
+                  </div>
+                ) : (
+                  <div className="pay__address--content">...</div>
+                )}
+              </label>
+            </div>
           </div>
+
+          {otherAddressMode && (
+            <>
+              <select
+                className={
+                  otherAddressError
+                    ? "pay__select--address pay__error"
+                    : "pay__select--address"
+                }
+                name="provinces"
+                id="provinces"
+                onChange={(e) => handleChangeProvinces(e.target.value)}
+                onFocus={() => setOtherAddressError(false)}
+              >
+                <option>--Thành phố/Tỉnh--</option>
+                {provinces?.map((p) => (
+                  <option
+                    key={p.province_id}
+                    value={p.province_name + "_" + p.province_id}
+                  >
+                    {p.province_name}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className={
+                  otherAddressError
+                    ? "pay__select--address pay__error"
+                    : "pay__select--address"
+                }
+                name="district"
+                id="district"
+                onChange={(e) => handleChangeDistricts(e.target.value)}
+                onFocus={() => setOtherAddressError(false)}
+              >
+                <option>--Quận/Huyện--</option>
+                {districts?.map((d) => (
+                  <option
+                    key={d.district_id}
+                    value={d.district_name + "_" + d.district_id}
+                  >
+                    {d.district_name}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className={
+                  otherAddressError
+                    ? "pay__select--address pay__error"
+                    : "pay__select--address"
+                }
+                name="ward"
+                id="ward"
+                onChange={(e) => handleChangeWards(e.target.value)}
+                onFocus={() => setOtherAddressError(false)}
+              >
+                <option>--Xã/Phường/Thị trấn--</option>
+                {wards?.map((w) => (
+                  <option key={w.ward_id} value={w.ward_name + "_" + w.ward_id}>
+                    {w.ward_name}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                className={
+                  otherAddressError ? "pay__input pay__error" : "pay__input"
+                }
+                type="text"
+                value={otherAddress}
+                placeholder="Số nhà, tên đường"
+                onChange={(e) => setOtherAddress(e.target.value)}
+                onBlur={(e) => {
+                  if (
+                    e.target.value === "" ||
+                    otherWard === "" ||
+                    otherDistrict === "" ||
+                    otherProvince === ""
+                  ) {
+                    setOtherAddressError(true);
+                  } else {
+                    setOtherAddressError(false);
+                  }
+                }}
+                onFocus={() => setOtherAddressError(false)}
+              />
+            </>
+          )}
+
+          {otherAddressError && (
+            <p style={{ color: "red" }}>Hãy nhập một địa chỉ hợp lệ</p>
+          )}
+
+          <label className="pay__form--label" htmlFor="">
+            Ghi chú
+          </label>
+          <input
+            className="pay__input"
+            type="text "
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
         </div>
 
-        {otherAddressMode && (
-          <>
-            <select
-              className={
-                otherAddressError
-                  ? "pay__select--address pay__error"
-                  : "pay__select--address"
-              }
-              name="provinces"
-              id="provinces"
-              onChange={(e) => handleChangeProvinces(e.target.value)}
-              onFocus={() => setOtherAddressError(false)}
-            >
-              <option>--Thành phố/Tỉnh--</option>
-              {provinces?.map((p) => (
-                <option
-                  key={p.province_id}
-                  value={p.province_name + "_" + p.province_id}
-                >
-                  {p.province_name}
-                </option>
-              ))}
-            </select>
+        <h3 className="main__title">Xem lại giỏ hàng:</h3>
 
-            <select
-              className={
-                otherAddressError
-                  ? "pay__select--address pay__error"
-                  : "pay__select--address"
-              }
-              name="district"
-              id="district"
-              onChange={(e) => handleChangeDistricts(e.target.value)}
-              onFocus={() => setOtherAddressError(false)}
-            >
-              <option>--Quận/Huyện--</option>
-              {districts?.map((d) => (
-                <option
-                  key={d.district_id}
-                  value={d.district_name + "_" + d.district_id}
-                >
-                  {d.district_name}
-                </option>
-              ))}
-            </select>
+        <CartContent cart={cart} payMode={true} />
 
-            <select
-              className={
-                otherAddressError
-                  ? "pay__select--address pay__error"
-                  : "pay__select--address"
-              }
-              name="ward"
-              id="ward"
-              onChange={(e) => handleChangeWards(e.target.value)}
-              onFocus={() => setOtherAddressError(false)}
-            >
-              <option>--Xã/Phường/Thị trấn--</option>
-              {wards?.map((w) => (
-                <option key={w.ward_id} value={w.ward_name + "_" + w.ward_id}>
-                  {w.ward_name}
-                </option>
-              ))}
-            </select>
+        <div className="pay__total--money">
+          Tổng giá tiền:
+          <span>{VND.format(totalPrice)}</span>
+        </div>
 
-            <input
-              className={
-                otherAddressError ? "pay__input pay__error" : "pay__input"
-              }
-              type="text"
-              value={otherAddress}
-              placeholder="Số nhà, tên đường"
-              onChange={(e) => setOtherAddress(e.target.value)}
-              onBlur={(e) => {
-                if (
-                  e.target.value === "" ||
-                  otherWard === "" ||
-                  otherDistrict === "" ||
-                  otherProvince === ""
-                ) {
-                  setOtherAddressError(true);
-                } else {
-                  setOtherAddressError(false);
-                }
-              }}
-              onFocus={() => setOtherAddressError(false)}
-            />
-          </>
-        )}
+        <div className="pay__chose--method">
+          <label htmlFor="payMethod">Chọn phương thức thanh toán:</label>
 
-        {otherAddressError && (
-          <p style={{ color: "red" }}>Hãy nhập một địa chỉ hợp lệ</p>
-        )}
+          <select
+            name="payMethod"
+            id="payMethod"
+            onChange={(e) => setPayMethod(e.target.value)}
+            className="pay__select"
+          >
+            <option value="nhận hàng">Thanh toán khi nhận hàng</option>
+            <option value="MOMO">Thanh toán qua ví MOMO</option>
+            <option value="VNPAY">Thanh toán qua ví VNPAY</option>
+          </select>
+        </div>
 
-        <label className="pay__form--label" htmlFor="">
-          Ghi chú
-        </label>
-        <input
-          className="pay__input"
-          type="text "
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-        />
-      </div>
+        <div className="pay__method">
+          {payMethod === "nhận hàng" && (
+            <button className="main__btn pay__btn pay__default" type="submit">
+              <i className="fa-solid fa-hand-holding-dollar"></i>
+              Đặt hàng
+            </button>
+          )}
 
-      <h3 className="main__title">Xem lại giỏ hàng:</h3>
+          {payMethod === "MOMO" && (
+            <button className="main__btn pay__btn pay__momo" type="submit">
+              <Image
+                src={momoLogo}
+                alt="momo logo"
+                width={25}
+                height={25}
+                style={{
+                  marginRight: "5px",
+                }}
+              />
+              Đặt hàng
+            </button>
+          )}
 
-      <CartContent cart={cart} payMode={true} />
-
-      <div className="pay__total--money">
-        Tổng giá tiền:
-        <span>{VND.format(totalPrice)}</span>
-      </div>
-
-      <div className="pay__chose--method">
-        <label htmlFor="payMethod">Chọn phương thức thanh toán:</label>
-
-        <select
-          name="payMethod"
-          id="payMethod"
-          onChange={(e) => setPayMethod(e.target.value)}
-          className="pay__select"
-        >
-          <option value="nhận hàng">Thanh toán khi nhận hàng</option>
-          <option value="MOMO">Thanh toán qua ví MOMO</option>
-          <option value="VNPAY">Thanh toán qua ví VNPAY</option>
-        </select>
-      </div>
-
-      <div className="pay__method">
-        {payMethod === "nhận hàng" && (
-          <button className="main__btn pay__btn pay__default" type="submit">
-            <i className="fa-solid fa-hand-holding-dollar"></i>
-            Đặt hàng
-          </button>
-        )}
-
-        {payMethod === "MOMO" && (
-          <button className="main__btn pay__btn pay__momo" type="submit">
-            <Image
-              src={momoLogo}
-              alt="momo logo"
-              width={25}
-              height={25}
-              style={{
-                marginRight: "5px",
-              }}
-            />
-            Đặt hàng
-          </button>
-        )}
-
-        {payMethod === "VNPAY" && (
-          <button className="main__btn pay__btn pay__vnpay" type="submit">
-            <Image
-              src={vnpagLogo}
-              alt="momo logo"
-              width={25}
-              height={25}
-              style={{
-                marginRight: "5px",
-              }}
-            />
-            Đặt hàng
-          </button>
-        )}
-      </div>
-    </form>
+          {payMethod === "VNPAY" && (
+            <button className="main__btn pay__btn pay__vnpay" type="submit">
+              <Image
+                src={vnpagLogo}
+                alt="momo logo"
+                width={25}
+                height={25}
+                style={{
+                  marginRight: "5px",
+                }}
+              />
+              Đặt hàng
+            </button>
+          )}
+        </div>
+      </form>
+    </>
   );
 };
 

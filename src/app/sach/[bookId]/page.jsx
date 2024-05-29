@@ -14,13 +14,15 @@ const bookPage = async ({ params }) => {
 
   return (
     <div className="product grid wide">
-      <BookToBuy
-        book={res.data}
-        publisher={resInfo.data.infoBook.publisher}
-        supplier={resInfo.data.infoBook.supplier}
-        auth={resInfo.data.infoBook.auth}
-        form={resInfo.data.infoBook.form}
-      />
+      <ToastProvider>
+        <BookToBuy
+          book={res.data}
+          publisher={resInfo.data.infoBook.publisher}
+          supplier={resInfo.data.infoBook.supplier}
+          auth={resInfo.data.infoBook.auth}
+          form={resInfo.data.infoBook.form}
+        />
+      </ToastProvider>
       <BookInfo infoBook={resInfo.data} />
       <BookDesc bookDesc={resInfo.data.infoBook.desc} />
       <ToastProvider>

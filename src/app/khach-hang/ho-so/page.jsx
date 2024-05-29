@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 import emailValidate from "../../../validation/email";
+import LoadingItem from "@/components/loading/LoadingItem";
+import LoadingPage from "@/components/loading/Loading";
 
 const CustomerContentEdit = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -40,11 +42,14 @@ const CustomerContentEdit = () => {
   const [birthdayError, setBirthdayError] = useState(false);
   const [addressError, setAddressError] = useState(false);
   const [buttonError, setButtonError] = useState(false);
+  const [loadingItem, setLoadingItem] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   let imageData = {};
 
   useEffect(() => {
     const getInfoUser = async () => {
+      setLoadingItem(true);
       try {
         const res = await axiosInstance.get(`/infoUser/${userId}`);
         setAvatar(res.data.avatar);
@@ -61,9 +66,11 @@ const CustomerContentEdit = () => {
         if (res.data.avatar.path !== "" && res.data.avatar.publicId !== "") {
           setCheckFile(true);
         }
+        setLoadingItem(false);
       } catch (error) {
         console.log(error);
         setAddMode(true);
+        setLoadingItem(false);
       }
     };
 
@@ -83,6 +90,7 @@ const CustomerContentEdit = () => {
   }, [userId]);
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     if (avatar.path === "" && avatar.publicId === "" && file) {
@@ -138,12 +146,15 @@ const CustomerContentEdit = () => {
       try {
         const res = await axiosInstance.put(`/infoUser/${userId}`, newInfoUser);
         toast.success("Chỉnh sửa thông tin thành công!");
+        setLoading(false);
       } catch (error) {
         console.log(error);
         toast.error("Chỉnh sửa thông tin thất bại!");
+        setLoading(false);
       }
     } else {
       toast.error("Chưa thể thay đổi thông tin!");
+      setLoading(false);
     }
   };
 
@@ -203,253 +214,270 @@ const CustomerContentEdit = () => {
   };
 
   return (
-    <div className="customer__edit  main__container">
-      <form onSubmit={handleSubmit} className="row no-gutters">
-        <div className="customer__edit--center c-12">
-          <label htmlFor="infoUserFile" className="customer__edit--file">
-            {checkFile ? (
-              <Image
-                src={file ? URL.createObjectURL(file) : avatar?.path}
-                alt="avatar"
-                width={225}
-                height={225}
-                style={{
-                  objectFit: "contain",
-                  borderRadius: "50%",
-                  border: "1px solid #ccc",
-                }}
-              />
-            ) : (
-              <Image
-                src={avatarDefault}
-                alt="avatar"
-                width={225}
-                height={225}
-                style={{
-                  objectFit: "contain",
-                }}
-              />
-            )}
+    <>
+      {loadingItem ? (
+        <LoadingItem />
+      ) : (
+        <>
+          {loading && <LoadingPage />}
+          <div className="customer__edit  main__container">
+            <form onSubmit={handleSubmit} className="row no-gutters">
+              <div className="customer__edit--center c-12">
+                <label htmlFor="infoUserFile" className="customer__edit--file">
+                  {checkFile ? (
+                    <Image
+                      src={file ? URL.createObjectURL(file) : avatar?.path}
+                      alt="avatar"
+                      width={225}
+                      height={225}
+                      style={{
+                        objectFit: "contain",
+                        borderRadius: "50%",
+                        border: "1px solid #ccc",
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      src={avatarDefault}
+                      alt="avatar"
+                      width={225}
+                      height={225}
+                      style={{
+                        objectFit: "contain",
+                      }}
+                    />
+                  )}
 
-            <i className="fa-solid fa-arrows-rotate"></i>
-          </label>
+                  <i className="fa-solid fa-arrows-rotate"></i>
+                </label>
 
-          <input
-            id="infoUserFile"
-            type="file"
-            onChange={(e) => {
-              setFile(e.target.files[0]);
-              setCheckFile(true);
-            }}
-            style={{
-              display: "none",
-            }}
-          />
-        </div>
+                <input
+                  id="infoUserFile"
+                  type="file"
+                  onChange={(e) => {
+                    setFile(e.target.files[0]);
+                    setCheckFile(true);
+                  }}
+                  style={{
+                    display: "none",
+                  }}
+                />
+              </div>
 
-        <div className="c-6 s-12 customer__edit--left">
-          <label>Họ</label>
-          <input
-            className={
-              lastNameError
-                ? "customer__edit--input customer__edit--error"
-                : "customer__edit--input"
-            }
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            onBlur={() => {
-              if (lastName === "") {
-                setLastNameError(true);
-              } else {
-                setLastNameError(false);
-              }
-            }}
-            onFocus={() => setLastNameError(false)}
-          />
-          {lastNameError && (
-            <p style={{ color: "red" }}>Họ không được bỏ trống</p>
-          )}
+              <div className="c-6 s-12 customer__edit--left">
+                <label>Họ</label>
+                <input
+                  className={
+                    lastNameError
+                      ? "customer__edit--input customer__edit--error"
+                      : "customer__edit--input"
+                  }
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  onBlur={() => {
+                    if (lastName === "") {
+                      setLastNameError(true);
+                    } else {
+                      setLastNameError(false);
+                    }
+                  }}
+                  onFocus={() => setLastNameError(false)}
+                />
+                {lastNameError && (
+                  <p style={{ color: "red" }}>Họ không được bỏ trống</p>
+                )}
 
-          <label>Tên</label>
-          <input
-            className={
-              firstNameError
-                ? "customer__edit--input customer__edit--error"
-                : "customer__edit--input"
-            }
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            onBlur={() => {
-              if (firstName === "") {
-                setFirstNameError(true);
-              } else {
-                setFirstNameError(false);
-              }
-            }}
-            onFocus={() => setFirstNameError(false)}
-          />
-          {firstNameError && (
-            <p style={{ color: "red" }}>Tên không được bỏ trống</p>
-          )}
+                <label>Tên</label>
+                <input
+                  className={
+                    firstNameError
+                      ? "customer__edit--input customer__edit--error"
+                      : "customer__edit--input"
+                  }
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  onBlur={() => {
+                    if (firstName === "") {
+                      setFirstNameError(true);
+                    } else {
+                      setFirstNameError(false);
+                    }
+                  }}
+                  onFocus={() => setFirstNameError(false)}
+                />
+                {firstNameError && (
+                  <p style={{ color: "red" }}>Tên không được bỏ trống</p>
+                )}
 
-          <label>Email</label>
-          <input
-            className={
-              emailError
-                ? "customer__edit--input customer__edit--error"
-                : "customer__edit--input"
-            }
-            type="text"
-            value={email}
-            onChange={(e) => {
-              setEmailError(false);
-              setEmail(e.target.value);
-            }}
-            onFocus={() => setEmailError(false)}
-            onBlur={(e) => {
-              if (emailValidate(e.target.value) || e.target.value === "") {
-                setEmailError(false);
-              } else {
-                setEmailError(true);
-              }
-            }}
-          />
+                <label>Email</label>
+                <input
+                  className={
+                    emailError
+                      ? "customer__edit--input customer__edit--error"
+                      : "customer__edit--input"
+                  }
+                  type="text"
+                  value={email}
+                  onChange={(e) => {
+                    setEmailError(false);
+                    setEmail(e.target.value);
+                  }}
+                  onFocus={() => setEmailError(false)}
+                  onBlur={(e) => {
+                    if (
+                      emailValidate(e.target.value) ||
+                      e.target.value === ""
+                    ) {
+                      setEmailError(false);
+                    } else {
+                      setEmailError(true);
+                    }
+                  }}
+                />
 
-          {emailError && <p style={{ color: "red" }}>Email không hợp lệ</p>}
+                {emailError && (
+                  <p style={{ color: "red" }}>Email không hợp lệ</p>
+                )}
 
-          <label>Giới tính</label>
-          <div className="customer__edit--right-gender">
-            <input
-              type="radio"
-              name="gender"
-              value="Nam"
-              onChange={() => setGender("Nam")}
-            />
+                <label>Giới tính</label>
+                <div className="customer__edit--right-gender">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Nam"
+                    onChange={() => setGender("Nam")}
+                  />
 
-            <label>Nam</label>
-            <input
-              type="radio"
-              name="gender"
-              value="Nữ"
-              onChange={() => setGender("Nữ")}
-            />
-            <label>Nữ</label>
+                  <label>Nam</label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Nữ"
+                    onChange={() => setGender("Nữ")}
+                  />
+                  <label>Nữ</label>
+                </div>
+              </div>
+              <div className="c-6 s-12 customer__edit--right">
+                <label>Ngày sinh</label>
+                <input
+                  className="customer__edit--input"
+                  type="date"
+                  value={birthday}
+                  onChange={(e) => setBirthday(e.target.value)}
+                />
+
+                <label>Địa chỉ</label>
+
+                <select
+                  className={
+                    addressError
+                      ? "customer__edit--select customer__edit--error"
+                      : "customer__edit--select"
+                  }
+                  name="provinces"
+                  id="provinces"
+                  onChange={(e) => handleChangeProvinces(e.target.value)}
+                >
+                  <option>--Thành phố/Tỉnh--</option>
+                  {provinces?.map((p) => (
+                    <option
+                      key={p.province_id}
+                      value={p.province_name + "_" + p.province_id}
+                    >
+                      {p.province_name}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  className={
+                    addressError
+                      ? "customer__edit--select customer__edit--error"
+                      : "customer__edit--select"
+                  }
+                  name="district"
+                  id="district"
+                  onChange={(e) => handleChangeDistricts(e.target.value)}
+                >
+                  <option>--Quận/Huyện--</option>
+                  {districts?.map((d) => (
+                    <option
+                      key={d.district_id}
+                      value={d.district_name + "_" + d.district_id}
+                    >
+                      {d.district_name}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  className={
+                    addressError
+                      ? "customer__edit--select customer__edit--error"
+                      : "customer__edit--select"
+                  }
+                  name="ward"
+                  id="ward"
+                  onChange={(e) => handleChangeWards(e.target.value)}
+                >
+                  <option>--Xã/Phường/Thị trấn--</option>
+                  {wards?.map((w) => (
+                    <option
+                      key={w.ward_id}
+                      value={w.ward_name + "_" + w.ward_id}
+                    >
+                      {w.ward_name}
+                    </option>
+                  ))}
+                </select>
+
+                <input
+                  className={
+                    addressError
+                      ? "customer__edit--input customer__edit--error"
+                      : "customer__edit--input"
+                  }
+                  type="text"
+                  placeholder="Số nhà, tên đường"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  onBlur={handleBlurAddress}
+                  onFocus={() => setAddressError(false)}
+                />
+
+                {addressError && (
+                  <p style={{ color: "red" }}>Hãy nhập một địa chỉ cụ thể!</p>
+                )}
+
+                {/* <input
+              className="customer__edit--input"
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            /> */}
+
+                <button className="customer__edit--button" type="submit">
+                  Lưu thay đổi
+                </button>
+              </div>
+            </form>
+
+            <div className="customer__modal hidden">
+              <div className="customer__modal--title">
+                Bạn có muốn thay đổi hồ sơ?
+              </div>
+              <div className="customer__modal--content">
+                <button className="customer__modal--hide">Huỷ</button>
+                <button className="customer__modal--agree">Thay đổi</button>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="c-6 s-12 customer__edit--right">
-          <label>Ngày sinh</label>
-          <input
-            className="customer__edit--input"
-            type="date"
-            value={birthday}
-            onChange={(e) => setBirthday(e.target.value)}
-          />
-
-          <label>Địa chỉ</label>
-
-          <select
-            className={
-              addressError
-                ? "customer__edit--select customer__edit--error"
-                : "customer__edit--select"
-            }
-            name="provinces"
-            id="provinces"
-            onChange={(e) => handleChangeProvinces(e.target.value)}
-          >
-            <option>--Thành phố/Tỉnh--</option>
-            {provinces?.map((p) => (
-              <option
-                key={p.province_id}
-                value={p.province_name + "_" + p.province_id}
-              >
-                {p.province_name}
-              </option>
-            ))}
-          </select>
-
-          <select
-            className={
-              addressError
-                ? "customer__edit--select customer__edit--error"
-                : "customer__edit--select"
-            }
-            name="district"
-            id="district"
-            onChange={(e) => handleChangeDistricts(e.target.value)}
-          >
-            <option>--Quận/Huyện--</option>
-            {districts?.map((d) => (
-              <option
-                key={d.district_id}
-                value={d.district_name + "_" + d.district_id}
-              >
-                {d.district_name}
-              </option>
-            ))}
-          </select>
-
-          <select
-            className={
-              addressError
-                ? "customer__edit--select customer__edit--error"
-                : "customer__edit--select"
-            }
-            name="ward"
-            id="ward"
-            onChange={(e) => handleChangeWards(e.target.value)}
-          >
-            <option>--Xã/Phường/Thị trấn--</option>
-            {wards?.map((w) => (
-              <option key={w.ward_id} value={w.ward_name + "_" + w.ward_id}>
-                {w.ward_name}
-              </option>
-            ))}
-          </select>
-
-          <input
-            className={
-              addressError
-                ? "customer__edit--input customer__edit--error"
-                : "customer__edit--input"
-            }
-            type="text"
-            placeholder="Số nhà, tên đường"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            onBlur={handleBlurAddress}
-            onFocus={() => setAddressError(false)}
-          />
-
-          {addressError && (
-            <p style={{ color: "red" }}>Hãy nhập một địa chỉ cụ thể!</p>
-          )}
-
-          {/* <input
-            className="customer__edit--input"
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          /> */}
-
-          <button className="customer__edit--button" type="submit">
-            Lưu thay đổi
-          </button>
-        </div>
-      </form>
-
-      <div className="customer__modal hidden">
-        <div className="customer__modal--title">
-          Bạn có muốn thay đổi hồ sơ?
-        </div>
-        <div className="customer__modal--content">
-          <button className="customer__modal--hide">Huỷ</button>
-          <button className="customer__modal--agree">Thay đổi</button>
-        </div>
-      </div>
-    </div>
+        </>
+      )}
+    </>
   );
 };
 

@@ -9,6 +9,10 @@
 }
 
 @media screen and (max-width: 767px) {
+  .img__main {
+    width: 90px;
+    height: 90px;
+  }
   .customer__modal--title {
     font-size: 16px;
   }

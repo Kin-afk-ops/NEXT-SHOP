@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import "./cartTop.css";
-import axiosInstance from "@/config";
+
 import { useSelector } from "react-redux";
 import dynamic from "next/dynamic";
 

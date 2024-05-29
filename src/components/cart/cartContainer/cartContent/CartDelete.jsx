@@ -11,6 +11,7 @@ const CartDelete = ({
   setDeleteDisplay,
   deleteId,
   setLoading,
+  loading,
 }) => {
   const dispatch = useDispatch();
 
@@ -20,7 +21,7 @@ const CartDelete = ({
       await axiosInstance.delete(`/cart/${deleteId}`);
       dispatch(reduceCart());
       setDeleteDisplay(false);
-      setLoading(true);
+      setLoading(!loading);
     } catch (error) {
       console.log(error);
     }

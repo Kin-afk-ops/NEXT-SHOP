@@ -65,3 +65,11 @@
     min-width: 100%;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .product__modal {
+    width: 100% !important;
+    top: 50% !important;
+    transition: 0.3s !important;
+  }
+}

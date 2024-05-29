@@ -50,6 +50,15 @@
   justify-content: space-between;
 }
 
+.cart__content--container-item-info p {
+  height: 40px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* số dòng hiển thị */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .info__title {
   font-weight: 600;
   transition: 1s;
@@ -86,6 +95,7 @@
 }
 
 .cart__content--container-item-quantity {
+  display: flex;
   overflow: hidden;
   font-size: 18px;
 }

@@ -2,6 +2,7 @@ import Categories from "@/components/categories/Categories";
 import HomeList from "@/components/homeList/HomeList";
 import Slide from "@/components/slide/Slide";
 import axiosInstance from "../config";
+import Loading from "@/components/loading/Loading";
 
 export default async function Home() {
   const resNewBook = await axiosInstance.get(`/home/book`);

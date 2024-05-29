@@ -10,6 +10,7 @@ import "../responsive.css";
 import VND from "../../../vnd";
 import { useSelector } from "react-redux";
 import axiosInstance from "@/config";
+import { toast } from "react-toastify";
 
 const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
   const dispatch = useDispatch();
@@ -76,7 +77,7 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
     try {
       const res = await axiosInstance.post(`/cart`, newCart);
       dispatch(increaseCart());
-      router.push(`/gio-hang/${user._id}`);
+      toast.success("Thêm vào giỏ hàng thành công");
     } catch (error) {
       console.log(error);
     }

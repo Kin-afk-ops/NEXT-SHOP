@@ -1,7 +1,7 @@
 import Link from "next/link";
 import "./homeList.css";
 import ListItem from "../listItem/ListItem";
-import configSlug from "@/slug";
+
 import "./responsive.css";
 
 const HomeList = ({ books }) => {

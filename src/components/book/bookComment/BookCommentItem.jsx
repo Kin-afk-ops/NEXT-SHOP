@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const BookCommentItem = ({ bookId, comment }) => {
   const [check, setCheck] = useState(false);
-  const [commentCheck, setCommentCheck] = useState(false);
+
   const [modal, setModal] = useState(false);
 
   const [likeTotal, setLikeTotal] = useState(comment.like.value);
