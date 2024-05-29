@@ -26,7 +26,7 @@ const CustomerContentNotification = () => {
   useEffect(() => {
     const getNotification = async () => {
       try {
-        const res = await axiosInstance.get(`/notification/${user._id}`);
+        const res = await axiosInstance.get(`/notification/${userId}`);
 
         setNotification(res.data.reverse());
         setLoading(false);

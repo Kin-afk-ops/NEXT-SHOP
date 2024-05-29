@@ -46,7 +46,7 @@ const CustomerContentEdit = () => {
   useEffect(() => {
     const getInfoUser = async () => {
       try {
-        const res = await axiosInstance.get(`/infoUser/${user._id}`);
+        const res = await axiosInstance.get(`/infoUser/${userId}`);
         setAvatar(res.data.avatar);
         setLastName(res.data.lastName);
         setFirstName(res.data.firstName);
@@ -136,10 +136,7 @@ const CustomerContentEdit = () => {
       address !== ""
     ) {
       try {
-        const res = await axiosInstance.put(
-          `/infoUser/${user._id}`,
-          newInfoUser
-        );
+        const res = await axiosInstance.put(`/infoUser/${userId}`, newInfoUser);
         toast.success("Chỉnh sửa thông tin thành công!");
       } catch (error) {
         console.log(error);

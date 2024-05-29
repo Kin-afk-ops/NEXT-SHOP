@@ -18,7 +18,7 @@ const CustomerContentInfo = () => {
   useEffect(() => {
     const getInfoUser = async () => {
       try {
-        const res = await axiosInstance.get(`/infoUser/${user._id}`);
+        const res = await axiosInstance.get(`/infoUser/${userId}`);
         setInfoUser(res.data);
 
         if (res.data.avatar.path !== "" && res.data.avatar.path !== "") {

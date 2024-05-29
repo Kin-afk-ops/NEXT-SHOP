@@ -22,7 +22,7 @@ const CustomerContentOrder = () => {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const res = await axiosInstance.get(`/order/find/${user._id}`);
+        const res = await axiosInstance.get(`/order/find/${userId}`);
         setOrders(res.data);
         setLoading(false);
       } catch (error) {
