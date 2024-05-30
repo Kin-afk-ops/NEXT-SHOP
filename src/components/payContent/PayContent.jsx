@@ -56,6 +56,7 @@ const PayContent = ({ userId }) => {
 
   useEffect(() => {
     const getInfoUser = async () => {
+      setLoading(true);
       try {
         const res = await axiosInstance.get(`/infoUser/${userId}`);
 
@@ -103,7 +104,7 @@ const PayContent = ({ userId }) => {
         console.log(error);
       }
     };
-    setLoading(true);
+
     getCart();
     getInfoUser();
     getAddress();
@@ -116,7 +117,7 @@ const PayContent = ({ userId }) => {
 
     if (clientName === "" || otherAddressError || phone === "") {
       toast.error("Đặt hàng không thành công! Hãy xem lại");
-
+      setLoading(false);
       console.log("Haha");
     } else if (otherAddressMode) {
       if (
@@ -124,10 +125,12 @@ const PayContent = ({ userId }) => {
         otherWard === "" ||
         otherDistrict === "" ||
         otherProvince === ""
-      )
+      ) {
         toast.error("Hãy điền đầy đủ địa chỉ");
+        setLoading(false);
 
-      console.log("Haha");
+        console.log("Haha");
+      }
     } else {
       try {
         for (let i = 0; i < cart.length; i++) {
@@ -189,6 +192,7 @@ const PayContent = ({ userId }) => {
           setLoading(false);
         } catch (error) {
           console.log(error);
+          setLoading(false);
         }
         setTimeout(() => {
           getNoti(dispatch, user?._id);
@@ -197,6 +201,7 @@ const PayContent = ({ userId }) => {
         }, 2000);
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
   };
