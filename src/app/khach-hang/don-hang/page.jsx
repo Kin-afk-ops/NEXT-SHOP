@@ -56,7 +56,7 @@ const CustomerContentOrder = () => {
       try {
         await axiosInstance.put(`/user/order/${orderId}`, newOrder);
 
-        toast.success("Đơn hàng của sẽ được sử lý");
+        toast.success("Đơn hàng của sẽ được xử lý");
         setLoading(!loading);
         setModal(false);
       } catch (error) {
