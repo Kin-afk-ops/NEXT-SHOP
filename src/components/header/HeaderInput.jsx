@@ -12,7 +12,7 @@ const HeaderInput = () => {
   const router = useRouter();
   const input = useRef(null);
 
-  const [searchHistoryArray, setSearchHistoryArray] = useState("");
+  const [searchHistoryArray, setSearchHistoryArray] = useState([]);
 
   const [historyMode, setHistoryMode] = useState(false);
 
@@ -151,7 +151,7 @@ const HeaderInput = () => {
           onKeyDown={handleKeyDown}
           onFocus={() => {
             if (
-              searchHistoryArray.length !== 0 ||
+              searchHistoryArray?.length !== 0 ||
               bookHot?.length !== 0 ||
               categoriesHot.length !== 0
             ) {
@@ -173,7 +173,7 @@ const HeaderInput = () => {
 
       {historyMode && (
         <div className="header__input--history">
-          {searchHistoryArray.length !== 0 && (
+          {searchHistoryArray?.length !== 0 && (
             <div>
               <p className="header__input--history-title">
                 Lịch sử tìm kiếm <i className="fa-solid fa-clock"></i>
@@ -181,7 +181,7 @@ const HeaderInput = () => {
 
               <ul>
                 {searchHistoryArray &&
-                  searchHistoryArray.map((search, index) => (
+                  searchHistoryArray?.map((search, index) => (
                     <>
                       {index <= 9 && (
                         <li

@@ -7,6 +7,8 @@ import { login, getCart, getNoti } from "../../lib/apiCall";
 import { logout } from "../../lib/features/user/userSlice";
 import { logoutCart } from "../../lib/features/cart/cartLengthSlice";
 import { logoutNoti } from "../../lib/features/notification/notiSlice";
+import phoneValidator from "@/validation/phone";
+import passwordValidator from "@/validation/password";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -41,6 +43,11 @@ const Header = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [noAccount, setNoAccount] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  const [phoneError, setPhoneError] = useState(false);
+
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
 
   const [infoUser, setInfoUser] = useState({});
 
@@ -63,36 +70,27 @@ const Header = () => {
     router.push("/tai-khoan/quen-mat-khau");
   };
 
-  const validate = () => {
-    if (mode === "login") {
-      return phone === "" || password === "" ? false : true;
-    } else {
-      return phone === "" || password === "" || confirmPassword === ""
-        ? false
-        : true;
-    }
-  };
-
   const handleLogin = async (e) => {
     e.preventDefault();
+    phoneValidator(phone, setPhoneError, setPhoneErrorMessage);
+    passwordValidator(password, setPasswordError, setPasswordErrorMessage);
+    // const newLogin = {
+    //   phone,
+    //   password,
+    // };
 
-    const newLogin = {
-      phone,
-      password,
-    };
+    // login(dispatch, newLogin, setNoAccount);
 
-    login(dispatch, newLogin, setNoAccount);
-
-    console.log(isError);
-    if (validate()) {
-    } else {
-      if (phone === "") {
-        setPhoneLoginError(true);
-      }
-      if (password === "") {
-        setPasswordLoginError(true);
-      }
-    }
+    // console.log(isError);
+    // if (validate()) {
+    // } else {
+    //   if (phone === "") {
+    //     setPhoneLoginError(true);
+    //   }
+    //   if (password === "") {
+    //     setPasswordLoginError(true);
+    //   }
+    // }
   };
 
   const handleLogout = () => {
@@ -246,182 +244,215 @@ const Header = () => {
         <HeaderInput />
 
         <div className="header__right s-4">
-          <div className="header__icon">
-            <i
-              className="fa-solid fa-bell"
-              onClick={() => router.push("/khach-hang/thong-bao")}
-            ></i>
-            <span
-              className="m-0 s-0"
-              onClick={() => router.push("/khach-hang/thong-bao")}
-            >
-              Thông báo
-            </span>
-            {notification.length !== 0 && (
-              <div className="header__icon--total">{notification?.length}</div>
-            )}
-
-            {notification && (
-              <ul className="header__icon--notify-list m-0 s-0">
-                <div className="header__icon--notify-header">
-                  <span className="header__icon--notify-title">
-                    {" "}
-                    Thông báo{" "}
-                  </span>
-                  <Link className="link" href={`/khach-hang/thong-bao`}>
-                    <span className="header__icon--notify-all">Xem tất cả</span>
-                  </Link>
-                </div>
-                <hr />
-                {notification?.length !== 0 ? (
-                  <div>
-                    {notification?.map((noti, index) => (
-                      <li className="header__icon--notify-li" key={noti._id}>
-                        <div
-                          className=" display__flex--center"
-                          onClick={() =>
-                            handleReadNoti(noti.notify.path, noti._id)
-                          }
-                        >
-                          <i className="header__icon--notify-li-icon fa-solid fa-triangle-exclamation"></i>
-                          <div className="header__icon--notify-li-wrap">
-                            <span className="header__icon--notify-li-title">
-                              {noti.notify.title}
-                            </span>
-                            <span className="header__icon--notify-li-content">
-                              {noti.notify.content}
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="main__title">Không có thông báo mới</p>
-                )}
-              </ul>
-            )}
-          </div>
-
-          <Link href={`/gio-hang/${userId}`} className="link">
+          {user && (
             <div className="header__icon">
-              <i className="fa-solid fa-cart-shopping"></i>
-              <span className="m-0 s-0">Giỏ hàng</span>
-
-              {cartLength !== 0 && (
-                <div className="header__icon--total header__icon--total-cart">
-                  {cartLength}
+              <i
+                className="fa-solid fa-bell"
+                onClick={() => router.push("/khach-hang/thong-bao")}
+              ></i>
+              <span
+                className="m-0 s-0"
+                onClick={() => router.push("/khach-hang/thong-bao")}
+              >
+                Thông báo
+              </span>
+              {notification.length !== 0 && (
+                <div className="header__icon--total">
+                  {notification?.length}
                 </div>
               )}
+
+              {notification && (
+                <ul className="header__icon--notify-list m-0 s-0">
+                  <div className="header__icon--notify-header">
+                    <span className="header__icon--notify-title">
+                      {" "}
+                      Thông báo{" "}
+                    </span>
+                    <Link className="link" href={`/khach-hang/thong-bao`}>
+                      <span className="header__icon--notify-all">
+                        Xem tất cả
+                      </span>
+                    </Link>
+                  </div>
+                  <hr />
+                  {notification?.length !== 0 ? (
+                    <div>
+                      {notification?.map((noti, index) => (
+                        <li className="header__icon--notify-li" key={noti._id}>
+                          <div
+                            className=" display__flex--center"
+                            onClick={() =>
+                              handleReadNoti(noti.notify.path, noti._id)
+                            }
+                          >
+                            <i className="header__icon--notify-li-icon fa-solid fa-triangle-exclamation"></i>
+                            <div className="header__icon--notify-li-wrap">
+                              <span className="header__icon--notify-li-title">
+                                {noti.notify.title}
+                              </span>
+                              <span className="header__icon--notify-li-content">
+                                {noti.notify.content}
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="main__title">Không có thông báo mới</p>
+                  )}
+                </ul>
+              )}
             </div>
-          </Link>
+          )}
+
+          {user && (
+            <Link href={`/gio-hang/${userId}`} className="link">
+              <div className="header__icon">
+                <i className="fa-solid fa-cart-shopping"></i>
+                <span className="m-0 s-0">Giỏ hàng</span>
+
+                {cartLength !== 0 && (
+                  <div className="header__icon--total header__icon--total-cart">
+                    {cartLength}
+                  </div>
+                )}
+              </div>
+            </Link>
+          )}
 
           <div onClick={handleAccountMobile} className="header__icon l-0 m-0">
             <i className="fa-solid fa-user"></i>
           </div>
 
-          <div className="header__icon s-0">
-            <i className="fa-solid fa-user"></i>
-            <span className="m-0 s-0">Tài khoản</span>
+          {user ? (
+            <div className="header__icon s-0">
+              <i className="fa-solid fa-user"></i>
+              <span className="m-0 s-0">Tài khoản</span>
 
-            <ul className="header__icon--user-list s-0">
-              <div
+              <ul className="header__icon--user-list s-0">
+                <div
+                  onClick={() => {
+                    user && router.push("/khach-hang/thong-tin");
+                  }}
+                >
+                  {!checkInfoUser ? (
+                    <div className="header__icon--user-header">
+                      <Image
+                        src={avatar}
+                        alt=""
+                        width={50}
+                        height={50}
+                        style={{
+                          objectFit: "contain",
+                          borderRadius: "50%",
+                          border: "1px solid #ccc",
+                        }}
+                      />
+                      <div>
+                        <p className="header__icon--user-name"></p>
+                        <p className="header__icon--user-email"></p>
+                      </div>
+                      <i className="fa-solid fa-chevron-right"></i>
+                    </div>
+                  ) : (
+                    <div className="header__icon--user-header">
+                      <Image
+                        src={
+                          infoUser?.avatar.path !== ""
+                            ? infoUser?.avatar.path
+                            : avatar
+                        }
+                        alt={
+                          infoUser?.lastName +
+                          " " +
+                          infoUser?.firstName +
+                          " " +
+                          "avatar"
+                        }
+                        width={50}
+                        height={50}
+                        style={{
+                          objectFit: "contain",
+                          borderRadius: "50%",
+                          border: "1px solid #ccc",
+                        }}
+                      />
+                      <div>
+                        {infoUser?.lastName && infoUser?.firstName ? (
+                          <p className="header__icon--user-name">
+                            {infoUser?.lastName + " " + infoUser?.firstName}
+                          </p>
+                        ) : (
+                          <p className="header__icon--user-name"></p>
+                        )}
+
+                        {user?.phone && (
+                          <p className="header__icon--user-phone">
+                            {user?.phone}
+                          </p>
+                        )}
+                      </div>
+                      <i className="fa-solid fa-chevron-right"></i>
+                    </div>
+                  )}
+                </div>
+                <Link href="/khach-hang/don-hang" className="link">
+                  <li className="header__icon--user-li">
+                    <i className="fa-solid fa-clipboard"></i>
+                    <span className="header__icon--user-li-title">
+                      Đơn hàng của tôi
+                    </span>
+                  </li>
+                </Link>
+                <hr />
+
+                {checkUser ? (
+                  <li
+                    className="header__icon--user-li"
+                    onClick={() => handleLogout()}
+                  >
+                    <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span className="header__icon--user-li-title">
+                      Đăng xuất
+                    </span>
+                  </li>
+                ) : (
+                  <li
+                    className="header__icon--user-li"
+                    onClick={() => setHeaderModal(true)}
+                  >
+                    <i className="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span className="header__icon--user-li-title">
+                      Đăng nhập
+                    </span>
+                  </li>
+                )}
+
+                <hr />
+              </ul>
+            </div>
+          ) : (
+            <div className="header__icon--non-user">
+              <p
                 onClick={() => {
-                  user && router.push("/khach-hang/thong-tin");
+                  setHeaderModal(true);
+                  setMode("login");
                 }}
               >
-                {!checkInfoUser ? (
-                  <div className="header__icon--user-header">
-                    <Image
-                      src={avatar}
-                      alt=""
-                      width={50}
-                      height={50}
-                      style={{
-                        objectFit: "contain",
-                        borderRadius: "50%",
-                        border: "1px solid #ccc",
-                      }}
-                    />
-                    <div>
-                      <p className="header__icon--user-name"></p>
-                      <p className="header__icon--user-email"></p>
-                    </div>
-                    <i className="fa-solid fa-chevron-right"></i>
-                  </div>
-                ) : (
-                  <div className="header__icon--user-header">
-                    <Image
-                      src={
-                        infoUser?.avatar.path !== ""
-                          ? infoUser?.avatar.path
-                          : avatar
-                      }
-                      alt={
-                        infoUser?.lastName +
-                        " " +
-                        infoUser?.firstName +
-                        " " +
-                        "avatar"
-                      }
-                      width={50}
-                      height={50}
-                      style={{
-                        objectFit: "contain",
-                        borderRadius: "50%",
-                        border: "1px solid #ccc",
-                      }}
-                    />
-                    <div>
-                      {infoUser?.lastName && infoUser?.firstName ? (
-                        <p className="header__icon--user-name">
-                          {infoUser?.lastName + " " + infoUser?.firstName}
-                        </p>
-                      ) : (
-                        <p className="header__icon--user-name"></p>
-                      )}
-
-                      {user?.phone && (
-                        <p className="header__icon--user-phone">
-                          {user?.phone}
-                        </p>
-                      )}
-                    </div>
-                    <i className="fa-solid fa-chevron-right"></i>
-                  </div>
-                )}
-              </div>
-              <Link href="/khach-hang/don-hang" className="link">
-                <li className="header__icon--user-li">
-                  <i className="fa-solid fa-clipboard"></i>
-                  <span className="header__icon--user-li-title">
-                    Đơn hàng của tôi
-                  </span>
-                </li>
-              </Link>
-              <hr />
-
-              {checkUser ? (
-                <li
-                  className="header__icon--user-li"
-                  onClick={() => handleLogout()}
-                >
-                  <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                  <span className="header__icon--user-li-title">Đăng xuất</span>
-                </li>
-              ) : (
-                <li
-                  className="header__icon--user-li"
-                  onClick={() => setHeaderModal(true)}
-                >
-                  <i className="fa-solid fa-arrow-right-to-bracket"></i>
-                  <span className="header__icon--user-li-title">Đăng nhập</span>
-                </li>
-              )}
-
-              <hr />
-            </ul>
-          </div>
+                Đăng nhập
+              </p>
+              <p
+                onClick={() => {
+                  setHeaderModal(true);
+                  setMode("register");
+                }}
+              >
+                Đăng kí
+              </p>
+            </div>
+          )}
 
           {/* <div className="header__icon header__icon--language">
             <div>
@@ -469,6 +500,10 @@ const Header = () => {
                     placeholder="Nhập số điện thoại"
                     type="text"
                     value={phone}
+                    onFocus={() => {
+                      setPhoneError(false);
+                      setPhoneErrorMessage("");
+                    }}
                     onChange={(e) => {
                       setPhoneLoginError(false);
                       setPhone(e.target.value);
@@ -476,16 +511,8 @@ const Header = () => {
                     }}
                   />
 
-                  {phoneLoginError && (
-                    <p className="error__message">
-                      Số điện thoại không được bỏ trống
-                    </p>
-                  )}
-
-                  {noAccount && (
-                    <p className="error__message">
-                      Số điện thoại hoặc mật khẩu không đúng
-                    </p>
+                  {phoneError && (
+                    <p className="error__message">{phoneErrorMessage}</p>
                   )}
 
                   <label>Mật khẩu</label>
@@ -494,6 +521,10 @@ const Header = () => {
                       placeholder="Nhập mật khẩu"
                       type={passwordType ? "password" : "text"}
                       value={password}
+                      onFocus={() => {
+                        setPasswordError(false);
+                        setPasswordErrorMessage("");
+                      }}
                       onChange={(e) => {
                         setPasswordLoginError(false);
                         setPassword(e.target.value);
@@ -501,28 +532,21 @@ const Header = () => {
                       }}
                     />
 
-                    <i
-                      className={
-                        passwordType
-                          ? "fa-solid fa-eye"
-                          : "fa-solid fa-eye-slash"
-                      }
-                      onClick={() => setPasswordType(!passwordType)}
-                    ></i>
+                    {password?.length !== 0 && (
+                      <i
+                        className={
+                          passwordType
+                            ? "fa-solid fa-eye"
+                            : "fa-solid fa-eye-slash"
+                        }
+                        onClick={() => setPasswordType(!passwordType)}
+                      ></i>
+                    )}
                   </div>
 
-                  {passwordLoginError && (
-                    <p className="error__message">
-                      Mật khẩu không được bỏ trống
-                    </p>
+                  {passwordError && (
+                    <p className="error__message">{passwordErrorMessage}</p>
                   )}
-
-                  {noAccount && (
-                    <p className="error__message">
-                      Số điện thoại hoặc mật khẩu không đúng
-                    </p>
-                  )}
-
                   <div
                     className="forget__password"
                     onClick={handleForgetPassword}
