@@ -5,6 +5,8 @@
 @media screen and (max-width: 767px) {
   .slide {
     height: 230px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
   .slide__img {
     height: 230px;

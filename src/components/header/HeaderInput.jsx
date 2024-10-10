@@ -17,7 +17,6 @@ const HeaderInput = () => {
   const [historyMode, setHistoryMode] = useState(false);
 
   const [query, setQuery] = useState("");
-  const [isScrolled, setIsScrolled] = useState(false);
   const [bookHot, setBookHot] = useState([]);
   const [categoriesHot, setCategoriesHot] = useState([]);
 

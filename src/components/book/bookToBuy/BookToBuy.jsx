@@ -33,27 +33,29 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
 
   const handleBuy = async () => {
     const currentPrice = book?.price - (book?.price * book?.discount) / 100;
+    if (user) {
+      const newCart = {
+        userId: user._id,
+        books: {
+          bookId: book?._id,
+          name: book?.name,
+          image: book?.image.path,
+          price: book?.price,
+          discountPrice: currentPrice,
+          quantity: count,
+          maxQuantity: book?.quantity,
+        },
+        check: true,
+      };
 
-    const newCart = {
-      userId: user._id,
-      books: {
-        bookId: book?._id,
-        name: book?.name,
-        image: book?.image.path,
-        price: book?.price,
-        discountPrice: currentPrice,
-        quantity: count,
-        maxQuantity: book?.quantity,
-      },
-      check: true,
-    };
-
-    try {
-      const res = await axiosInstance.post(`cart`, newCart);
-      dispatch(increaseCart());
-      router.push(`/thanh-toan/${user._id}`);
-    } catch (error) {
-      console.log(error);
+      try {
+        const res = await axiosInstance.post(`cart`, newCart);
+        dispatch(increaseCart());
+        router.push(`/thanh-toan/${user._id}`);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
     }
   };
 

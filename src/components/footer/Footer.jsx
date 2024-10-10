@@ -1,8 +1,11 @@
 import Image from "next/image";
 import logo from "../../assets/images/toi_doc_sach_logo.png";
+import Link from "next/link";
+
 import "./footer.css";
 import "./responsive.css";
-import Link from "next/link";
+
+import FooterAccount from "./FooterAccount";
 
 const Footer = () => {
   return (
@@ -59,19 +62,7 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="col l-4 m-12 s-4 footer__container--right-item">
-                <p className="footer__container--right-title">
-                  TÀI KHOẢN CỦA TÔI
-                </p>
-                <ul>
-                  <Link href="/khach-hang/ho-so" className="link">
-                    <li>Thay đổi thông tin</li>
-                  </Link>
-                  <Link href="/khach-hang/thong-tin" className="link">
-                    <li>Chi tiết tài khoản</li>
-                  </Link>
-                </ul>
-              </div>
+              <FooterAccount />
             </div>
 
             <div className="footer__container--contact grid">
