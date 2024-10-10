@@ -8,7 +8,9 @@ import { logout } from "../../lib/features/user/userSlice";
 import { logoutCart } from "../../lib/features/cart/cartLengthSlice";
 import { logoutNoti } from "../../lib/features/notification/notiSlice";
 import phoneValidator from "@/validation/phone";
-import passwordValidator from "@/validation/password";
+import passwordValidator, {
+  passwordConfirmValidator,
+} from "@/validation/password";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -38,10 +40,17 @@ const Header = () => {
   const [passwordLoginError, setPasswordLoginError] = useState(false);
 
   const [phoneRegisterError, setPhoneRegisterError] = useState(false);
-  const [phoneExistError, setPhoneExistError] = useState(false);
-  const [passwordRegisterError, setPasswordRegisterError] = useState(false);
+  const [phoneRegisterErrorMessage, setPhoneRegisterErrorMessage] =
+    useState("");
+
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
+    useState("");
   const [noAccount, setNoAccount] = useState(false);
+  const [passwordRegisterErrorMessage, setPasswordRegisterErrorMessage] =
+    useState("");
+  const [passwordRegisterError, setPasswordRegisterError] = useState(false);
+
   const [passwordConfirm, setPasswordConfirm] = useState(false);
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [phoneError, setPhoneError] = useState(false);
@@ -102,77 +111,93 @@ const Header = () => {
     router.push("/");
   };
 
+  const checkEmpty = (content) => {
+    return content === "" ? true : false;
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    if (validate()) {
-      if (password === confirmPassword) {
-        const newRegister = {
-          phone,
-          password,
-        };
+    phoneValidator(phone, setPhoneRegisterError, setPhoneRegisterErrorMessage);
+    passwordValidator(
+      password,
+      setPasswordRegisterError,
+      setPasswordRegisterErrorMessage
+    );
+    passwordValidator(
+      confirmPassword,
+      setConfirmPasswordError,
+      setConfirmPasswordErrorMessage
+    );
 
-        const newInfoUser = {
-          avatar: {
-            path: "",
-            publicId: "",
-          },
+    passwordConfirmValidator(
+      password,
+      confirmPassword,
+      setConfirmPasswordError,
+      setConfirmPasswordErrorMessage
+    );
 
-          lastName: "",
-          firstName: "",
-          email: "",
-          gender: "",
-          birthday: "",
-          address: {
-            province: "",
-            district: "",
-            ward: "",
-            address: "",
-          },
+    if (
+      !phoneError &&
+      !passwordError &&
+      !confirmPasswordError &&
+      !checkEmpty(phone) &&
+      !checkEmpty(password) &&
+      !checkEmpty(confirmPassword)
+    ) {
+      const newRegister = {
+        phone,
+        password,
+      };
+
+      const newInfoUser = {
+        avatar: {
+          path: "",
+          publicId: "",
+        },
+
+        lastName: "",
+        firstName: "",
+        email: "",
+        gender: "",
+        birthday: "",
+        address: {
+          province: "",
+          district: "",
+          ward: "",
+          address: "",
+        },
+      };
+
+      try {
+        const resRegister = await axiosInstance.post(
+          "/auth/register",
+          newRegister
+        );
+
+        const newNotification = {
+          userId: resRegister.data._id,
         };
 
         try {
-          const resRegister = await axiosInstance.post(
-            "/auth/register",
-            newRegister
+          const resNotification = await axiosInstance.post(
+            "/auth/createNotification",
+            newNotification
           );
 
-          const newNotification = {
-            userId: resRegister.data._id,
-          };
+          const resInfoUser = await axiosInstance.post(
+            `/infoUser/${resRegister.data._id}`,
+            newInfoUser
+          );
 
-          try {
-            const resNotification = await axiosInstance.post(
-              "/auth/createNotification",
-              newNotification
-            );
-
-            const resInfoUser = await axiosInstance.post(
-              `/infoUser/${resRegister.data._id}`,
-              newInfoUser
-            );
-
-            toast.success("Đăng ký thành công");
-          } catch (error) {
-            console.log(error.response);
-          }
+          toast.success("Đăng ký thành công");
         } catch (error) {
-          toast.error("Đăng kí thất bại!");
-
-          console.log(error);
+          console.log(error.response);
         }
-      } else {
-        setPasswordConfirm(true);
-      }
-    } else {
-      if (phone === "") {
-        setPhoneRegisterError(true);
-      }
-      if (password === "") {
-        setPasswordRegisterError(true);
-      }
-      if (confirmPassword === "") {
-        setConfirmPasswordError(true);
+      } catch (error) {
+        toast.error("Đăng kí thất bại!");
+
+        console.log(error);
       }
     }
   };
@@ -591,16 +616,21 @@ const Header = () => {
                     placeholder="Nhập số điện thoại"
                     type="text"
                     id="email"
+                    onFocus={() => {
+                      setPhoneRegisterError(false);
+                      setPhoneRegisterErrorMessage("");
+                    }}
                     value={phone}
                     onChange={(e) => {
                       setPhoneRegisterError(false);
+                      setPhoneRegisterErrorMessage("");
                       setPhone(e.target.value);
                     }}
                   />
 
                   {phoneRegisterError && (
                     <p className="error__message">
-                      Số điện thoại không được bỏ trống
+                      {phoneRegisterErrorMessage}
                     </p>
                   )}
 
@@ -610,9 +640,13 @@ const Header = () => {
                       placeholder="Nhập mật khẩu"
                       type={passwordType ? "password" : "text"}
                       value={password}
+                      onFocus={() => {
+                        setPasswordRegisterError(false);
+                        setPasswordRegisterErrorMessage("");
+                      }}
                       onChange={(e) => {
                         setPasswordRegisterError(false);
-                        setPasswordConfirm(false);
+                        setPasswordRegisterErrorMessage("");
                         setPassword(e.target.value);
                       }}
                     />
@@ -628,12 +662,8 @@ const Header = () => {
 
                   {passwordRegisterError && (
                     <p className="error__message">
-                      Mật khẩu không được bỏ trống
+                      {passwordRegisterErrorMessage}
                     </p>
-                  )}
-
-                  {passwordConfirm && (
-                    <p className="error__message">Mật khẩu không trùng khớp</p>
                   )}
 
                   <label>Nhập lại mật khẩu</label>
@@ -641,10 +671,14 @@ const Header = () => {
                     <input
                       placeholder="Nhập lại mật khẩu"
                       type={confirmPasswordType ? "password" : "text"}
+                      onFocus={() => {
+                        setConfirmPasswordError(false);
+                        setConfirmPasswordErrorMessage("");
+                      }}
                       value={confirmPassword}
                       onChange={(e) => {
                         setConfirmPasswordError(false);
-                        setPasswordConfirm(false);
+                        setConfirmPasswordErrorMessage("");
                         setConfirmPassword(e.target.value);
                       }}
                     />
@@ -662,12 +696,8 @@ const Header = () => {
 
                   {confirmPasswordError && (
                     <p className="error__message">
-                      Mật khẩu không được bỏ trống
+                      {confirmPasswordErrorMessage}
                     </p>
-                  )}
-
-                  {passwordConfirm && (
-                    <p className="error__message">Mật khẩu không trùng khớp</p>
                   )}
 
                   <button

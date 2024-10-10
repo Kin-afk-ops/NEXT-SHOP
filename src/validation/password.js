@@ -15,4 +15,16 @@ const passwordValidator = (
   }
 };
 
+export const passwordConfirmValidator = (
+  password,
+  confirmPassword,
+  setConfirmPasswordError,
+  setConfirmPasswordErrorMessage
+) => {
+  if (password !== confirmPassword) {
+    setConfirmPasswordError(true);
+    setConfirmPasswordErrorMessage("Hãy nhập mật khẩu trùng khớp");
+  }
+};
+
 export default passwordValidator;
