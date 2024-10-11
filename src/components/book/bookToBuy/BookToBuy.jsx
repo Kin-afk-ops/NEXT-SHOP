@@ -11,6 +11,7 @@ import VND from "../../../vnd";
 import { useSelector } from "react-redux";
 import axiosInstance from "@/config";
 import { toast } from "react-toastify";
+import { turnOn } from "@/lib/features/formLogin/formLoginSlice";
 
 const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
 
   const handleBuy = async () => {
     const currentPrice = book?.price - (book?.price * book?.discount) / 100;
+
     if (user) {
       const newCart = {
         userId: user._id,
@@ -56,32 +58,37 @@ const BookToBuy = ({ book, publisher, supplier, auth, form }) => {
         console.log(error);
       }
     } else {
+      dispatch(turnOn());
     }
   };
 
   const handleAddCart = async () => {
     const currentPrice = book?.price - (book?.price * book?.discount) / 100;
 
-    const newCart = {
-      userId: user._id,
-      books: {
-        bookId: book?._id,
-        name: book?.name,
-        image: book?.image.path,
-        price: book?.price,
-        discountPrice: currentPrice,
-        quantity: count,
-        maxQuantity: book?.quantity,
-      },
-      check: false,
-    };
+    if (user) {
+      const newCart = {
+        userId: user._id,
+        books: {
+          bookId: book?._id,
+          name: book?.name,
+          image: book?.image.path,
+          price: book?.price,
+          discountPrice: currentPrice,
+          quantity: count,
+          maxQuantity: book?.quantity,
+        },
+        check: false,
+      };
 
-    try {
-      const res = await axiosInstance.post(`/cart`, newCart);
-      dispatch(increaseCart());
-      toast.success("Thêm vào giỏ hàng thành công");
-    } catch (error) {
-      console.log(error);
+      try {
+        const res = await axiosInstance.post(`/cart`, newCart);
+        dispatch(increaseCart());
+        toast.success("Thêm vào giỏ hàng thành công");
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      dispatch(turnOn());
     }
   };
 

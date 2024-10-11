@@ -27,7 +27,7 @@ export default async function Home() {
   };
   return (
     <div>
-      <Slide />
+      {/* <Slide /> */}
       <Categories />
       <HomeList books={newBooks} />
       <HomeList books={cateBook1} />

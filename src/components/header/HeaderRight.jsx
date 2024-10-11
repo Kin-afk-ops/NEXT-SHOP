@@ -17,6 +17,7 @@ import axiosInstance from "@/config";
 
 import { logoutCart } from "../../lib/features/cart/cartLengthSlice";
 import { logoutNoti } from "../../lib/features/notification/notiSlice";
+import { turnOff, turnOn } from "../../lib/features/formLogin/formLoginSlice";
 
 const HeaderRight = () => {
   const [headerModal, setHeaderModal] = useState(false);
@@ -279,15 +280,15 @@ const HeaderRight = () => {
           <div className="header__icon--non-user s-0">
             <p
               onClick={() => {
-                setHeaderModal(true);
                 setMode("login");
+                dispatch(turnOn());
               }}
             >
               Đăng nhập
             </p>
             <p
               onClick={() => {
-                setHeaderModal(true);
+                dispatch(turnOn());
                 setMode("register");
               }}
             >
@@ -313,12 +314,7 @@ const HeaderRight = () => {
         </div> */}
       </div>
 
-      <HeaderModal
-        headerModal={headerModal}
-        setHeaderModal={setHeaderModal}
-        mode={mode}
-        setMode={setMode}
-      />
+      <HeaderModal mode={mode} setMode={setMode} />
     </>
   );
 };

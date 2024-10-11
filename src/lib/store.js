@@ -1,6 +1,8 @@
 import userReducer from "./features/user/userSlice";
 import cartLengthReducer from "./features/cart/cartLengthSlice";
 import notiReducer from "./features/notification/notiSlice";
+import formLoginReducer from "./features/formLogin/formLoginSlice";
+
 // import {
 //   persistStore,
 //   persistReducer,
@@ -47,6 +49,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   cartLength: cartLengthReducer,
   noti: notiReducer,
+  formLogin: formLoginReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

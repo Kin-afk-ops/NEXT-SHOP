@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import axiosInstance from "@/config";
@@ -12,17 +12,32 @@ import { logout } from "../../../lib/features/user/userSlice";
 import LoadingPage from "@/components/loading/Loading";
 import { logoutCart } from "@/lib/features/cart/cartLengthSlice";
 import { logoutNoti } from "@/lib/features/notification/notiSlice";
+import phoneValidator from "@/validation/phone";
+import passwordValidator, {
+  passwordConfirmValidator,
+} from "@/validation/password";
 
 const CustomerContentAccount = () => {
   const user = useSelector((state) => state.user.currentUser);
 
   const dispatch = useDispatch();
 
-  const [phone, setPhone] = useState(user?.phone);
+  const [phone, setPhone] = useState("");
 
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+
   const [newPassword, setNewPassword] = useState("");
+
+  const [newPasswordError, setNewPasswordError] = useState(false);
+  const [newPasswordErrorMessage, setNewPasswordErrorMessage] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [confirmNewPasswordError, setConfirmNewPasswordError] = useState(false);
+  const [conFirmNewPasswordErrorMessage, setConfirmNewPasswordErrorMessage] =
+    useState("");
+  const [phoneError, setPhoneError] = useState(false);
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
 
   const [passwordType, setPasswordType] = useState(true);
   const [newPasswordType, setNewPasswordType] = useState(true);
@@ -31,13 +46,16 @@ const CustomerContentAccount = () => {
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const validateEmpty = () => {
-    return phone === "" ||
-      password === "" ||
-      newPassword === "" ||
-      confirmNewPassword === ""
-      ? false
-      : true;
+  useEffect(() => {
+    if (user) {
+      setPhone(user.phone);
+    } else {
+      setPhone("");
+    }
+  }, [user]);
+
+  const checkEmpty = (content) => {
+    return content === "" ? true : false;
   };
 
   const checkConfirmPassword = () => {
@@ -55,38 +73,63 @@ const CustomerContentAccount = () => {
     setModal(true);
   };
   const handleSubmit = async () => {
-    setLoading(true);
-    if (!validateEmpty()) {
-      toast.error("Có trường rỗng! Hãy kiểm tra lại");
-      setLoading(false);
-      console.log("haha");
-    } else if (!checkConfirmPassword()) {
-      toast.error("Nhập lại mật khẩu mới không trùng khớp");
-      setLoading(false);
-    } else if (!checkPassword()) {
-      toast.error("Không được nhập lại mật khẩu cũ!");
-      setLoading(false);
-    } else {
-      const userForm = {
-        newUser: {
-          phone,
-          password: newPassword,
-        },
-        password: password,
-      };
-      const res = await axiosInstance.put(`/user/${user._id}`, userForm);
-      setLoading(false);
-      try {
-        toast.success("Chỉnh sửa tài khoản thành công! Hãy đăng nhập lại");
-        setModal(false);
-        dispatch(logout());
+    phoneValidator(phone, setPhoneError, setPhoneErrorMessage);
+    passwordValidator(password, setPasswordError, setPasswordErrorMessage);
+    passwordValidator(
+      newPassword,
+      setNewPasswordError,
+      setNewPasswordErrorMessage
+    );
+    passwordValidator(
+      confirmNewPassword,
+      setConfirmNewPasswordError,
+      setConfirmNewPasswordErrorMessage
+    );
+    passwordConfirmValidator(
+      newPassword,
+      confirmNewPassword,
+      setConfirmNewPasswordError,
+      setConfirmNewPasswordErrorMessage
+    );
 
-        dispatch(logoutCart());
-        dispatch(logoutNoti());
+    if (
+      !phoneError &&
+      !passwordError &&
+      !newPasswordError &&
+      !confirmNewPasswordError &&
+      !checkEmpty(phone) &&
+      !checkEmpty(password) &&
+      !checkEmpty(newPassword) &&
+      !checkEmpty(confirmNewPassword)
+    ) {
+      setLoading(true);
+      if (!checkPassword()) {
+        toast.error("Không được nhập lại mật khẩu cũ!");
         setLoading(false);
-        window.location.href = "/";
-      } catch (error) {
-        console.log(error);
+      } else {
+        try {
+          const userForm = {
+            newUser: {
+              phone,
+              password: newPassword,
+            },
+            password: password,
+          };
+          const res = await axiosInstance.put(`/user/${user._id}`, userForm);
+          setLoading(false);
+          toast.success("Chỉnh sửa tài khoản thành công! Hãy đăng nhập lại");
+          setModal(false);
+          dispatch(logout());
+
+          dispatch(logoutCart());
+          dispatch(logoutNoti());
+          setLoading(false);
+          window.location.href = "/";
+        } catch (error) {
+          toast.error("Chỉnh sửa tài khoản thất bại! Hãy kiểm tra lại");
+          setLoading(false);
+          console.log(error);
+        }
       }
     }
   };
@@ -99,56 +142,87 @@ const CustomerContentAccount = () => {
           <label>Số điện thoại</label>
           <input
             className="customer__account--input"
+            onFocus={() => {
+              setPhoneError(false);
+              setPhoneErrorMessage("");
+            }}
             value={phone}
             type="text"
             onChange={(e) => setPhone(e.target.value)}
           />
-          {/* <p className="error__message" v-if="!isSubmit">{{ emailMessage }}</p> */}
+
+          {phoneError && <p className="error__message">{phoneErrorMessage}</p>}
 
           <label>Mật khẩu hiện tại</label>
-          {/* <div className="password__block" :className="{ error__block: !isSubmit }"> */}
+
           <div className="password__block">
             <input
               value={password}
+              onFocus={() => {
+                setPasswordError(false);
+                setPasswordErrorMessage("");
+              }}
               onChange={(e) => setPassword(e.target.value)}
               type={passwordType ? "password" : "text"}
             />
-            <i
-              className="fa-solid fa-eye"
-              onClick={() => setPasswordType(!passwordType)}
-            ></i>
+            {password.length > 0 && (
+              <i
+                className={
+                  passwordType ? "fa-solid fa-eye-slash" : " fa-solid fa-eye"
+                }
+                onClick={() => setPasswordType(!passwordType)}
+              ></i>
+            )}
           </div>
-
-          {/* <p className="error__message" v-if="!isSubmit">{{ passwordMessage }}</p> */}
+          {passwordError && (
+            <p className="error__message">{passwordErrorMessage}</p>
+          )}
 
           <label>Mật khẩu mới</label>
           <div className="password__block">
             <input
+              onFocus={() => {
+                setNewPasswordError(false);
+                setNewPasswordErrorMessage("");
+              }}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               type={newPasswordType ? "password" : "text"}
             />
             <i
-              className="fa-solid fa-eye"
+              className={
+                newPasswordType ? "fa-solid fa-eye-slash" : " fa-solid fa-eye"
+              }
               onClick={() => setNewPasswordType(!newPasswordType)}
             ></i>
           </div>
-          {/* <p className="error__message" v-if="!isSubmit">
-          {{ confirmPasswordMessage }}
-        </p> */}
+          {newPasswordError && (
+            <p className="error__message">{newPasswordErrorMessage}</p>
+          )}
 
           <label>Nhập lại mật khẩu mới</label>
           <div className="password__block">
             <input
+              onFocus={() => {
+                setConfirmNewPasswordError(false);
+                setConfirmNewPasswordErrorMessage("");
+              }}
               value={confirmNewPassword}
               onChange={(e) => setConfirmNewPassword(e.target.value)}
               type={confirmNewPasswordType ? "password" : "text"}
             />
             <i
-              className="fa-solid fa-eye"
+              className={
+                confirmNewPasswordType
+                  ? "fa-solid fa-eye-slash"
+                  : " fa-solid fa-eye"
+              }
               onClick={() => setConfirmNewPasswordType(!confirmNewPasswordType)}
             ></i>
           </div>
+          {confirmNewPasswordError && (
+            <p className="error__message">{conFirmNewPasswordErrorMessage}</p>
+          )}
 
           <button type="submit" className="customer__account--btn">
             Lưu thay đổi

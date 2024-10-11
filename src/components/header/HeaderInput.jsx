@@ -172,7 +172,7 @@ const HeaderInput = () => {
 
       {historyMode && (
         <div className="header__input--history">
-          {searchHistoryArray?.length !== 0 && (
+          {searchHistoryArray?.length > 0 && (
             <div>
               <p className="header__input--history-title">
                 Lịch sử tìm kiếm <i className="fa-solid fa-clock"></i>
@@ -202,7 +202,7 @@ const HeaderInput = () => {
             </div>
           )}
 
-          {bookHot?.length !== 0 && (
+          {bookHot?.length > 0 && (
             <div>
               <p className="header__input--history-title">
                 Sản phẩm đang hot <i className="fa-solid fa-arrow-trend-up"></i>
@@ -232,7 +232,7 @@ const HeaderInput = () => {
             </div>
           )}
 
-          {categoriesHot.length !== 0 && (
+          {categoriesHot.length > 0 && (
             <div>
               <p className="header__input--history-title">
                 Danh mục nổi bật <i className="fa-solid fa-layer-group"></i>

@@ -253,6 +253,22 @@ const PayContent = ({ userId }) => {
     }
   };
 
+  const checkOtherWardError = (ward, district) => {
+    if (ward === "") {
+      if (
+        district === "Cồn Cỏ" ||
+        district === " Bạch Long Vĩ" ||
+        district === "Hoàng Sa" ||
+        district === "Lý Sơn" ||
+        district === "Côn Đảo"
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    } else return true;
+  };
+
   return (
     <>
       {loading && <LoadingPage />}
@@ -434,9 +450,9 @@ const PayContent = ({ userId }) => {
                 onBlur={(e) => {
                   if (
                     e.target.value === "" ||
-                    otherWard === "" ||
                     otherDistrict === "" ||
-                    otherProvince === ""
+                    otherProvince === "" ||
+                    checkOtherWardError(otherWard, otherDistrict)
                   ) {
                     setOtherAddressError(true);
                   } else {

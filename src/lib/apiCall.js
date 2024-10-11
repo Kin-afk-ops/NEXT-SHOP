@@ -15,6 +15,7 @@ import {
 } from "./features/notification/notiSlice";
 
 import axiosInstance from "../config";
+import { turnOff } from "./features/formLogin/formLoginSlice";
 
 export const login = async (dispatch, user, setNoAccount) => {
   dispatch(loginStart());
@@ -22,6 +23,7 @@ export const login = async (dispatch, user, setNoAccount) => {
     const res = await axiosInstance.post("/auth/login", user);
     dispatch(loginSuccess(res.data));
     setNoAccount(false);
+    dispatch(turnOff());
   } catch (err) {
     dispatch(loginFailure());
     setNoAccount(true);

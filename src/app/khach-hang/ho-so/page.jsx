@@ -37,9 +37,6 @@ const CustomerContentEdit = () => {
   const [ward, setWard] = useState("");
 
   const [emailError, setEmailError] = useState(false);
-  const [lastNameError, setLastNameError] = useState(false);
-  const [firstNameError, setFirstNameError] = useState(false);
-  const [birthdayError, setBirthdayError] = useState(false);
   const [addressError, setAddressError] = useState(false);
   const [buttonError, setButtonError] = useState(false);
   const [loadingItem, setLoadingItem] = useState(true);
@@ -137,12 +134,7 @@ const CustomerContentEdit = () => {
       },
     };
 
-    if (
-      lastName !== "" &&
-      firstName !== "" &&
-      birthday !== "" &&
-      address !== ""
-    ) {
+    {
       try {
         const res = await axiosInstance.put(`/infoUser/${userId}`, newInfoUser);
         toast.success("Chỉnh sửa thông tin thành công!");
@@ -152,9 +144,6 @@ const CustomerContentEdit = () => {
         toast.error("Chỉnh sửa thông tin thất bại!");
         setLoading(false);
       }
-    } else {
-      toast.error("Chưa thể thay đổi thông tin!");
-      setLoading(false);
     }
   };
 
@@ -267,49 +256,19 @@ const CustomerContentEdit = () => {
               <div className="c-6 s-12 customer__edit--left">
                 <label>Họ</label>
                 <input
-                  className={
-                    lastNameError
-                      ? "customer__edit--input customer__edit--error"
-                      : "customer__edit--input"
-                  }
+                  className={"customer__edit--input"}
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  onBlur={() => {
-                    if (lastName === "") {
-                      setLastNameError(true);
-                    } else {
-                      setLastNameError(false);
-                    }
-                  }}
-                  onFocus={() => setLastNameError(false)}
                 />
-                {lastNameError && (
-                  <p style={{ color: "red" }}>Họ không được bỏ trống</p>
-                )}
 
                 <label>Tên</label>
                 <input
-                  className={
-                    firstNameError
-                      ? "customer__edit--input customer__edit--error"
-                      : "customer__edit--input"
-                  }
+                  className={"customer__edit--input"}
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  onBlur={() => {
-                    if (firstName === "") {
-                      setFirstNameError(true);
-                    } else {
-                      setFirstNameError(false);
-                    }
-                  }}
-                  onFocus={() => setFirstNameError(false)}
                 />
-                {firstNameError && (
-                  <p style={{ color: "red" }}>Tên không được bỏ trống</p>
-                )}
 
                 <label>Email</label>
                 <input
@@ -326,10 +285,7 @@ const CustomerContentEdit = () => {
                   }}
                   onFocus={() => setEmailError(false)}
                   onBlur={(e) => {
-                    if (
-                      emailValidate(e.target.value) ||
-                      e.target.value === ""
-                    ) {
+                    if (emailValidate(e.target.value)) {
                       setEmailError(false);
                     } else {
                       setEmailError(true);
@@ -444,13 +400,7 @@ const CustomerContentEdit = () => {
                   placeholder="Số nhà, tên đường"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  onBlur={handleBlurAddress}
-                  onFocus={() => setAddressError(false)}
                 />
-
-                {addressError && (
-                  <p style={{ color: "red" }}>Hãy nhập một địa chỉ cụ thể!</p>
-                )}
 
                 {/* <input
               className="customer__edit--input"

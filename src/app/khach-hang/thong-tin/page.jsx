@@ -8,16 +8,29 @@ import avatar from "../../../assets/images/default_avatar.png";
 import { useSelector } from "react-redux";
 import axiosInstance from "@/config";
 import LoadingItem from "@/components/loading/LoadingItem";
+import Link from "next/link";
 
 const CustomerContentInfo = () => {
   const user = useSelector((state) => state.user.currentUser);
-  const userId = user ? user._id : "";
+  const [userId, setUserId] = useState("");
+  const [checkUser, setCheckUser] = useState(false);
 
   const [infoUser, setInfoUser] = useState({});
+  const [userPhone, setUserPhone] = useState("");
   const [checkInfo, setCheckInfo] = useState(false);
   const [loadingItem, setLoadingItem] = useState(false);
 
   useEffect(() => {
+    if (user) {
+      setUserId(user?._id);
+      setCheckUser(true);
+      setUserPhone(user?.phone);
+    } else {
+      setUserId("");
+      setCheckUser(false);
+      setUserPhone("");
+    }
+
     const getInfoUser = async () => {
       setLoadingItem(true);
       try {
@@ -46,7 +59,7 @@ const CustomerContentInfo = () => {
       ) : (
         <div>
           <div className="customer__info main__container row">
-            <div className="s-12 display__flex--center">
+            <div className=" display__flex--center-colum">
               <Image
                 src={checkInfo ? infoUser?.avatar.path : avatar}
                 alt="avatar"
@@ -54,6 +67,13 @@ const CustomerContentInfo = () => {
                 height={255}
                 className="customer__info--avatar"
               />
+
+              <Link
+                className="link main__btn--animation"
+                href={"/khach-hang/ho-so"}
+              >
+                Chỉnh sửa hồ sơ
+              </Link>
             </div>
 
             <div className="customer__info--info s-12">
@@ -76,7 +96,7 @@ const CustomerContentInfo = () => {
               </p>
               <p>
                 <i className="fa-solid fa-phone"></i>
-                {user?.phone}
+                {userPhone}
               </p>
               <p>
                 <i className="fa-solid fa-person"></i>

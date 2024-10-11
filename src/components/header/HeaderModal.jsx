@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,10 +10,12 @@ import passwordValidator, {
   passwordConfirmValidator,
 } from "@/validation/password";
 import axiosInstance from "@/config";
+import { turnOff, turnOn } from "../../lib/features/formLogin/formLoginSlice";
 
-const HeaderModal = ({ headerModal, setHeaderModal, mode, setMode }) => {
+const HeaderModal = ({ mode, setMode }) => {
   const router = useRouter();
   const [noAccount, setNoAccount] = useState(false);
+  const [checkHeaderModal, setCheckHeaderModal] = useState(false);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -40,7 +42,17 @@ const HeaderModal = ({ headerModal, setHeaderModal, mode, setMode }) => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [passwordError, setPasswordError] = useState(false);
 
+  const headerModalMode = useSelector((state) => state.formLogin.on);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (headerModalMode) {
+      setCheckHeaderModal(true);
+    } else {
+      setCheckHeaderModal(false);
+    }
+  }, [headerModalMode]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -55,7 +67,7 @@ const HeaderModal = ({ headerModal, setHeaderModal, mode, setMode }) => {
   };
 
   const handleForgetPassword = () => {
-    setHeaderModal(false);
+    dispatch(turnOff());
     router.push("/tai-khoan/quen-mat-khau");
   };
 
@@ -153,11 +165,11 @@ const HeaderModal = ({ headerModal, setHeaderModal, mode, setMode }) => {
 
   return (
     <div>
-      {headerModal && (
+      {checkHeaderModal && (
         <div className="header__modal">
           <div
             className="header__modal--overlay"
-            onClick={() => setHeaderModal(false)}
+            onClick={() => dispatch(turnOff())}
           ></div>
           {mode === "login" ? (
             <div
@@ -167,7 +179,7 @@ const HeaderModal = ({ headerModal, setHeaderModal, mode, setMode }) => {
               <div className="register__title">
                 <h1 className="main__title">Đăng nhập</h1>
                 <i
-                  onClick={() => setHeaderModal(false)}
+                  onClick={() => dispatch(turnOff())}
                   className="header__modal--close fa-solid fa-rectangle-xmark l-0 m-0"
                 ></i>
               </div>
@@ -217,8 +229,8 @@ const HeaderModal = ({ headerModal, setHeaderModal, mode, setMode }) => {
                       <i
                         className={
                           passwordType
-                            ? "fa-solid fa-eye"
-                            : "fa-solid fa-eye-slash"
+                            ? "fa-solid fa-eye-slash"
+                            : "fa-solid fa-eye"
                         }
                         onClick={() => setPasswordType(!passwordType)}
                       ></i>
@@ -259,7 +271,7 @@ const HeaderModal = ({ headerModal, setHeaderModal, mode, setMode }) => {
                 {" "}
                 <h1 className=" main__title">Đăng ký</h1>
                 <i
-                  onClick={() => setHeaderModal(false)}
+                  onClick={() => dispatch(turnOff())}
                   className="header__modal--close fa-solid fa-rectangle-xmark l-0 m-0"
                 ></i>
               </div>
@@ -309,8 +321,8 @@ const HeaderModal = ({ headerModal, setHeaderModal, mode, setMode }) => {
                     <i
                       className={
                         passwordType
-                          ? "fa-solid fa-eye"
-                          : "fa-solid fa-eye-slash"
+                          ? "fa-solid fa-eye-slash"
+                          : "fa-solid fa-eye"
                       }
                       onClick={() => setPasswordType(!passwordType)}
                     ></i>
@@ -341,8 +353,8 @@ const HeaderModal = ({ headerModal, setHeaderModal, mode, setMode }) => {
                     <i
                       className={
                         confirmPasswordType
-                          ? "fa-solid fa-eye"
-                          : "fa-solid fa-eye-slash"
+                          ? "fa-solid fa-eye-slash"
+                          : "fa-solid fa-eye"
                       }
                       onClick={() =>
                         setConfirmPasswordType(!confirmPasswordType)
