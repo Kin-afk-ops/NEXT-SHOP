@@ -498,8 +498,8 @@ const PayContent = ({ userId }) => {
             className="pay__select"
           >
             <option value="nhận hàng">Thanh toán khi nhận hàng</option>
-            <option value="MOMO">Thanh toán qua ví MOMO</option>
-            <option value="VNPAY">Thanh toán qua ví VNPAY</option>
+            {/* <option value="MOMO">Thanh toán qua ví MOMO</option>
+            <option value="VNPAY">Thanh toán qua ví VNPAY</option> */}
           </select>
         </div>
 

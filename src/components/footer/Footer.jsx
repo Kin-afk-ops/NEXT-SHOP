@@ -47,7 +47,10 @@ const Footer = () => {
 
                 <ul>
                   <li>
-                    Giới thiệu về <b>toidocsach</b>
+                    <Link className="link" href={"/gioi-thieu-toidocsach"}>
+                      {" "}
+                      Giới thiệu về <b>toidocsach</b>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -55,10 +58,26 @@ const Footer = () => {
               <div className="col l-4 m-12 s-4 footer__container--right-item">
                 <p className="footer__container--right-title">HỖ TRỢ</p>
                 <ul>
-                  <li>Giao hàng đi toàn quốc</li>
-                  <li>Đổi trả trong 7 ngày</li>
-                  <li>Hoàn tiền 100%</li>
-                  <li>Thanh toán băng tiền mặt, VNPAY và MOMO</li>
+                  <li>
+                    <Link className="link" href={"/giao-hang-di-toan-quoc"}>
+                      Giao hàng đi toàn quốc
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="link" href={"/doi-tra-trong-7-ngay"}>
+                      Đổi trả trong 7 ngày
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="link" href={"/hoan-tien-100%"}>
+                      Hoàn tiền 100%
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="link" href={"/phuong-thuc-thanh-toan"}>
+                      Thanh toán băng tiền mặt, VNPAY và MOMO
+                    </Link>
+                  </li>
                 </ul>
               </div>
 

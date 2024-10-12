@@ -1,0 +1,29 @@
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+
+.footer__content {
+  padding: 20px 0;
+}
+
+.footer__content h2 {
+  color: var(--primary-color);
+  font-size: 2em;
+  margin-bottom: 5px;
+}
+
+.footer__content p {
+  margin-bottom: 20px;
+  text-align: justify;
+  padding: 0 50px;
+}
+
+.footer__content ul {
+  list-style: none;
+  margin-bottom: 20px;
+  text-align: justify;
+  padding: 0 50px;
+}
